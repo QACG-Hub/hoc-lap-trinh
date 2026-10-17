@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 12 C++: struct — định nghĩa kiểu dữ liệu mới, truy cập thuộc tính bằng dấu chấm, mảng struct và truyền struct vào hàm.">
+  <title>Bài 12: Struct | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-12">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-12</span></div>
+      <h1 class="lesson-title">Struct</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #12 ]</span>
+        <span class="pill">Chương 5 — Lập trình hướng đối tượng</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Từ đầu khóa tới giờ, mỗi biến chỉ giữ <em>một</em> giá trị: một số, một chuỗi... Nhưng một sinh viên cần cả
+        <strong>tên</strong> lẫn <strong>điểm</strong> — tách thành hai biến rời rạc thì chẳng mấy chốc bạn sẽ lạc đường.
+        C++ có giải pháp: <code>struct</code> — chiếc "hộp đa ngăn" gom nhiều giá trị khác kiểu thành một kiểu dữ liệu mới.
+        Giống thẻ nhân vật trong game nhập vai: tên, máu, sát thương nằm chung một thẻ. Bắt đầu chương
+        <strong>Lập trình hướng đối tượng</strong> thôi! ⚡
+      </p>
+
+      <h2>Định nghĩa struct</h2>
+      <p>
+        <code>struct</code> cho phép bạn tự "đúc" một <strong>kiểu dữ liệu mới</strong>. Mỗi giá trị nằm bên trong gọi là
+        một <strong>thuộc tính</strong> (member). Định nghĩa khuôn một lần, rồi khai báo biến thoải mái:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">sinhvien.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct SinhVien {
+    string ten;
+    double diem;
+};
+
+int main() {
+    SinhVien sv;              // biến kiểu SinhVien
+    sv.ten = "An";            // truy cập thuộc tính bằng dấu chấm
+    sv.diem = 8.5;
+    cout &lt;&lt; sv.ten &lt;&lt; " - " &lt;&lt; sv.diem &lt;&lt; " diem" &lt;&lt; endl;
+
+    SinhVien sv2 = {"Binh", 7.0};   // khởi tạo nhanh cả hộp một lượt
+    cout &lt;&lt; sv2.ten &lt;&lt; ": " &lt;&lt; sv2.diem &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>An - 8.5 diem
+Binh: 7</pre>
+        </div>
+      </div>
+
+      <p>Trước khi đi tiếp, hãy <strong>giải phẫu</strong> "khuôn" struct — nhìn kỹ vì mọi thứ xoay quanh nó:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">struct</span> <span class="fn">SinhVien</span> <span class="op">{</span> <span class="kw">string</span> <span class="vr">ten</span><span class="op">;</span> <span class="kw">double</span> <span class="vr">diem</span><span class="op">;</span> <span class="op">};</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>struct</code></td><td>từ khóa mở đầu — "đúc" một kiểu dữ liệu mới</td><td>✅</td></tr>
+          <tr><td><code>SinhVien</code></td><td>tên kiểu do bạn đặt (viết hoa chữ đầu cho dễ nhận ra)</td><td>✅</td></tr>
+          <tr><td><code>{ … }</code></td><td>thân struct — danh sách thuộc tính, mỗi thuộc tính là kiểu + tên + <code>;</code></td><td>✅</td></tr>
+          <tr><td><code>;</code> sau <code>}</code></td><td>"khóa hồ sơ" kết thúc định nghĩa — thiếu là lỗi ngay!</td><td>✅</td></tr>
+          <tr><td><code>sv.ten</code></td><td>dấu chấm — chìa khóa mở đúng ngăn của biến <code>sv</code></td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên dấu <code>;</code> ngay sau <code>}</code> đóng struct là lỗi kinh điển nhất khi mới học struct.
+          Compiler sẽ báo kiểu <code>error: expected ';' after struct definition</code> — và vị trí báo lỗi thường
+          "<em>lệch</em>" xuống dòng dưới. Gặp lỗi này, hãy nhìn ngay lên dấu <code>}</code> đóng struct gần nhất!
+        </p>
+      </div>
+
+      <p>Thử tự tay "đúc" hai struct đầu tiên của bạn:</p>
+
+      <div class="exercise-box" data-ex="cpp-12-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-12-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-12" data-topic="Struct cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — STRUCT CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Mảng struct &amp; hàm</h2>
+      <p>
+        Một sinh viên thì dễ — cả lớp thì cần <strong>mảng struct</strong>. Mỗi phần tử là một "hồ sơ" đầy đủ,
+        truy cập bằng <code>ds[i].ten</code> và duyệt bằng vòng <code>for</code> y như mảng số:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">danhsach.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct SinhVien {
+    string ten;
+    double diem;
+};
+
+int main() {
+    SinhVien ds[3];
+    ds[0].ten = "An";    ds[0].diem = 8.5;
+    ds[1].ten = "Binh";  ds[1].diem = 7.0;
+    ds[2].ten = "Chi";   ds[2].diem = 9.5;
+
+    for (int i = 0; i &lt; 3; i++)
+        cout &lt;&lt; i + 1 &lt;&lt; ". " &lt;&lt; ds[i].ten &lt;&lt; " - " &lt;&lt; ds[i].diem &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1. An - 8.5
+2. Binh - 7
+3. Chi - 9.5</pre>
+        </div>
+      </div>
+
+      <p>
+        Struct cũng có thể <strong>truyền vào hàm</strong> như biến thường. Điểm cần nhớ: có dấu <code>&amp;</code> hay không
+        sẽ quyết định hàm nhận "hồ sơ thật" hay "bản photocopy":
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ham.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct SinhVien {
+    string ten;
+    double diem;
+};
+
+void inThongTin(SinhVien sv) {          // nhận bản sao
+    cout &lt;&lt; sv.ten &lt;&lt; " duoc " &lt;&lt; sv.diem &lt;&lt; " diem" &lt;&lt; endl;
+}
+
+void congDiem(SinhVien &amp;sv) {           // nhận tham chiếu → sửa được gốc
+    sv.diem += 1;
+}
+
+int main() {
+    SinhVien sv = {"An", 8.5};
+    inThongTin(sv);
+    congDiem(sv);                       // 8.5 + 1 = 9.5
+    inThongTin(sv);
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>An duoc 8.5 diem
+An duoc 9.5 diem</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Hàm <code>void inThongTin(SinhVien sv)</code> không có <code>&amp;</code> sẽ <strong>sao chép</strong> toàn bộ struct —
+          sửa trong hàm cũng không ảnh hưởng biến gọi. Thêm <code>&amp;</code> thành <code>SinhVien&amp; sv</code> để dùng chung
+          hộp dữ liệu gốc, giống đưa chìa khóa thật thay vì phát cho người ta bản photocopy.
+        </p>
+      </div>
+
+      <p>Giờ vận dụng mảng struct — bài tập này chính là "bài toán quản lý lớp học" thu nhỏ:</p>
+
+      <div class="exercise-box" data-ex="cpp-12-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-12" data-topic="Mảng struct" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — MẢNG STRUCT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 12</h2>
+      <ul>
+        <li><code>struct</code> gom nhiều giá trị <strong>khác kiểu</strong> thành một kiểu dữ liệu mới; mỗi giá trị là một <strong>thuộc tính</strong>.</li>
+        <li>Định nghĩa: <code>struct SinhVien { string ten; double diem; };</code> — nhớ dấu <code>;</code> sau <code>}</code>.</li>
+        <li>Khai báo biến <code>SinhVien sv;</code> rồi truy cập thuộc tính bằng <strong>dấu chấm</strong>: <code>sv.ten</code>, <code>sv.diem</code>.</li>
+        <li>Có thể khởi tạo nhanh: <code>SinhVien sv = {"An", 8.5};</code> — theo đúng thứ tự thuộc tính.</li>
+        <li>Mảng struct: <code>SinhVien ds[3];</code> — truy cập <code>ds[i].ten</code> và duyệt bằng vòng <code>for</code> như mảng thường.</li>
+        <li>Hàm nhận <code>SinhVien sv</code> → bản sao; nhận <code>SinhVien&amp; sv</code> → tham chiếu, sửa được gốc.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-12" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 12</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-12"] = [
+      /* --- Struct cơ bản (6) --- */
+      { topic: "Struct cơ bản", type: "choice", question: "struct trong C++ dùng để làm gì?", options: ["Gom nhiều giá trị khác kiểu thành một kiểu dữ liệu mới", "Lặp lại một khối lệnh nhiều lần", "Cấp phát bộ nhớ động cho biến", "Xóa biến khỏi bộ nhớ"], answer: "Gom nhiều giá trị khác kiểu thành một kiểu dữ liệu mới", explain: "Struct là 'hộp đa ngăn': gom các thuộc tính (tên, điểm...) thành một kiểu riêng do bạn đặt tên." },
+      { topic: "Struct cơ bản", type: "choice", question: "Biến sv kiểu SinhVien có thuộc tính ten. Cách truy cập nào ĐÚNG?", options: ["sv.ten", "sv->ten", "sv[ten]", "sv::ten"], answer: "sv.ten", explain: "Biến struct thường truy cập bằng DẤU CHẤM: sv.ten. (sv->ten chỉ dùng khi sv là con trỏ — gặp ở bài sau.)" },
+      { topic: "Struct cơ bản", type: "choice", code: "struct Point {\n    int x;\n    int y;\n};\nPoint p;\np.x = 3;\np.y = 5;\ncout << p.x + p.y;", question: "Đoạn code trên in ra gì?", options: ["8", "35", "3 5", "Lỗi cú pháp"], answer: "8", explain: "p.x = 3, p.y = 5 → 3 + 5 = 8." },
+      { topic: "Struct cơ bản", type: "choice", question: "Khai báo struct nào ĐÚNG cú pháp?", options: ["struct SinhVien { string ten; double diem; };", "struct SinhVien { string ten; double diem; }", "SinhVien struct { string ten; double diem; };", "struct SinhVien ( string ten; double diem; );"], answer: "struct SinhVien { string ten; double diem; };", explain: "Đừng quên dấu ; sau } đóng struct — thiếu nó là lỗi biên dịch ngay." },
+      { topic: "Struct cơ bản", type: "fill", question: "Điền ký tự còn thiếu ngay sau dấu } đóng định nghĩa struct:   struct Point { int x; int y; }___", answer: [";", "dấu chấm phẩy"], explain: "Cần dấu ; để kết thúc định nghĩa: struct Point { int x; int y; };" },
+      { topic: "Struct cơ bản", type: "choice", code: "struct SinhVien {\n    string ten;\n    double diem;\n};\nSinhVien sv = {\"An\", 8.5};\ncout << sv.diem;", question: "Đoạn code trên in ra gì?", options: ["8.5", "An", "8", "Lỗi vì thiếu dấu ;"], answer: "8.5", explain: "sv.diem là thuộc tính thứ hai nên bằng 8.5; {\"An\", 8.5} nạp giá trị theo đúng thứ tự thuộc tính." },
+      /* --- Mảng struct (6) --- */
+      { topic: "Mảng struct", type: "choice", question: "Cách khai báo mảng 3 sinh viên nào ĐÚNG?", options: ["SinhVien ds[3];", "SinhVien ds(3);", "array SinhVien ds[3];", "SinhVien[3] ds;"], answer: "SinhVien ds[3];", explain: "Mảng struct khai báo y hệt mảng thường, chỉ khác kiểu phần tử là SinhVien." },
+      { topic: "Mảng struct", type: "choice", code: "SinhVien ds[2];\nds[0] = {\"An\", 8};\nds[1] = {\"Binh\", 9};\ncout << ds[1].ten;", question: "Đoạn code trên in ra gì?", options: ["Binh", "An", "9", "8"], answer: "Binh", explain: "ds[1] là phần tử thứ hai của mảng → tên \"Binh\"." },
+      { topic: "Mảng struct", type: "fill", question: "Viết cú pháp truy cập TÊN của sinh viên ĐẦU TIÊN trong mảng ds:", answer: ["ds[0].ten", "ds[0].ten;"], explain: "Phần tử thứ nhất là ds[0], thuộc tính tên là .ten → ds[0].ten." },
+      { topic: "Mảng struct", type: "choice", code: "SinhVien ds[2] = {{\"An\", 8.5}, {\"Binh\", 7.0}};\ndouble tong = 0;\nfor (int i = 0; i < 2; i++)\n    tong += ds[i].diem;\ncout << tong;", question: "Đoạn code trên in ra gì?", options: ["15.5", "15", "16", "8.5"], answer: "15.5", explain: "Cộng điểm cả hai sinh viên: 8.5 + 7.0 = 15.5." },
+      { topic: "Mảng struct", type: "choice", question: "Hàm void suaDiem(SinhVien &sv) — dấu & có tác dụng gì?", options: ["Truyền tham chiếu: sửa được 'hồ sơ' gốc", "Tạo bản sao: sửa xong gốc không đổi", "Bắt buộc phải có với mọi hàm nhận struct", "Khai báo con trỏ rỗng"], answer: "Truyền tham chiếu: sửa được 'hồ sơ' gốc", explain: "& nghĩa là dùng CHUNG hộp dữ liệu gốc — thay đổi bên trong hàm ảnh hưởng tới biến gọi." },
+      { topic: "Mảng struct", type: "choice", question: "Hàm void inThongTin(SinhVien sv) (KHÔNG có &) nhận gì từ biến gọi?", options: ["Một bản sao của struct", "Chính struct gốc", "Địa chỉ bộ nhớ của struct", "Con trỏ tới struct"], answer: "Một bản sao của struct", explain: "Không có & thì C++ sao chép toàn bộ struct — sửa bản sao không ảnh hưởng gốc." }
+    ];
+    EXERCISES["cpp-12-ex1"] = {
+      topic: "Struct Point đầu tiên",
+      prompt: "Định nghĩa struct Point gồm hai thuộc tính int x và int y. Khai báo biến p kiểu Point, gán p.x = 3, p.y = 5 rồi in ra màn hình theo dạng: 3 5",
+      checks: [
+        { regex: "struct\\s+Point\\s*\\{", desc: "Định nghĩa struct Point", hint: "Bắt đầu bằng: struct Point { int x; int y; };" },
+        { regex: "int\\s+(?:x|y)\\s*;.*int\\s+(?:x|y)\\s*;", desc: "Có đủ hai thuộc tính int x và int y", hint: "Bên trong struct cần: int x; và int y;" },
+        { regex: "\\w+\\s*\\.\\s*(?:x|y)\\s*=", minCount: 2, desc: "Gán giá trị cho p.x và p.y bằng dấu chấm", hint: "p.x = 3; rồi p.y = 5;" },
+        { regex: "cout\\s*<<", desc: "In kết quả bằng cout", hint: "cout << p.x << \" \" << p.y << endl;" }
+      ],
+      sample: "struct Point {\n    int x;\n    int y;\n};\n\nPoint p;\np.x = 3;\np.y = 5;\ncout << p.x << \" \" << p.y << endl;"
+    };
+    EXERCISES["cpp-12-ex2"] = {
+      topic: "Struct SinhVien",
+      prompt: "Định nghĩa struct SinhVien gồm string ten và double diem. Khai báo biến sv, gán ten là tên của bạn (tuỳ ý), gán điểm tuỳ ý rồi in riêng tên sv.ten ra màn hình.",
+      checks: [
+        { regex: "struct\\s+SinhVien\\s*\\{", desc: "Định nghĩa struct SinhVien", hint: "struct SinhVien { string ten; double diem; };" },
+        { regex: "string\\s+ten\\s*;", desc: "Có thuộc tính string ten", hint: "Bên trong struct: string ten;" },
+        { regex: "\\bsv\\s*\\.\\s*ten", desc: "Truy cập thuộc tính ten qua dấu chấm (sv.ten)", hint: "Gán hoặc đọc: sv.ten = \"An\";" },
+        { regex: "cout\\s*<<", desc: "In ra màn hình bằng cout", hint: "cout << sv.ten << endl;" }
+      ],
+      sample: "struct SinhVien {\n    string ten;\n    double diem;\n};\n\nSinhVien sv;\nsv.ten = \"An\";\nsv.diem = 8.5;\ncout << sv.ten << endl;"
+    };
+    EXERCISES["cpp-12-ex3"] = {
+      topic: "Mảng struct",
+      prompt: "Khai báo mảng ds gồm 2 sinh viên (SinhVien ds[2]), gán tên và điểm cho từng phần tử, rồi dùng vòng for duyệt mảng và in tên từng sinh viên ra màn hình.",
+      checks: [
+        { regex: "SinhVien\\s+ds\\s*\\[\\s*2\\s*\\]", desc: "Khai báo mảng struct 2 phần tử: SinhVien ds[2]", hint: "Viết: SinhVien ds[2];" },
+        { regex: "ds\\s*\\[\\s*[01]\\s*\\]\\s*\\.", minCount: 2, desc: "Gán dữ liệu cho cả ds[0] và ds[1] bằng dấu chấm", hint: "ds[0].ten = \"An\"; ds[1].ten = \"Binh\"; ..." },
+        { regex: "for\\s*\\(", desc: "Dùng vòng for để duyệt mảng", hint: "for (int i = 0; i < 2; i++)" },
+        { regex: "cout\\s*<<\\s*ds\\s*\\[\\s*i\\s*\\]", desc: "In ds[i] bằng cout bên trong vòng lặp", hint: "cout << ds[i].ten << endl;" }
+      ],
+      sample: "SinhVien ds[2];\nds[0].ten = \"An\";\nds[0].diem = 8.5;\nds[1].ten = \"Binh\";\nds[1].diem = 7.0;\nfor (int i = 0; i < 2; i++)\n    cout << ds[i].ten << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

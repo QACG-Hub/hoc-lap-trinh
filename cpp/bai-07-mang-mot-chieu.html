@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 7 C++: mảng một chiều — khai báo, chỉ số từ 0, duyệt mảng bằng for, tính tổng và tìm max/tìm kiếm — kèm quiz và bài tập tự viết code.">
+  <title>Bài 7: Mảng một chiều | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-07">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-07</span></div>
+      <h1 class="lesson-title">Mảng một chiều</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #07 ]</span>
+        <span class="pill">Chương 3 — Hàm &amp; mảng</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Một biến chỉ giữ được một giá trị — vậy 100 điểm của lớp thì sao? <strong>Mảng một chiều</strong> là dãy
+        các ô nhớ liền nhau, mỗi ô đánh một số thứ tự (chỉ số) và cùng chứa một kiểu dữ liệu. Học xong bài này,
+        bạn đủ sức duyệt mảng, tính tổng và tìm phần tử lớn nhất — bộ kỹ năng nền tảng cho mọi kỳ thi thuật toán. 🧩
+      </p>
+
+      <h2>Khai báo mảng</h2>
+      <p>
+        Mảng giống một <strong>dãy hộp số</strong> gắn liền nhau: khai báo một lần với số ô cố định, rồi truy cập từng ô qua chỉ số.
+        Điều quan trọng nhất cần khắc cốt: <strong>chỉ số bắt đầu từ 0</strong>, không phải 1.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">khai-bao-mang.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[5] = {1, 2, 3, 4, 5};
+    cout &lt;&lt; a[0] &lt;&lt; endl;   // phần tử ĐẦU TIÊN
+    cout &lt;&lt; a[4] &lt;&lt; endl;   // phần tử CUỐI CÙNG
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+5</pre>
+        </div>
+      </div>
+
+      <p>
+        Mảng 5 phần tử mang chỉ số <strong>0, 1, 2, 3, 4</strong> — phần tử cuối là <code>a[4]</code> chứ không phải <code>a[5]</code>.
+        Bạn cũng có thể khai báo trước rồi gán giá trị từng ô:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">gan-tung-o.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[3];          // 3 phần tử chưa có giá trị
+    a[0] = 10;
+    a[1] = 20;
+    a[2] = 30;
+    cout &lt;&lt; a[1] &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>20</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu cách "mở ô" trong mảng:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">a</span><span class="op">[</span>0<span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>a</code></td><td>tên mảng — cả dãy hộp cùng tên, phân biệt bằng chỉ số</td><td>✅</td></tr>
+          <tr><td><code>[ ]</code></td><td>toán tử truy cập phần tử — không phải ngoặc trang trí</td><td>✅</td></tr>
+          <tr><td><code>0</code></td><td>chỉ số ô cần lấy — đếm từ 0, nên <code>a[0]</code> là ô đầu tiên</td><td>✅</td></tr>
+          <tr><td><code>a[n - 1]</code></td><td>ô cuối cùng của mảng n phần tử — chỉ số hợp lệ là <code>0 .. n-1</code></td><td>✅ (nhớ kỹ!)</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Truy cập <strong>vượt biên</strong> (ví dụ <code>a[5]</code> với mảng 5 phần tử) sẽ <strong>không</strong> báo lỗi khi
+          biên dịch. Chương trình vẫn "chạy", nhưng đọc ra vùng nhớ bên cạnh mảng — giá trị rác, kết quả sai, thậm chí crash.
+          Luôn nhớ: mảng n phần tử chỉ có chỉ số <code>0</code> đến <code>n - 1</code>. C++ tin bạn — nhưng máy thì không cảnh báo đâu!
+        </p>
+      </div>
+
+      <p>Thực hành khai báo mảng — rất ngắn thôi:</p>
+
+      <div class="exercise-box" data-ex="cpp-07-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-07" data-topic="Mảng cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — MẢNG CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Duyệt &amp; tính toán</h2>
+      <p>
+        Điều kỳ diệu của mảng nằm ở chỗ: chỉ cần <strong>một vòng for</strong>, bạn xử lý cả dãy. Biến <code>i</code> đóng vai
+        trò chỉ số chạy từ 0 đến <code>n - 1</code>. Trước tiên là nhập mảng từ bàn phím:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhap-mang.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[3];
+    cout &lt;&lt; "Nhập 3 số: ";
+    for (int i = 0; i &lt; 3; i++) {
+        cin &gt;&gt; a[i];
+    }
+    cout &lt;&lt; "Số thứ hai là: " &lt;&lt; a[1] &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nhập 3 số: 10 20 30
+Số thứ hai là: 20</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "mẫu duyệt mảng" — bạn sẽ gõ khung này hàng trăm lần:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">for</span> <span class="op">(</span><span class="kw">int</span> <span class="vr">i</span> <span class="op">=</span> 0<span class="op">;</span> <span class="vr">i</span> <span class="op">&lt;</span> <span class="vr">n</span><span class="op">;</span> <span class="vr">i</span><span class="op">++</span><span class="op">)</span> <span class="vr">a</span><span class="op">[</span><span class="vr">i</span><span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>i = 0</code></td><td>bắt đầu từ chỉ số 0 — phần tử đầu tiên</td><td>✅</td></tr>
+          <tr><td><code>i &lt; n</code></td><td>điều kiện dừng: chỉ số cuối cùng là <code>n - 1</code> — viết <code>i &lt;= n</code> là vượt biên</td><td>✅</td></tr>
+          <tr><td><code>i++</code></td><td>sang ô kế tiếp sau mỗi vòng</td><td>✅</td></tr>
+          <tr><td><code>a[i]</code></td><td>dùng <code>i</code> làm chỉ số — ô nào cũng truy cập được</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Mẫu duyệt và mẫu nhập mảng dùng <strong>chung một khung for</strong> — chỉ khác lệnh bên trong (<code>cin &gt;&gt; a[i];</code>
+          để nhập, <code>cout &lt;&lt; a[i];</code> để in). Mẫu "cộng dồn" cũng vậy: tạo <code>int tong = 0;</code> trước vòng lặp,
+          rồi <code>tong += a[i];</code> bên trong — kết hợp cả vòng lặp lẫn biến tích luỹ của bài 5.
+        </p>
+      </div>
+
+      <p>Xem cả dãy đi qua một vòng for — tính tổng và trung bình:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tong-trung-binh.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[5] = {2, 4, 6, 8, 10};
+    int tong = 0;
+    for (int i = 0; i &lt; 5; i++) {
+        tong += a[i];
+    }
+    cout &lt;&lt; "Tổng: " &lt;&lt; tong &lt;&lt; endl;
+    cout &lt;&lt; "Trung bình: " &lt;&lt; (double)tong / 5 &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tổng: 30
+Trung bình: 6</pre>
+        </div>
+      </div>
+
+      <p>In toàn bộ mảng bằng for — thử sức ngay:</p>
+
+      <div class="exercise-box" data-ex="cpp-07-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-07" data-topic="Duyệt mảng" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DUYỆT MẢNG</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Tìm max &amp; tìm kiếm</h2>
+      <p>
+        Hai thuật toán "vỡ lòng" trên mảng: <strong>tìm giá trị lớn nhất</strong> và <strong>tìm vị trí một phần tử</strong>.
+        Cả hai đều đi qua từng ô và so sánh — chỉ khác cách "nắm giữ" kết quả:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tim-max.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[6] = {4, 9, 2, 15, 7, 3};
+    int lonNhat = a[0];             // giả sử ô đầu tiên là lớn nhất
+    for (int i = 1; i &lt; 6; i++) {   // xét từ ô thứ hai
+        if (a[i] &gt; lonNhat) {
+            lonNhat = a[i];         // tìm được "vua" mới
+        }
+    }
+    cout &lt;&lt; "Lớn nhất: " &lt;&lt; lonNhat &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Lớn nhất: 15</pre>
+        </div>
+      </div>
+
+      <p>Muốn biết phần tử nằm ở <strong>vị trí nào</strong>, ta in <code>i</code> khi giá trị khớp — và có thể <code>break</code> vì tìm thấy rồi:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tim-vi-tri.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a[6] = {4, 9, 2, 15, 7, 3};
+    int x = 15;
+    for (int i = 0; i &lt; 6; i++) {
+        if (a[i] == x) {
+            cout &lt;&lt; "Tìm thấy tại vị trí " &lt;&lt; i &lt;&lt; endl;
+            break;
+        }
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tìm thấy tại vị trí 3</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "nước đi đầu tiên" của thuật toán tìm max — chỗ dễ sai nhất:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">lonNhat</span> <span class="op">=</span> <span class="vr">a</span><span class="op">[</span>0<span class="op">]</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>lonNhat</code></td><td>biến "vua hiện tại" — luôn giữ giá trị lớn nhất tìm được</td><td>✅</td></tr>
+          <tr><td><code>a[0]</code></td><td>khởi tạo bằng PHẦN TỬ ĐẦU TIÊN của mảng, không phải số 0</td><td>✅ (mẹo quan trọng)</td></tr>
+          <tr><td><code>i = 1</code> khi duyệt</td><td>bắt đầu so sánh từ ô thứ hai — ô đầu đã nằm trong <code>lonNhat</code></td><td>❌ (nhưng tối ưu)</td></tr>
+          <tr><td><code>if (a[i] &gt; lonNhat)</code></td><td>gặp giá trị lớn hơn thì cập nhật "vua" mới</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Vì sao khởi tạo <code>lonNhat = a[0]</code> mà không phải <code>lonNhat = 0</code>? Với mảng toàn số âm như
+          <code>{-5, -2, -9}</code>, số 0 lớn hơn mọi phần tử nên đáp án sẽ sai thành 0. Lấy chính một phần tử làm mốc xuất phát
+          thì "vua" luôn là thành viên thật của mảng. Tìm kiếm cũng cần nhớ: chỉ số tìm được là <strong>vị trí trong mảng</strong>
+          (tính từ 0), không phải thứ tự đếm từ 1.
+        </p>
+      </div>
+
+      <p>Thử thách cuối bài — cộng dồn cả mảng:</p>
+
+      <div class="exercise-box" data-ex="cpp-07-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-07" data-topic="Tìm kiếm" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TÌM KIẾM</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 07</h2>
+      <ul>
+        <li>Mảng một chiều chứa nhiều giá trị cùng kiểu trong các ô liền nhau: <code>int a[5] = {1, 2, 3, 4, 5};</code>.</li>
+        <li><strong>Chỉ số bắt đầu từ 0</strong>: mảng n phần tử có chỉ số hợp lệ <code>0 .. n - 1</code>; <code>a[0]</code> là ô đầu tiên.</li>
+        <li>Truy cập vượt biên không bị báo lỗi khi biên dịch — chỉ đọc giá trị rác, cực kỳ nguy hiểm.</li>
+        <li>Mẫu duyệt mảng: <code>for (int i = 0; i &lt; n; i++)</code> rồi dùng <code>a[i]</code>; nhập bằng <code>cin &gt;&gt; a[i];</code>.</li>
+        <li>Tính tổng bằng biến tích luỹ: <code>tong = 0;</code> rồi <code>tong += a[i];</code> trong vòng lặp.</li>
+        <li>Tìm max: khởi tạo <code>lonNhat = a[0]</code> (không phải 0) rồi duyệt so sánh <code>a[i] &gt; lonNhat</code>.</li>
+        <li>Tìm kiếm: so sánh <code>a[i] == x</code>, in chỉ số <code>i</code> khi tìm thấy — có thể <code>break</code> ngay.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-07" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 07</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài 07 (JS inline) */
+    QUIZZES["cpp-07"] = [
+      /* --- Mảng cơ bản (6) --- */
+      { topic: "Mảng cơ bản", type: "choice", question: "Khai báo int a[5]; tạo ra mảng có bao nhiêu phần tử?", options: ["5 phần tử", "4 phần tử", "6 phần tử", "Không xác định"], answer: "5 phần tử", explain: "Số trong ngoặc vuông là số phần tử: int a[5] có 5 ô, chỉ số từ 0 đến 4." },
+      { topic: "Mảng cơ bản", type: "choice", question: "Phần tử đầu tiên của mảng được truy cập bằng chỉ số nào?", options: ["0", "1", "5", "-1"], answer: "0", explain: "Chỉ số mảng trong C++ đếm từ 0 — a[0] là phần tử đầu tiên." },
+      { topic: "Mảng cơ bản", type: "choice", question: "Mảng 5 phần tử có những chỉ số hợp lệ nào?", options: ["0 đến 4", "1 đến 5", "0 đến 5", "1 đến 4"], answer: "0 đến 4", explain: "n phần tử thì chỉ số chạy từ 0 đến n - 1, tức 0..4 với mảng 5 phần tử." },
+      { topic: "Mảng cơ bản", type: "choice", code: "int a[3] = {4, 5, 6};\ncout << a[2];", question: "Đoạn code trên in ra gì?", options: ["6", "4", "5", "Lỗi"], answer: "6", explain: "a[0] = 4, a[1] = 5, a[2] = 6 — chỉ số 2 là ô thứ ba." },
+      { topic: "Mảng cơ bản", type: "choice", code: "int a[4] = {1, 2, 3, 4};\ncout << a[4];", question: "Đoạn code trên có vấn đề gì?", options: ["Truy cập vượt biên — không báo lỗi, đọc giá trị rác", "Compiler báo lỗi ngay", "In ra số 4", "In ra số 0"], answer: "Truy cập vượt biên — không báo lỗi, đọc giá trị rác", explain: "Mảng 4 phần tử chỉ có chỉ số 0..3; a[4] là ô ngoài mảng nhưng C++ không kiểm tra giúp bạn." },
+      { topic: "Mảng cơ bản", type: "fill", question: "Điền số chỉ số để lấy phần tử ĐẦU TIÊN của mảng a: a[___]", answer: ["0"], explain: "a[0] — chỉ số đếm từ 0 nên ô đầu tiên mang chỉ số 0." },
+      /* --- Duyệt mảng (6) --- */
+      { topic: "Duyệt mảng", type: "choice", code: "int a[3] = {2, 4, 6};\nfor (int i = 0; i < 3; i++) {\n    cout << a[i];\n}", question: "Đoạn code trên in ra gì?", options: ["246", "2 4 6", "024", "Lỗi"], answer: "246", explain: "Mỗi vòng in một phần tử, không có dấu cách nên dính liền: 246." },
+      { topic: "Duyệt mảng", type: "choice", question: "Duyệt mảng n phần tử bằng for, điều kiện đúng là gì?", options: ["i < n", "i <= n", "i > n", "i == n"], answer: "i < n", explain: "Chỉ số hợp lệ 0..n-1 nên phải dừng khi i < n; viết i <= n là vượt biên!" },
+      { topic: "Duyệt mảng", type: "fill", question: "Điền điều kiện dừng để for duyệt hết mảng a gồm n phần tử: for (int i = 0; ___ ; i++)", answer: ["i < n", "i<n", "i <= n - 1", "i<=n-1"], explain: "i < n tương đương i <= n - 1 — chạm tới chỉ số cuối cùng rồi dừng." },
+      { topic: "Duyệt mảng", type: "choice", code: "int a[3] = {5, 10, 15};\nint s = 0;\nfor (int i = 0; i < 3; i++) {\n    s += a[i];\n}\ncout << s;", question: "Đoạn code trên in ra gì?", options: ["30", "15", "51015", "0"], answer: "30", explain: "s cộng dồn 5 + 10 + 15 = 30 — mẫu tính tổng mảng kinh điển." },
+      { topic: "Duyệt mảng", type: "choice", question: "Nhập giá trị cho từng phần tử mảng từ bàn phím bằng cách nào?", options: ["cin >> a[i]; đặt trong vòng lặp for", "cin >> a; một lần là xong", "cin >> a[5]; cho cả mảng", "Không nhập được mảng từ bàn phím"], answer: "cin >> a[i]; đặt trong vòng lặp for", explain: "Vòng for chạy qua từng chỉ số i, mỗi vòng đọc một giá trị vào a[i]." },
+      { topic: "Duyệt mảng", type: "choice", code: "int a[4] = {2, 4, 6, 8};\nint s = 0;\nfor (int i = 0; i < 4; i++) {\n    s += a[i];\n}\ncout << s / 4;", question: "Đoạn code trên in ra gì?", options: ["5", "20", "5.0", "4"], answer: "5", explain: "Tổng là 20, chia cho 4 phần tử được 5 (phép chia này chia hết nên ra số nguyên)." },
+      /* --- Tìm kiếm (6) --- */
+      { topic: "Tìm kiếm", type: "choice", code: "int a[3] = {3, 9, 5};\nint lonNhat = a[0];\nfor (int i = 1; i < 3; i++) {\n    if (a[i] > lonNhat) lonNhat = a[i];\n}\ncout << lonNhat;", question: "Đoạn code trên in ra gì?", options: ["9", "5", "3", "17"], answer: "9", explain: "lonNhat lần lượt nhận 3, rồi 9 (vì 9 > 3), rồi giữ nguyên 9 — số 5 không lớn hơn." },
+      { topic: "Tìm kiếm", type: "choice", question: "Nên khởi tạo biến tìm giá trị lớn nhất bằng gì?", options: ["a[0] — phần tử đầu tiên của mảng", "0 — cho tròn", "Số 1000000", "Không cần khởi tạo"], answer: "a[0] — phần tử đầu tiên của mảng", explain: "Khởi tạo 0 sẽ sai với mảng toàn số âm; lấy a[0] làm mốc thì kết quả luôn là phần tử thật." },
+      { topic: "Tìm kiếm", type: "choice", code: "int a[4] = {7, 2, 5, 9};\nfor (int i = 0; i < 4; i++) {\n    if (a[i] == 5) cout << i;\n}", question: "Đoạn code trên in ra gì?", options: ["2", "3", "5", "1"], answer: "2", explain: "Giá trị 5 nằm ở ô chỉ số 2 (a[2]) — vị trí đếm từ 0, không phải thứ tự đếm từ 1." },
+      { topic: "Tìm kiếm", type: "fill", question: "Điền toán tử so sánh để cập nhật giá trị lớn nhất: if (a[i] ___ max)", answer: [">"], explain: "if (a[i] > max) lonNhat = a[i]; — gặp phần tử lớn hơn thì thay 'vua' mới." },
+      { topic: "Tìm kiếm", type: "choice", question: "Muốn tìm phần tử có giá trị bằng x trong mảng, ta so sánh thế nào?", options: ["a[i] == x", "a[i] = x", "a[i] != x", "i == x"], answer: "a[i] == x", explain: "Dùng == để so sánh; dấu = là phép gán sẽ phá dữ liệu mảng của bạn." },
+      { topic: "Tìm kiếm", type: "choice", code: "int a[3] = {-5, -2, -9};\nint lonNhat = 0;\nfor (int i = 0; i < 3; i++) {\n    if (a[i] > lonNhat) lonNhat = a[i];\n}\ncout << lonNhat;", question: "Đoạn code trên in ra gì?", options: ["0", "-2", "-9", "Lỗi"], answer: "0", explain: "0 lớn hơn mọi số âm nên không phần tử nào thay được nó — max 'giả' bằng 0. Phải khởi tạo bằng a[0]!" }
+    ];
+
+    EXERCISES["cpp-07-ex1"] = {
+      topic: "Khai báo mảng đầu tiên",
+      prompt: "Khai báo mảng int 3 phần tử với các giá trị bất kỳ, rồi in phần tử đầu tiên (chỉ số 0) ra màn hình bằng cout.",
+      checks: [
+        { regex: "\\bint\\s+\\w+\\s*\\[\\s*3\\s*\\]", desc: "Khai báo mảng int 3 phần tử", hint: "int a[3] = {10, 20, 30};" },
+        { regex: "\\[\\s*0\\s*\\]", desc: "Truy cập phần tử đầu tiên bằng chỉ số 0", hint: "a[0] — ô đầu tiên của mảng" },
+        { regex: "cout\\s*<<", desc: "In phần tử đầu tiên bằng cout", hint: "cout << a[0] << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a[3] = {10, 20, 30};\n    cout << a[0] << endl;\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-07-ex2"] = {
+      topic: "In toàn bộ mảng",
+      prompt: "Cho mảng 5 phần tử (khai báo với giá trị bất kỳ), dùng vòng lặp for in toàn bộ các phần tử, mỗi phần tử một dòng.",
+      checks: [
+        { regex: "\\bfor\\s*\\(", desc: "Dùng vòng lặp for để duyệt mảng", hint: "for (int i = 0; i < 5; i++) { ... }" },
+        { regex: "\\[\\s*i\\s*\\]", desc: "Truy cập từng phần tử bằng a[i]", hint: "Dùng biến i làm chỉ số: a[i]" },
+        { regex: "cout\\s*<<", desc: "In từng phần tử bằng cout", hint: "cout << a[i] << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a[5] = {1, 2, 3, 4, 5};\n    for (int i = 0; i < 5; i++) {\n        cout << a[i] << endl;\n    }\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-07-ex3"] = {
+      topic: "Tổng các phần tử",
+      prompt: "Cho mảng 5 phần tử (khai báo với giá trị bất kỳ), dùng vòng lặp for và biến tổng để tính tổng tất cả phần tử rồi in ra màn hình.",
+      checks: [
+        { regex: "\\bfor\\s*\\(", desc: "Duyệt mảng bằng vòng lặp for", hint: "for (int i = 0; i < 5; i++) { tong += a[i]; }" },
+        { regex: "\\[\\s*i\\s*\\]", desc: "Lấy từng phần tử a[i] trong vòng lặp", hint: "a[i] là phần tử tại chỉ số i" },
+        { regex: "\\+=\\s*\\w*\\[|=\\s*\\w+\\s*\\+\\s*\\w*\\[", desc: "Cộng dồn phần tử vào biến tổng", hint: "tong += a[i]; (hoặc tong = tong + a[i];)" },
+        { regex: "cout\\s*<<", desc: "In tổng ra màn hình", hint: "cout << \"Tong = \" << tong << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a[5] = {2, 4, 6, 8, 10};\n    int tong = 0;\n    for (int i = 0; i < 5; i++) {\n        tong += a[i];\n    }\n    cout << \"Tong = \" << tong << endl;\n    return 0;\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

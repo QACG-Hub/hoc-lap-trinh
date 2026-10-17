@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 18 Python: Xử lý lỗi với try/except — bắt ZeroDivisionError, ValueError, nhiều except, else, finally và cách dùng as e — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 18: Xử lý lỗi với try/except | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-18">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-18</span></div>
+      <h1 class="lesson-title">Xử lý lỗi với try/except</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #18 ]</span>
+        <span class="pill">Chương 4 — Hàm &amp; module</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Người dùng gõ chữ vào chỗ cần số, file bỗng nhiên biến mất, phép chia gặp số 0… chương trình của bạn "nổ" ngay lập tức.
+        Nhiệm vụ cuối chương này: học cách <strong>bắt lỗi</strong> bằng <code>try/except</code> để chương trình
+        xử lý sự cố một cách <em>duyên dáng</em> thay vì chết đứng. Đây là kỹ năng của lập trình viên thứ thiệt! ⚡
+      </p>
+
+      <h2>try/except cơ bản</h2>
+      <p>
+        Ý tưởng rất đời thường: bạn <strong>thử</strong> (try) làm việc gì đó có thể thất bại;
+        nếu thất bại đúng kiểu đã lường trước, bạn <strong>chuyển sang phương án dự phòng</strong> (except)
+        thay vì để chương trình chết. Không có try/except, phép chia cho 0 sẽ làm chương trình dừng ngay:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">khong-bat-loi.py</span>
+        </div>
+        <pre><code class="language-python">print(10 / 0)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Traceback (most recent call last):
+  File "khong-bat-loi.py", line 1, in &lt;module&gt;
+    print(10 / 0)
+ZeroDivisionError: division by zero</pre>
+        </div>
+      </div>
+
+      <p>Còn đây là phiên bản được bọc "lưới an toàn" — chương trình không chết mà còn biết cách phản ứng:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">bat-loi.py</span>
+        </div>
+        <pre><code class="language-python">try:
+    print(10 / 0)
+except ZeroDivisionError:
+    print("Không thể chia cho 0!")
+
+print("Chương trình vẫn chạy tiếp!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Không thể chia cho 0!
+Chương trình vẫn chạy tiếp!</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">except</span> <span class="vr">ZeroDivisionError</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>try:</code></td><td>mở khối "thử" — đặt đoạn code có thể gặp lỗi vào đây, thụt lề bên dưới</td><td>✅</td></tr>
+          <tr><td><code>except</code></td><td>từ khóa mở khối xử lý khi lỗi xảy ra</td><td>✅</td></tr>
+          <tr><td><code>ZeroDivisionError</code></td><td>tên loại lỗi cần bắt — ở đây là "chia cho 0"</td><td>✅ (có thể dùng loại lỗi khác)</td></tr>
+          <tr><td><code>:</code> + thụt lề</td><td>khối lệnh chạy khi bắt được lỗi — phương án dự phòng</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Lỗi thường gặp thứ hai là <code>ValueError</code> — khi người dùng nhập chữ vào chỗ cần số.
+        Bọc <code>int(input(...))</code> trong try/except là combo kinh điển:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhap-so.py</span>
+        </div>
+        <pre><code class="language-python">try:
+    so = int(input("Nhập số: "))
+    print("Bạn đã nhập", so)
+except ValueError:
+    print("Đó không phải là số!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nhập số: abc
+Đó không phải là số!</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          try/except giúp chương trình <strong>không chết</strong> khi gặp lỗi đã lường trước, nhưng đừng bọc cả chương trình vào one try —
+          hãy đặt đúng đoạn có thể gặp lỗi (thường là ngay quanh <code>input()</code> hoặc phép tính). Bắt được lỗi rồi thì nên
+          <em>thông báo cho người dùng biết</em> chuyện gì xảy ra, chứ đừng im lặng.
+        </p>
+      </div>
+
+      <p>Thực hành bắt hai loại lỗi quen thuộc nhất:</p>
+
+      <div class="exercise-box" data-ex="py-18-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-18-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-18" data-topic="try/except" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TRY/EXCEPT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Nâng cao: nhiều except, else, finally</h2>
+      <p>
+        Một khối try có thể có <strong>nhiều except</strong> — mỗi except lo một loại lỗi riêng.
+        Thêm nữa: <code>else</code> chạy khi <em>không có lỗi nào</em>, còn <code>finally</code> <em>luôn chạy</em>
+        bất kể thành công hay thất bại — thường dùng để dọn dẹp (đóng file chẳng hạn).
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chia-an-toan.py</span>
+        </div>
+        <pre><code class="language-python">try:
+    a = int(input("Số thứ nhất: "))
+    b = int(input("Số thứ hai: "))
+    print("Thương:", a / b)
+except ValueError as e:
+    print("Lỗi nhập liệu:", e)
+except ZeroDivisionError:
+    print("Không thể chia cho 0!")
+else:
+    print("Phép chia thành công!")
+finally:
+    print("Kết thúc xử lý.")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Số thứ nhất: 10
+Số thứ hai: 0
+Không thể chia cho 0!
+Kết thúc xử lý.</pre>
+        </div>
+      </div>
+
+      <p>Để ý hai điều: <code>else</code> không chạy (vì đã có lỗi), còn <code>finally</code> vẫn chạy dù sao đi nữa. Trong phiên chạy này, người dùng nhập 10 rồi 0 — nếu nhập đủ 10 và 2, bạn sẽ thấy khối <code>else</code> xuất hiện.</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">except</span> <span class="vr">ValueError</span> <span class="kw">as</span> <span class="vr">e</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>except</code></td><td>mở khối xử lý lỗi</td><td>✅</td></tr>
+          <tr><td><code>ValueError</code></td><td>loại lỗi cần bắt</td><td>✅</td></tr>
+          <tr><td><code>as e</code></td><td>gán đối tượng lỗi cho biến <code>e</code> để xem chi tiết thông báo</td><td>❌ (nhưng hữu ích)</td></tr>
+          <tr><td><code>:</code> + thụt lề</td><td>khối lệnh chạy khi bắt được đúng loại lỗi này</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xem-chi-tiet-loi.py</span>
+        </div>
+        <pre><code class="language-python">try:
+    so = int("abc")
+except ValueError as e:
+    print("Chi tiết lỗi:", e)
+finally:
+    print("Dù sao, finally luôn chạy.")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Chi tiết lỗi: invalid literal for int() with base 10: 'abc'
+Dù sao, finally luôn chạy.</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <strong>Đừng bắt <code>Exception</code> chung chung rồi bỏ qua</strong> — kiểu
+          <code>except Exception: pass</code>. Cách này "nuốt" mọi lỗi, kể cả lỗi thật do bạn viết sai logic,
+          khiến chương trình chạy sai mà không ai biết vì sao. Hãy bắt đúng loại lỗi bạn lường trước
+          (<code>ValueError</code>, <code>ZeroDivisionError</code>…) và luôn cho người dùng biết chuyện gì đang xảy ra.
+        </p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Thứ tự chạy của bộ tứ: <code>try</code> chạy trước → có lỗi khớp except nào thì except đó chạy;
+          không lỗi thì <code>else</code> chạy; cuối cùng <code>finally</code> <strong>luôn luôn</strong> chạy.
+        </p>
+      </div>
+
+      <p>Bài tập tổng hợp — bọc <code>int(input(...))</code> thật chắc tay:</p>
+
+      <div class="exercise-box" data-ex="py-18-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-18" data-topic="except nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — EXCEPT NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 18</h2>
+      <ul>
+        <li><code>try/except</code> bắt lỗi đã lường trước để chương trình không bị "nổ" và dừng đột ngột.</li>
+        <li><code>except ZeroDivisionError</code> xử lý chia cho 0; <code>except ValueError</code> xử lý dữ liệu nhập sai kiểu.</li>
+        <li>Có thể có nhiều except; <code>as e</code> giữ chi tiết thông báo lỗi; lỗi không khớp except nào vẫn làm chương trình dừng.</li>
+        <li><code>else</code> chạy khi không có lỗi; <code>finally</code> luôn chạy — dùng để dọn dẹp.</li>
+        <li>Đừng bắt <code>Exception</code> chung chung rồi bỏ qua — hãy bắt đúng loại lỗi và thông báo rõ ràng.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-18" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 18</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-18"] = [
+      /* --- try/except --- */
+      { topic: "try/except", type: "choice", question: "Cặp từ khóa nào dùng để bắt lỗi trong Python?", options: ["try / except", "catch / throw", "error / handle", "try / catch"], answer: "try / except", explain: "Python dùng try/except (không phải try/catch như nhiều ngôn ngữ khác)." },
+      { topic: "try/except", type: "choice", code: "try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print(\"Không thể chia cho 0!\")", question: "Đoạn code trên in ra gì?", options: ["Không thể chia cho 0!", "Lỗi ZeroDivisionError vẫn hiện ra màn hình", "0", "Không in gì cả"], answer: "Không thể chia cho 0!", explain: "Lỗi chia cho 0 bị except bắt gọn, khối dự phòng in thông báo thay vì chương trình chết." },
+      { topic: "try/except", type: "choice", question: "except ZeroDivisionError bắt loại lỗi nào?", options: ["Lỗi chia cho số 0", "Lỗi nhập chữ thay vì số", "Lỗi thiếu dấu ngoặc", "Mọi loại lỗi"], answer: "Lỗi chia cho số 0", explain: "ZeroDivisionError xảy ra khi bạn chia một số cho 0." },
+      { topic: "try/except", type: "fill", question: "Điền từ khóa mở khối \"thử\" trong cấu trúc bắt lỗi:", answer: ["try"], explain: "try: — đặt đoạn code có thể gặp lỗi vào khối này." },
+      { topic: "try/except", type: "choice", code: "try:\n    so = int(\"abc\")\nexcept ValueError:\n    print(\"Sai rồi!\")", question: "Đoạn code trên in ra gì?", options: ["Sai rồi! — chương trình chạy tiếp bình thường", "Lỗi ValueError vẫn hiện ra màn hình", "Số 0", "abc"], answer: "Sai rồi! — chương trình chạy tiếp bình thường", explain: "int(\"abc\") gây ValueError, được except bắt và xử lý êm đẹp." },
+      { topic: "try/except", type: "choice", question: "Nếu lỗi xảy ra trong try mà KHÔNG khớp except nào thì sao?", options: ["Chương trình vẫn báo lỗi và dừng như thường", "Lỗi tự động biến mất", "except tự bắt hết mọi lỗi", "In ra None"], answer: "Chương trình vẫn báo lỗi và dừng như thường", explain: "try/except chỉ bắt đúng loại lỗi được khai báo — ngoài danh sách là \"ra đi không báo trước\"." },
+      { topic: "try/except", type: "choice", code: "try:\n    print(10 / 0)\nexcept ValueError:\n    print(\"Bắt được!\")", question: "Đoạn code trên sẽ ra sao?", options: ["Vẫn báo lỗi ZeroDivisionError vì except chỉ bắt ValueError", "In ra Bắt được!", "In ra 0", "Không in gì cả"], answer: "Vẫn báo lỗi ZeroDivisionError vì except chỉ bắt ValueError", explain: "Bắt sai loại lỗi thì không bắt được gì — phải khai báo đúng ZeroDivisionError." },
+      /* --- except nâng cao --- */
+      { topic: "except nâng cao", type: "choice", question: "Khối nào chạy khi try KHÔNG gặp lỗi nào?", options: ["else", "finally", "except", "Tất cả các except đều chạy"], answer: "else", explain: "else chỉ chạy khi mọi thứ trong try suôn sẻ — phần thưởng cho lần chạy thành công." },
+      { topic: "except nâng cao", type: "choice", question: "Khối finally chạy khi nào?", options: ["Luôn luôn — dù thành công hay có lỗi", "Chỉ khi có lỗi xảy ra", "Chỉ khi không có lỗi", "Chỉ khi gọi thủ công"], answer: "Luôn luôn — dù thành công hay có lỗi", explain: "finally luôn chạy cuối cùng — thường dùng để dọn dẹp tài nguyên." },
+      { topic: "except nâng cao", type: "choice", question: "Trong except ValueError as e, biến e giữ cái gì?", options: ["Thông tin chi tiết của lỗi vừa xảy ra", "Tên hàm gây lỗi", "Danh sách tất cả các lỗi", "Số dòng bị lỗi"], answer: "Thông tin chi tiết của lỗi vừa xảy ra", explain: "e là đối tượng lỗi — in e ra sẽ thấy mô tả chi tiết, rất tiện để gỡ rối." },
+      { topic: "except nâng cao", type: "choice", code: "try:\n    print(6 / 3)\nexcept ZeroDivisionError:\n    print(\"Lỗi chia 0\")\nelse:\n    print(\"Không có lỗi!\")\nfinally:\n    print(\"Xong.\")", question: "Đoạn code trên in ra gì?", options: ["2.0 rồi Không có lỗi! rồi Xong.", "2.0 rồi Xong.", "Không có lỗi! rồi Xong.", "Lỗi chia 0 rồi Xong."], answer: "2.0 rồi Không có lỗi! rồi Xong.", explain: "6/3 = 2.0 thành công nên else chạy, và finally luôn chạy cuối cùng." },
+      { topic: "except nâng cao", type: "choice", question: "Vì sao nên tránh viết except Exception rồi bỏ qua (pass)?", options: ["Vì nó che mất cả những lỗi thật, khiến chương trình chạy sai mà không ai phát hiện", "Vì Python cấm cú pháp này", "Vì nó làm chương trình chạy chậm hơn", "Vì phải trả phí mới dùng được"], answer: "Vì nó che mất cả những lỗi thật, khiến chương trình chạy sai mà không ai phát hiện", explain: "Bắt quá rộng = giấu bệnh. Hãy bắt đúng loại lỗi và xử lý tử tế." },
+      { topic: "except nâng cao", type: "fill", question: "Điền từ khóa mở khối LUÔN chạy cuối cùng, dù có lỗi hay không:", answer: ["finally"], explain: "finally — dùng để dọn dẹp, ví dụ đóng file sau khi xử lý." },
+      { topic: "except nâng cao", type: "choice", question: "Khi có nhiều khối except, khối nào được chạy?", options: ["Khối except ĐẦU TIÊN khớp với loại lỗi xảy ra", "Tất cả các except chạy lần lượt", "Luôn là except cuối cùng", "Một except ngẫu nhiên"], answer: "Khối except ĐẦU TIÊN khớp với loại lỗi xảy ra", explain: "Python duyệt từ trên xuống, gặp except khớp đầu tiên là chạy khối đó rồi dừng." }
+    ];
+
+    EXERCISES["py-18-ex1"] = {
+      topic: "Bắt lỗi chia cho 0",
+      prompt: "Viết đoạn code dùng try/except: trong try in phép tính 10 / 0, trong except ZeroDivisionError in ra dòng chữ: Không chia được cho 0",
+      checks: [
+        { regex: "try\\s*:", desc: "Có khối try:", hint: "Mở đầu bằng: try:" },
+        { regex: "10\\s*/\\s*0", desc: "Trong try có phép tính 10 / 0", hint: "print(10 / 0) — phép chia \"tử thần\"" },
+        { regex: "except\\s+ZeroDivisionError\\s*:", desc: "Bắt đúng lỗi ZeroDivisionError", hint: "except ZeroDivisionError:" },
+        { regex: "print\\s*\\(\\s*[\"'][^\"']*(0|[kK]hông)[^\"']*[\"']\\s*\\)", desc: "In thông báo về việc không chia được cho 0", hint: "print(\"Không chia được cho 0\")" }
+      ],
+      sample: "try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print(\"Không chia được cho 0\")"
+    };
+
+    EXERCISES["py-18-ex2"] = {
+      topic: "Bắt lỗi ValueError",
+      prompt: "Viết đoạn code dùng try/except: trong try chuyển chuỗi \"abc\" thành số bằng int(\"abc\"), trong except ValueError in ra một thông báo bất kỳ.",
+      checks: [
+        { regex: "try\\s*:", desc: "Có khối try:", hint: "Mở đầu bằng: try:" },
+        { regex: "int\\s*\\(\\s*[\"']abc[\"']\\s*\\)", desc: "Trong try gọi int(\"abc\")", hint: "so = int(\"abc\") — chuỗi chữ không đổi được thành số" },
+        { regex: "except\\s+ValueError\\s*:", desc: "Bắt đúng lỗi ValueError", hint: "except ValueError:" },
+        { regex: "print\\s*\\(", desc: "In thông báo bằng print()", hint: "print(\"abc không phải là số!\")" }
+      ],
+      sample: "try:\n    so = int(\"abc\")\nexcept ValueError:\n    print(\"abc không phải là số!\")"
+    };
+
+    EXERCISES["py-18-ex3"] = {
+      topic: "Nhập số an toàn",
+      prompt: "Dùng int(input(\"Nhập số: \")) trong khối try, còn except ValueError in ra lời nhắc nhở (ví dụ: Ơ, đó không phải là số!). Nếu nhập đúng số thì in ra số vừa nhập.",
+      checks: [
+        { regex: "int\\s*\\(\\s*input\\s*\\(", desc: "Dùng int(input(...)) để nhập số", hint: "so = int(input(\"Nhập số: \"))" },
+        { regex: "except\\s+ValueError\\s*:", desc: "Bắt lỗi ValueError khi nhập chữ", hint: "except ValueError:" },
+        { regex: "print\\s*\\(", desc: "In thông báo/nhắc nhở bằng print()", hint: "Cả nhánh thành công lẫn nhánh lỗi đều nên print(...)" }
+      ],
+      sample: "try:\n    so = int(input(\"Nhập số: \"))\n    print(\"Bạn đã nhập\", so)\nexcept ValueError:\n    print(\"Ơ, đó không phải là số. Nhập lại số nhé!\")"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

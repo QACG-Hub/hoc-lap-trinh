@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 20 C++: dự án tổng hợp quản lý điểm sinh viên — struct SinhVien, vector, hàm thêm &amp; in danh sách, thống kê điểm cao nhất, lưu file và menu.">
+  <title>Bài 20: Dự án tổng hợp: Quản lý điểm sinh viên | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-20">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-20</span></div>
+      <h1 class="lesson-title">Dự án tổng hợp: Quản lý điểm sinh viên</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #20 ]</span>
+        <span class="pill">Chương 6 — STL &amp; nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        🎯 <strong>Nhiệm vụ cuối cùng của khóa C++</strong> đã tới! Bạn sẽ ráp mọi mảnh ghép — struct, vector, hàm, vòng lặp,
+        thống kê, xử lý file — thành một sản phẩm hoàn chỉnh: <strong>phần mềm quản lý điểm sinh viên</strong> chạy được,
+        có menu, có lưu dữ liệu. Đây không phải bài học lý thuyết suông: cuối bài bạn sẽ <em>tốt nghiệp</em> với một dự án
+        thật trong tay. Bắt đầu thôi! 🚀
+      </p>
+
+      <h2>Đề bài &amp; thiết kế dữ liệu</h2>
+      <p><strong>Đề bài:</strong> viết chương trình quản lý điểm sinh viên với các chức năng:</p>
+      <ul>
+        <li>Thêm sinh viên (tên, điểm Toán, điểm Văn) vào danh sách.</li>
+        <li>In danh sách vừa nhập.</li>
+        <li>Thống kê: điểm trung bình từng bạn, tìm bạn điểm cao nhất.</li>
+        <li>Lưu danh sách ra file để lần sau mở lại vẫn còn.</li>
+      </ul>
+      <p>
+        Bước thiết kế đầu tiên là chọn <strong>kiểu dữ liệu</strong>. Mỗi sinh viên có nhiều thông tin đi liền nhau
+        (tên + điểm Toán + điểm Văn), nên ta gom vào một <code>struct</code>. Cả lớp là nhiều sinh viên → dùng
+        <code>vector</code> (đã học bài 16, thêm bao nhiêu bạn cũng được):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thiet-ke-du-lieu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+struct SinhVien {
+    string ten;
+    double toan, van;
+};
+
+int main() {
+    vector&lt;SinhVien&gt; ds;
+    ds.push_back({"Nam", 8.5, 7});
+    cout &lt;&lt; ds[0].ten &lt;&lt; ": " &lt;&lt; ds[0].toan &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nam: 8.5</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "khuôn đúc" <code>struct</code> — mỗi biến kiểu <code>SinhVien</code> đúc ra sẽ có đủ ba ngăn dữ liệu:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">struct</span> <span class="vr">SinhVien</span> { <span class="kw">string</span> ten; <span class="kw">double</span> toan, van; }<span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>struct</code></td><td>từ khoá khai báo kiểu dữ liệu tự tạo (gom nhiều trường)</td><td>✅</td></tr>
+          <tr><td><code>SinhVien</code></td><td>tên kiểu do bạn đặt — viết hoa chữ đầu cho dễ phân biệt với biến</td><td>✅</td></tr>
+          <tr><td><code>string ten;</code></td><td>trường (field) thứ nhất: tên sinh viên</td><td>✅</td></tr>
+          <tr><td><code>double toan, van;</code></td><td>hai trường điểm — khai báo chung một dòng vì cùng kiểu</td><td>✅</td></tr>
+          <tr><td><code>;</code> sau <code>}</code></td><td>kết thúc khai báo struct — <strong>quên dấu này là lỗi ngay</strong></td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Cặp bài trùng "struct + vector" là bộ khung của gần như mọi phần mềm quản lý: <code>struct</code> mô tả
+          <em>một đối tượng</em>, <code>vector</code> chứa <em>danh sách đối tượng</em>. Truy cập dữ liệu bằng dấu chấm:
+          <code>ds[0].ten</code> là tên của sinh viên đầu tiên, <code>ds[0].toan</code> là điểm Toán của bạn đó.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-20" data-topic="Dự án: Dữ liệu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DỮ LIỆU DỰ ÁN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-20-ex1"></div>
+
+      <h2>Thêm &amp; in danh sách</h2>
+      <p>
+        Chương trình thật không viết hết vào <code>main</code> — ta tách thành từng <strong>hàm</strong> làm đúng một việc.
+        Hai hàm đầu tiên: <code>them</code> (thêm sinh viên) và <code>inDanhSach</code> (in cả danh sách):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">them-va-in.cpp</span>
+        </div>
+        <pre><code class="language-cpp">void them(vector&lt;SinhVien&gt; &amp;ds, string ten, double toan, double van) {
+    ds.push_back({ten, toan, van});
+}
+
+void inDanhSach(const vector&lt;SinhVien&gt; &amp;ds) {
+    for (const SinhVien &amp;sv : ds)
+        cout &lt;&lt; sv.ten &lt;&lt; " | Toan: " &lt;&lt; sv.toan
+             &lt;&lt; " | Van: " &lt;&lt; sv.van &lt;&lt; endl;
+}</code></pre>
+      </div>
+
+      <p>Giờ xem hai hàm này "chạy thật" trong <code>main</code>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">main.cpp</span>
+        </div>
+        <pre><code class="language-cpp">int main() {
+    vector&lt;SinhVien&gt; ds;
+    them(ds, "Nam", 8.5, 7);
+    them(ds, "Lan", 9, 9.5);
+    inDanhSach(ds);
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nam | Toan: 8.5 | Van: 7
+Lan | Toan: 9 | Van: 9.5</pre>
+        </div>
+      </div>
+
+      <p>
+        Để ý dấu <code>&amp;</code> trong <code>void them(vector&lt;SinhVien&gt; &amp;ds, ...)</code>: nó nói rằng hàm nhận
+        <strong>chính vector gốc</strong> — như mượn chìa khoá mở đúng chiếc tủ của <code>main</code>, thay vì nhận một bản
+        photo rồi sửa lên bản photo đó. Còn trong <code>inDanhSach</code>, <code>const ... &amp;</code> nghĩa là "mượn xem
+        nhưng không được sửa" — vừa nhanh vừa an toàn.
+      </p>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Viết thiếu dấu <code>&amp;</code> — <code>void them(vector&lt;SinhVien&gt; ds, ...)</code> — chương trình
+          <strong>vẫn biên dịch</strong> nhưng là một cái bẫy: hàm nhận bản sao, thêm sinh viên vào bản sao,
+          rồi bản sao bị xoá khi hàm kết thúc. Danh sách trong <code>main</code> vẫn rỗng trơ và bạn ngồi ngơ ngác
+          "sao in ra không có ai?" 😅
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-20" data-topic="Dự án: Thêm &amp; in" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THÊM &amp; IN DANH SÁCH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-20-ex2"></div>
+
+      <h2>Thống kê điểm</h2>
+      <p>
+        Dữ liệu đã có, giờ là phần "ăn điểm" của dự án: tính <strong>điểm trung bình</strong> và tìm
+        <strong>thủ khoa</strong>. Hàm tính điểm trung bình chỉ một dòng:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">diem-tb.cpp</span>
+        </div>
+        <pre><code class="language-cpp">double diemTB(const SinhVien &amp;sv) {
+    return (sv.toan + sv.van) / 2;
+}</code></pre>
+      </div>
+
+      <p>
+        Tìm bạn điểm cao nhất thì dùng <strong>một vòng lặp + biến max</strong> — kỹ thuật quen thuộc từ chương mảng,
+        nâng cấp lên đối tượng <code>SinhVien</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thong-ke.cpp</span>
+        </div>
+        <pre><code class="language-cpp">int main() {
+    vector&lt;SinhVien&gt; ds;
+    them(ds, "Nam", 8.5, 7);
+    them(ds, "Lan", 9, 9.5);
+
+    SinhVien caoNhat = ds[0];
+    for (const SinhVien &amp;sv : ds)
+        if (diemTB(sv) &gt; diemTB(caoNhat))
+            caoNhat = sv;
+
+    cout &lt;&lt; "Diem TB cua Nam: " &lt;&lt; diemTB(ds[0]) &lt;&lt; endl;
+    cout &lt;&lt; "Cao nhat: " &lt;&lt; caoNhat.ten &lt;&lt; " (" &lt;&lt; diemTB(caoNhat) &lt;&lt; ")" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Diem TB cua Nam: 7.75
+Cao nhat: Lan (9.25)</pre>
+        </div>
+      </div>
+
+      <p>
+        Cách tìm max: giả sử bạn đầu tiên là thủ khoa, rồi duyệt từng bạn — ai giỏi hơn "thủ khoa tạm thời" thì soán ngôi.
+        Hết vòng lặp, <code>caoNhat</code> đúng là người điểm cao nhất. Nam được 7.75 còn Lan 9.25 — Lan thắng! 👑
+      </p>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Khởi tạo <code>SinhVien caoNhat = ds[0];</code> chỉ an toàn khi danh sách <strong>có ít nhất 1 người</strong>.
+          Danh sách rỗng mà truy cập <code>ds[0]</code> là hành vi không xác định. Hãy kiểm tra
+          <code>if (ds.empty()) { cout &lt;&lt; "Danh sach rong!"; return; }</code> trước khi thống kê.
+          Và đừng khởi tạo max bằng điểm 0 — lỡ cả lớp điểm âm thì "thủ khoa" thành bạn 0 điểm đó!
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-20" data-topic="Dự án: Thống kê" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THỐNG KÊ ĐIỂM</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Hoàn thiện &amp; mở rộng</h2>
+      <p>
+        Một chương trình "ra hồn" cần <strong>menu</strong> để người dùng chọn chức năng. Công thức kinh điển:
+        <code>while</code> giữ chương trình chạy + <code>switch</code> rẽ nhánh theo lựa chọn:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">menu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">int main() {
+    vector&lt;SinhVien&gt; ds = {{"Nam", 8.5, 7}, {"Lan", 9, 9.5}};
+    int chon;
+    while (true) {
+        cout &lt;&lt; "1.Xem danh sach  0.Thoat: ";
+        cin &gt;&gt; chon;
+        switch (chon) {
+            case 1: inDanhSach(ds); break;
+            case 0: return 0;
+            default: cout &lt;&lt; "Chon sai, thu lai!" &lt;&lt; endl;
+        }
+    }
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1.Xem danh sach  0.Thoat: 1
+Nam | Toan: 8.5 | Van: 7
+Lan | Toan: 9 | Van: 9.5
+1.Xem danh sach  0.Thoat: 0</pre>
+        </div>
+      </div>
+
+      <p>
+        <em>Chú thích nhỏ:</em> số <code>1</code> và <code>0</code> trong kết quả là phần bạn gõ từ bàn phím — chương trình in
+        lời nhắc rồi chờ bạn nhập. Cuối cùng, "ông trùm" của dự án: <strong>lưu danh sách ra file</strong> để lần sau mở lại vẫn còn
+        (ôn lại bài 19 nào):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">luu-file.cpp</span>
+        </div>
+        <pre><code class="language-cpp">void luuFile(const vector&lt;SinhVien&gt; &amp;ds) {
+    ofstream f("diem.txt");
+    for (const SinhVien &amp;sv : ds)
+        f &lt;&lt; sv.ten &lt;&lt; " " &lt;&lt; sv.toan &lt;&lt; " " &lt;&lt; sv.van &lt;&lt; endl;
+    f.close();
+}</code></pre>
+      </div>
+
+      <p>
+        Sau khi gọi <code>luuFile(ds);</code>, file <code>diem.txt</code> sẽ chứa mỗi sinh viên một dòng:
+        <code>Nam 8.5 7</code>, <code>Lan 9 9.5</code>... và bạn hoàn toàn có thể viết hàm <code>docFile</code> đọc ngược chúng vào lại
+        <code>vector</code> để chương trình thật sự "nhớ lâu".
+      </p>
+
+      <p><strong>Gợi ý mở rộng</strong> để biến dự án thành sản phẩm riêng của bạn:</p>
+      <ul>
+        <li>Thêm chức năng <strong>xóa / sửa</strong> sinh viên theo tên (gợi ý: tìm rồi dùng <code>ds.erase(ds.begin() + i)</code>).</li>
+        <li><strong>Sắp xếp lớp</strong> theo điểm trung bình giảm dần — kết hợp <code>sort</code> (bài 16) với <code>diemTB</code>.</li>
+        <li>Thống kê thêm: điểm trung bình <em>cả lớp</em>, số bạn trên 8, điểm thấp nhất.</li>
+        <li>Đếm số lượng bằng <code>map&lt;string, int&gt;</code> (bài 18) khi dữ liệu phình to.</li>
+        <li>Lưu dạng CSV và mở bằng Excel — dữ liệu bạn ghi ra đã gần đúng chuẩn CSV rồi đấy!</li>
+      </ul>
+
+      <p>Bài tập "tốt nghiệp" cuối cùng — chỉnh chu trước khi nhận bằng nhé:</p>
+
+      <div class="exercise-box" data-ex="cpp-20-ex3"></div>
+
+      <h2>TỔNG KẾT BÀI 20 🎓</h2>
+      <p>
+        <strong>Chúc mừng tốt nghiệp khóa C++!</strong> Từ dòng <code>cout &lt;&lt; "Hello, World!"</code> đầu tiên, bạn đã đi qua
+        biến, rẽ nhánh, vòng lặp, hàm, mảng, con trỏ, lập trình hướng đối tượng... và giờ là <strong>STL + dự án hoàn chỉnh</strong>.
+        Bạn không còn là người "học cú pháp" nữa — bạn đã biết <em>thiết kế chương trình</em>.
+      </p>
+      <ul>
+        <li>Bộ ba dữ liệu của dự án: <code>struct SinhVien</code> (mô tả 1 bạn), <code>vector&lt;SinhVien&gt; ds</code> (cả danh sách), dấu <code>.</code> để truy cập trường.</li>
+        <li>Hàm nhận vector phải có <code>&amp;</code> nếu muốn thay đổi dữ liệu; thêm dòng <code>const</code> nếu chỉ đọc.</li>
+        <li>Thống kê: <code>diemTB(sv)</code> tính trung bình; tìm max bằng vòng lặp + khởi tạo từ <code>ds[0]</code> (nhớ kiểm tra danh sách rỗng).</li>
+        <li>Chương trình hoàn thiện: menu <code>while</code> + <code>switch</code>, lưu file bằng <code>ofstream</code>, đọc lại bằng <code>ifstream</code>.</li>
+        <li>Tư duy mới bạn mang theo: <em>chia chương trình thành hàm nhỏ — kiểu dữ liệu trước, thuật toán sau — luôn kiểm tra trường hợp biên</em>.</li>
+        <li>Con đường phía trước: luyện giải thuật (sắp xếp, tìm kiếm, quy hoạch động), làm dự án cá nhân, đọc thêm tài liệu tại cppreference.com. Đỉnh cao không dành cho người dừng lại! ⚡</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-20" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA TỐT NGHIỆP — BÀI 20</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-20"] = [
+      /* --- Dự án: Dữ liệu (6) --- */
+      { topic: "Dự án: Dữ liệu", type: "choice", question: "Trong struct SinhVien, thành phần ten được gọi là gì?", options: ["Trường (field) của struct", "Hàm của struct", "Một vector", "Một hằng số"], answer: "Trường (field) của struct", explain: "Mỗi dòng khai báo kiểu + tên trong struct là một trường (thuộc tính)." },
+      { topic: "Dự án: Dữ liệu", type: "choice", code: "struct SinhVien { string ten; double toan, van; };\nvector<SinhVien> ds;\nds.push_back({\"Nam\", 8.5, 7});\ncout << ds[0].ten;", question: "Đoạn code trên in ra gì?", options: ["Nam", "8.5", "7", "SinhVien"], answer: "Nam", explain: "ds[0] là sinh viên đầu tiên; .ten là trường tên → \"Nam\"." },
+      { topic: "Dự án: Dữ liệu", type: "fill", question: "Khai báo vector chứa nhiều sinh viên:  vector<______> ds;", answer: ["SinhVien", "SinhVien "], explain: "Kiểu phần tử của vector chính là struct vừa tạo: vector<SinhVien> ds;" },
+      { topic: "Dự án: Dữ liệu", type: "choice", question: "ds[0].toan truy cập thông tin gì?", options: ["Điểm Toán của sinh viên đầu tiên", "Tên của sinh viên đầu tiên", "Số lượng sinh viên trong danh sách", "Điểm Toán của tất cả sinh viên"], answer: "Điểm Toán của sinh viên đầu tiên", explain: "ds[0] chọn phần tử đầu, .toan lấy trường điểm Toán của bạn đó." },
+      { topic: "Dự án: Dữ liệu", type: "choice", question: "Vì sao gom tên và điểm vào chung một struct SinhVien?", options: ["Để mỗi sinh viên là MỘT đối tượng với dữ liệu đi liền nhau", "Để chương trình biên dịch nhanh hơn", "Vì vector bắt buộc chứa struct", "Để in được tiếng Việt"], answer: "Để mỗi sinh viên là MỘT đối tượng với dữ liệu đi liền nhau", explain: "struct giữ các thông tin liên quan thành một khối — thêm/xóa/truyền cả sinh viên rất gọn." },
+      { topic: "Dự án: Dữ liệu", type: "choice", code: "SinhVien sv = {\"Lan\", 9, 9.5};\ncout << sv.van;", question: "Đoạn code trên in ra gì?", options: ["9.5", "9", "Lan", "van"], answer: "9.5", explain: "sv.van là trường điểm Văn — ở đây bằng 9.5." },
+      /* --- Dự án: Thêm & in (6) --- */
+      { topic: "Dự án: Thêm & in", type: "choice", question: "Vì sao hàm them cần dấu & trong vector<SinhVien> &ds?", options: ["Để thao tác trên chính vector gốc, không phải bản sao", "Để vector tự sắp xếp", "Để chương trình chạy chậm lại", "Không cần &, bỏ đi vẫn thêm được bình thường"], answer: "Để thao tác trên chính vector gốc, không phải bản sao", explain: "Thiếu & thì hàm chỉ sửa bản sao, danh sách gốc trong main không đổi." },
+      { topic: "Dự án: Thêm & in", type: "fill", question: "Trong hàm them, thêm sinh viên mới vào cuối danh sách:  ds.______({ten, toan, van});", answer: ["push_back"], explain: "push_back thêm phần tử kiểu SinhVien vào cuối vector." },
+      { topic: "Dự án: Thêm & in", type: "choice", question: "Nếu viết void them(vector<SinhVien> ds, ...) — THIẾU dấu & — thì chuyện gì xảy ra?", options: ["Vector gốc trong main KHÔNG được thêm gì cả", "Chương trình báo lỗi biên dịch ngay", "Vector gốc bị xoá sạch", "Vẫn thêm được như bình thường"], answer: "Vector gốc trong main KHÔNG được thêm gì cả", explain: "Hàm nhận bản sao rồi bản sao biến mất khi hàm kết thúc — dữ liệu thêm vào bốc hơi." },
+      { topic: "Dự án: Thêm & in", type: "fill", question: "Gọi hàm in cả danh sách ds:  inDanhSach(______);", answer: ["ds"], explain: "inDanhSach(ds); — truyền vector vào để hàm duyệt và in." },
+      { topic: "Dự án: Thêm & in", type: "choice", code: "void inDanhSach(const vector<SinhVien> &ds) {\n    for (const SinhVien &sv : ds)\n        cout << sv.ten << endl;\n}", question: "Với ds có 2 sinh viên \"Nam\" và \"Lan\", hàm trên in ra thế nào?", options: ["Nam và Lan, mỗi người một dòng", "Nam Lan trên cùng một dòng", "Chỉ in Nam", "Chương trình báo lỗi"], answer: "Nam và Lan, mỗi người một dòng", explain: "Mỗi vòng lặp sv là một sinh viên, endl xuống dòng sau mỗi tên." },
+      { topic: "Dự án: Thêm & in", type: "choice", question: "Trong for (const SinhVien &sv : ds), mỗi vòng lặp sv là gì?", options: ["Tham chiếu tới từng sinh viên trong ds (chỉ đọc)", "Chỉ số của sinh viên", "Con trỏ tới cả vector", "Số lượng sinh viên"], answer: "Tham chiếu tới từng sinh viên trong ds (chỉ đọc)", explain: "& để không sao chép, const để cam kết không sửa — duyệt nhanh và an toàn." },
+      /* --- Dự án: Thống kê (6) --- */
+      { topic: "Dự án: Thống kê", type: "choice", question: "Hàm diemTB(sv) nên trả về giá trị nào sau đây?", options: ["(sv.toan + sv.van) / 2", "sv.toan + sv.van", "sv.toan * sv.van", "sv.ten"], answer: "(sv.toan + sv.van) / 2", explain: "Điểm trung bình hai môn = tổng chia 2." },
+      { topic: "Dự án: Thống kê", type: "choice", code: "SinhVien a = {\"Nam\", 8.5, 7};\ncout << (a.toan + a.van) / 2;", question: "Đoạn code trên in ra gì?", options: ["7.75", "15.5", "7", "8.5"], answer: "7.75", explain: "(8.5 + 7) / 2 = 15.5 / 2 = 7.75." },
+      { topic: "Dự án: Thống kê", type: "fill", question: "Khởi tạo sinh viên điểm cao nhất bằng phần tử đầu danh sách:  SinhVien caoNhat = ds[____];", answer: ["0"], explain: "ds[0] là phần tử đầu — mốc so sánh hợp lệ vì mọi sinh viên đều có điểm thật." },
+      { topic: "Dự án: Thống kê", type: "choice", question: "Dòng nào so sánh ĐÚNG để cập nhật sinh viên điểm cao nhất?", options: ["if (diemTB(sv) > diemTB(caoNhat)) caoNhat = sv;", "if (sv > caoNhat) caoNhat = sv;", "if (diemTB(caoNhat) > diemTB(sv)) caoNhat = sv;", "caoNhat = max(ds);"], answer: "if (diemTB(sv) > diemTB(caoNhat)) caoNhat = sv;", explain: "So sánh điểm trung bình; ai cao hơn thủ khoa tạm thời thì soán ngôi." },
+      { topic: "Dự án: Thống kê", type: "choice", question: "Vì sao nên khởi tạo caoNhat = ds[0] thay vì gán điểm max = 0?", options: ["Vì điểm có thể âm hoặc thang điểm khác, ds[0] là mốc chắc chắn hợp lệ", "Vì 0 không phải là số", "Vì ds[0] luôn luôn là điểm cao nhất", "Vì C++ bắt buộc khởi tạo bằng ds[0]"], answer: "Vì điểm có thể âm hoặc thang điểm khác, ds[0] là mốc chắc chắn hợp lệ", explain: "Lấy ngay một sinh viên thật làm mốc thì không bao giờ sai, bất kể thang điểm." },
+      { topic: "Dự án: Thống kê", type: "fill", question: "In tên của sinh viên điểm cao nhất ra màn hình:  cout << caoNhat.____;", answer: ["ten"], explain: "caoNhat.ten là trường tên của sinh viên đang giữ ngôi thủ khoa." }
+    ];
+    EXERCISES["cpp-20-ex1"] = {
+      topic: "Thiết kế dữ liệu dự án",
+      prompt: "Khai báo struct SinhVien gồm string ten và double toan, van; sau đó khai báo vector<SinhVien> ds để chứa danh sách.",
+      checks: [
+        { regex: "struct\\s+SinhVien\\s*\\{", desc: "Khai báo struct SinhVien với dấu {", hint: "Viết: struct SinhVien { ... };" },
+        { regex: "string\\s+ten\\s*;", desc: "Có trường string ten", hint: "Thêm dòng: string ten;" },
+        { regex: "double\\s+toan\\s*,\\s*van\\s*;", desc: "Có trường double toan, van", hint: "Thêm dòng: double toan, van;" },
+        { regex: "vector\\s*<\\s*SinhVien\\s*>\\s*ds", desc: "Khai báo vector<SinhVien> ds", hint: "Viết: vector<SinhVien> ds;" }
+      ],
+      sample: "struct SinhVien {\n    string ten;\n    double toan, van;\n};\n\nvector<SinhVien> ds;"
+    };
+    EXERCISES["cpp-20-ex2"] = {
+      topic: "Hàm in danh sách",
+      prompt: "Viết hàm inDanhSach nhận vector<SinhVien> ds, dùng range-based for in ra tên và điểm của từng sinh viên.",
+      checks: [
+        { regex: "void\\s+inDanhSach\\s*\\(", desc: "Khai báo hàm void inDanhSach(...)", hint: "void inDanhSach(const vector<SinhVien> &ds) { ... }" },
+        { regex: "for\\s*\\(\\s*const\\s+SinhVien\\s*&\\s*\\w+\\s*:\\s*ds\\s*\\)", desc: "Duyệt ds bằng range-based for", hint: "for (const SinhVien &sv : ds) { ... }" },
+        { regex: "\\w+\\s*\\.\\s*ten", desc: "In tên sinh viên (sv.ten)", hint: "cout << sv.ten << ..." },
+        { regex: "cout\\s*<<", desc: "In bằng cout", hint: "cout << sv.ten << \" | Toan: \" << sv.toan << ... ;" }
+      ],
+      sample: "void inDanhSach(const vector<SinhVien> &ds) {\n    for (const SinhVien &sv : ds)\n        cout << sv.ten << \" | Toan: \" << sv.toan << \" | Van: \" << sv.van << endl;\n}"
+    };
+    EXERCISES["cpp-20-ex3"] = {
+      topic: "Tổng điểm Toán cả lớp",
+      prompt: "Dùng vòng lặp duyệt vector<SinhVien> ds, cộng dồn điểm Toán của tất cả sinh viên vào biến tong, rồi in tổng ra màn hình.",
+      checks: [
+        { regex: "for\\s*\\(", desc: "Duyệt ds bằng vòng lặp for", hint: "for (const SinhVien &sv : ds) { ... }" },
+        { regex: "\\+\\s*=\\s*\\w+\\s*\\.\\s*toan", desc: "Cộng dồn điểm Toán (tong += sv.toan)", hint: "tong += sv.toan;" },
+        { regex: "cout\\s*<<", desc: "In tổng bằng cout", hint: "cout << \"Tong diem Toan: \" << tong << endl;" }
+      ],
+      sample: "double tong = 0;\nfor (const SinhVien &sv : ds)\n    tong += sv.toan;\ncout << \"Tong diem Toan: \" << tong << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

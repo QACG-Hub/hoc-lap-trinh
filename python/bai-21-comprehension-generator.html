@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 21 Python: list/dict/set comprehension và generator — viết vòng lặp gọn một dòng, yield, generator chỉ chạy 1 lần. Kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 21: Comprehension &amp; generator | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-21">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-21</span></div>
+      <h1 class="lesson-title">Comprehension &amp; generator</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #21 ]</span>
+        <span class="pill">Chương 5 — Nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Bạn đã quen cảnh: tạo list rỗng, viết vòng <code>for</code>, rồi <code>append</code> từng phần tử — ba dòng chỉ để làm một việc.
+        Nhiệm vụ #21 dạy bạn hai phép thuật giúp code Python <em>ngắn như thơ</em>:
+        <strong>comprehension</strong> — gói cả vòng lặp vào một dòng, và <strong>generator</strong> — "nhả" dữ liệu từng chút một khi cần,
+        tiết kiệm bộ nhớ khủng khiếp. ⚡
+      </p>
+
+      <h2>List comprehension</h2>
+      <p>
+        <strong>List comprehension</strong> là cách tạo list ngay trong một dòng, theo mẫu:
+        <code>[biểu_thức for x in dãy]</code> — Python duyệt dãy, tính biểu thức cho từng <code>x</code> và gom kết quả vào list.
+        Có thể thêm bộ lọc <code>if</code> để chỉ giữ những phần tử thoả điều kiện.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">cach-cu-cach-moi.py</span>
+        </div>
+        <pre><code class="language-python"># Cách cũ — 4 dòng
+so = []
+for x in range(5):
+    so.append(x * 2)
+print(so)
+
+# Cách mới — 1 dòng, cùng kết quả
+so2 = [x * 2 for x in range(5)]
+print(so2)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[0, 2, 4, 6, 8]
+[0, 2, 4, 6, 8]</pre>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">loc-va-bien-doi.py</span>
+        </div>
+        <pre><code class="language-python"># Thêm bộ lọc if: chỉ giữ số chẵn
+chan = [x for x in range(10) if x % 2 == 0]
+print(chan)
+
+# Biến đổi ngay trong biểu thức
+print([x ** 2 for x in range(1, 5)])</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[0, 2, 4, 6, 8]
+[1, 4, 9, 16]</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "cỗ máy một dòng" này ra từng bộ phận:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="op">[</span><span class="vr">x</span> <span class="op">*</span> <span class="st">2</span> <span class="kw">for</span> <span class="vr">x</span> <span class="kw">in</span> <span class="fn">range</span><span class="op">(</span><span class="st">5</span><span class="op">)</span><span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>[ ]</code></td><td>ngoặc vuông — kết quả là một <strong>list</strong></td><td>✅</td></tr>
+          <tr><td><code>x * 2</code></td><td><strong>biểu thức</strong> tạo phần tử — Python tính cho từng x</td><td>✅</td></tr>
+          <tr><td><code>for x in range(5)</code></td><td><strong>nguồn dữ liệu</strong>: x lần lượt là 0, 1, 2, 3, 4</td><td>✅</td></tr>
+          <tr><td><code>if điều_kiện</code></td><td><strong>bộ lọc</strong> (tuỳ chọn) — chỉ giữ x thoả điều kiện</td><td>❌</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Comprehension không chỉ ngắn hơn mà còn chạy <em>nhanh hơn</em> vòng <code>for + append</code> thông thường.
+          Đọc nó theo thứ tự: "<em>lấy x * 2, với mỗi x trong range(5)</em>".
+        </p>
+      </div>
+
+      <p>Luyện hai chiêu: biến đổi và lọc:</p>
+
+      <div class="exercise-box" data-ex="py-21-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-21-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-21" data-topic="List comprehension" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — LIST COMPREHENSION</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Dict/Set comprehension &amp; generator</h2>
+      <p>
+        Đổi cặp ngoặc là đổi "sản phẩm": ngoặc <strong>nhọn</strong> <code>{ }</code> với cặp <code>key: value</code> tạo ra
+        <strong>dict comprehension</strong>; <code>{ }</code> chỉ có một biểu thức tạo ra <strong>set</strong>.
+        Còn nếu dùng ngoặc <strong>tròn</strong> <code>( )</code> thì bạn được một <strong>generator expression</strong> —
+        nó không tạo list ngay mà <em>sinh từng giá trị khi được hỏi</em>, rất hợp để đưa thẳng vào <code>sum()</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dict-set-generator.py</span>
+        </div>
+        <pre><code class="language-python">binh_phuong = {x: x ** 2 for x in range(5)}
+print(binh_phuong)
+
+tap = {x % 3 for x in range(7)}
+print(tap)
+
+tong = sum(x * x for x in range(5))
+print(tong)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>{0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
+{0, 1, 2}
+30</pre>
+        </div>
+      </div>
+
+      <p>
+        Còn <strong>generator</strong> "chính chủ" là một hàm dùng từ khóa <code>yield</code> thay cho <code>return</code>.
+        Mỗi lần chương trình cần giá trị tiếp theo, hàm <em>chạy tới yield, nhả một giá trị rồi tạm dừng</em> — lần sau chạy tiếp đúng chỗ đó:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dem-len.py</span>
+        </div>
+        <pre><code class="language-python">def dem_len(n):
+    for i in range(1, n + 1):
+        yield i
+
+for x in dem_len(3):
+    print(x)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+3</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Generator chỉ chạy được <strong>MỘT lần</strong>. Nó như tuýp kem đánh răng: bóp hết là hết, không nhồi lại được!
+          Xem điều gì xảy ra khi gọi <code>sum()</code> hai lần trên cùng một generator:
+        </p>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">mot-lan-thoi.py</span>
+        </div>
+        <pre><code class="language-python">g = (x * x for x in range(3))
+print(sum(g))    # lần đầu: 0 + 1 + 4
+print(sum(g))    # lần hai: generator đã cạn!</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+0</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Muốn dùng lại dữ liệu của generator, hãy "đổ" nó vào list một lần: <code>ds = list(g)</code>, rồi thoải mái duyệt <code>ds</code> bao nhiêu lần cũng được.
+        </p>
+      </div>
+
+      <p>Thử sức với "chiếc khuôn" dict một dòng:</p>
+
+      <div class="exercise-box" data-ex="py-21-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-21" data-topic="Comprehension nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — COMPREHENSION NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 21</h2>
+      <ul>
+        <li>List comprehension: <code>[biểu_thức for x in dãy]</code> — thay cả vòng <code>for + append</code> bằng một dòng.</li>
+        <li>Thêm bộ lọc: <code>[x for x in range(10) if x % 2 == 0]</code> — <code>if</code> đặt sau phần <code>for</code>.</li>
+        <li>Dict comprehension: <code>{x: x ** 2 for x in range(5)}</code>; set comprehension: <code>{x % 3 for x in range(7)}</code>.</li>
+        <li>Generator expression <code>(x * x for x in range(5))</code> sinh giá trị khi cần — dùng gọn trong <code>sum()</code>.</li>
+        <li><code>yield</code> biến hàm thành generator: nhả từng giá trị rồi tạm dừng, chạy tiếp khi được hỏi.</li>
+        <li>Generator chỉ chạy <strong>một lần</strong> — muốn dùng lại thì <code>list(g)</code> trước.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-21" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 21</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-21"] = [
+      /* --- List comprehension (7) --- */
+      { topic: "List comprehension", type: "choice", code: "print([x * 2 for x in range(4)])", question: "Đoạn code trên in ra gì?", options: ["[0, 2, 4, 6]", "[0, 2, 4, 6, 8]", "[2, 4, 6, 8]", "[0, 1, 2, 3]"], answer: "[0, 2, 4, 6]", explain: "range(4) cho x = 0, 1, 2, 3; nhân đôi thành 0, 2, 4, 6." },
+      { topic: "List comprehension", type: "choice", code: "print([x for x in range(6) if x % 2 == 1])", question: "Đoạn code trên in ra gì?", options: ["[1, 3, 5]", "[0, 2, 4]", "[1, 3, 5, 7]", "[0, 1, 2, 3, 4, 5]"], answer: "[1, 3, 5]", explain: "x % 2 == 1 chỉ giữ số lẻ trong 0..5 → 1, 3, 5." },
+      { topic: "List comprehension", type: "fill", question: "Điền từ khóa còn thiếu: [x * 2 ___ x in range(5)]", answer: ["for"], explain: "Cấu trúc chuẩn: [biểu_thức for x in dãy] — thiếu for là lỗi cú pháp ngay." },
+      { topic: "List comprehension", type: "choice", code: "print([x ** 2 for x in range(3)])", question: "Đoạn code trên in ra gì?", options: ["[0, 1, 4]", "[0, 1, 2]", "[1, 4, 9]", "[0, 2, 4]"], answer: "[0, 1, 4]", explain: "0² = 0, 1² = 1, 2² = 4." },
+      { topic: "List comprehension", type: "choice", question: "List comprehension [x * 2 for x in range(5)] tương đương đoạn code nào?", options: ["so = [] rồi for x in range(5): so.append(x * 2)", "for x in range(5): print(x * 2)", "so = [1, 2, 3, 4, 5]", "x = range(5) * 2"], answer: "so = [] rồi for x in range(5): so.append(x * 2)", explain: "Comprehension là cách viết gọn của đúng vòng for + append đó — kết quả y hệt." },
+      { topic: "List comprehension", type: "choice", question: "Trong [x for x in range(10) if x % 3 == 0], bộ lọc là phần nào?", options: ["if x % 3 == 0", "x for x", "range(10)", "[x]", "x % 3"], answer: "if x % 3 == 0", explain: "Phần if đứng sau vòng for chính là bộ lọc — chỉ giữ 0, 3, 6, 9." },
+      { topic: "List comprehension", type: "choice", code: "print(sum([x for x in range(5)]))", question: "Đoạn code trên in ra gì?", options: ["10", "15", "5", "[0, 1, 2, 3, 4]"], answer: "10", explain: "List là [0, 1, 2, 3, 4]; sum() cộng lại = 10." },
+
+      /* --- Comprehension nâng cao (8) --- */
+      { topic: "Comprehension nâng cao", type: "choice", code: "print({x: x ** 2 for x in range(3)})", question: "Đoạn code trên in ra gì?", options: ["{0: 0, 1: 1, 2: 4}", "{0, 1, 4}", "[0, 1, 4]", "{0: 0, 1: 1, 2: 4, 3: 9}"], answer: "{0: 0, 1: 1, 2: 4}", explain: "Ngoặc nhọn với cặp key: value tạo dict — x là key, x² là value." },
+      { topic: "Comprehension nâng cao", type: "choice", question: "Cú pháp {x for x in range(5)} tạo ra kiểu dữ liệu gì?", options: ["set (tập hợp)", "dict (từ điển)", "list (danh sách)", "tuple"], answer: "set (tập hợp)", explain: "Ngoặc nhọn một biểu thức = set comprehension; có dạng key: value mới là dict." },
+      { topic: "Comprehension nâng cao", type: "fill", question: "Trong dict comprehension {k: v for x in range(5)}, phần đứng TRƯỚC dấu hai chấm được gọi là gì? (1 từ tiếng Anh)", answer: ["key", "khóa", "khoá"], explain: "Phần trước dấu hai chấm là key, phần sau là value: {key: value for ...}." },
+      { topic: "Comprehension nâng cao", type: "choice", question: "Generator expression (x * x for x in range(5)) khác list comprehension ở điểm nào?", options: ["Không tạo cả list ngay mà sinh từng giá trị khi cần", "Chạy chậm hơn và tốn bộ nhớ hơn", "Không dùng được với sum()", "Bắt buộc phải có if"], answer: "Không tạo cả list ngay mà sinh từng giá trị khi cần", explain: "Nhờ 'lười' như vậy mà generator nhẹ bộ nhớ — hợp với dữ liệu lớn." },
+      { topic: "Comprehension nâng cao", type: "choice", code: "print(sum(x * x for x in range(5)))", question: "Đoạn code trên in ra gì?", options: ["30", "55", "25", "15"], answer: "30", explain: "0 + 1 + 4 + 9 + 16 = 30 — generator đưa thẳng vào sum()." },
+      { topic: "Comprehension nâng cao", type: "choice", code: "g = (x * x for x in range(3))\nprint(sum(g))\nprint(sum(g))", question: "Đoạn code trên in ra gì?", options: ["5 rồi 0", "5 rồi 5", "0 rồi 5", "Lỗi"], answer: "5 rồi 0", explain: "Lần đầu generator nhả 0, 1, 4 → tổng 5. Lần hai nó đã cạn nên tổng là 0." },
+      { topic: "Comprehension nâng cao", type: "choice", question: "Từ khóa nào biến một hàm thành generator (nhả từng giá trị rồi tạm dừng)?", options: ["yield", "return", "append", "async"], answer: "yield", explain: "Gặp yield, hàm nhả một giá trị và tạm dừng; lần gọi sau chạy tiếp ngay chỗ đó." },
+      { topic: "Comprehension nâng cao", type: "choice", code: "def dem():\n    yield 1\n    yield 2\n\nfor x in dem():\n    print(x)", question: "Đoạn code trên in ra gì?", options: ["1 rồi 2 (hai dòng)", "2 rồi 1", "Không in gì", "Lỗi vì thiếu return"], answer: "1 rồi 2 (hai dòng)", explain: "Generator nhả lần lượt 1, 2 cho vòng for — mỗi yield là một giá trị." }
+    ];
+
+    EXERCISES["py-21-ex1"] = {
+      topic: "Bình phương 1..10",
+      prompt: "Dùng list comprehension tạo list binh_phuong chứa bình phương các số từ 1 đến 10 (dùng range(1, 11)), rồi in list đó ra.",
+      checks: [
+        { regex: "\\[\\s*\\w+\\s*\\*\\*\\s*2\\s+for\\s+\\w+\\s+in\\s+range", desc: "Dùng list comprehension với lũy thừa **2", hint: "Ví dụ: [x ** 2 for x in range(1, 11)]" },
+        { regex: "range\\s*\\(\\s*1\\s*,\\s*11\\s*\\)", desc: "Dùng range(1, 11) để đi từ 1 đến 10", hint: "range(1, 11) cho x = 1, 2, ..., 10 (11 không bị tính)" },
+        { regex: "print\\s*\\(", desc: "In list kết quả ra màn hình", hint: "Đừng quên print(binh_phuong)" }
+      ],
+      sample: "binh_phuong = [x ** 2 for x in range(1, 11)]\nprint(binh_phuong)"
+    };
+
+    EXERCISES["py-21-ex2"] = {
+      topic: "Lọc số chẵn bằng if",
+      prompt: "Cho list so = [3, 8, 5, 12, 7, 10, 4, 9]. Dùng list comprehension kèm if để tạo list chan chỉ gồm các số CHẴN, rồi in chan ra.",
+      checks: [
+        { regex: "\\bso\\s*=\\s*\\[[^\\]]*\\]", desc: "Tạo list so như đề bài", hint: "so = [3, 8, 5, 12, 7, 10, 4, 9]" },
+        { regex: "\\bchan\\s*=\\s*\\[", desc: "Tạo list chan bằng comprehension", hint: "chan = [x for x in so if ...]" },
+        { regex: "if\\s+\\w+\\s*%\\s*2\\s*==\\s*0", desc: "Có bộ lọc if ... % 2 == 0 để giữ số chẵn", hint: "Thêm if x % 2 == 0 vào sau phần for x in so" },
+        { regex: "print\\s*\\(\\s*chan\\s*\\)", desc: "In list chan ra màn hình", hint: "print(chan)" }
+      ],
+      sample: "so = [3, 8, 5, 12, 7, 10, 4, 9]\nchan = [x for x in so if x % 2 == 0]\nprint(chan)"
+    };
+
+    EXERCISES["py-21-ex3"] = {
+      topic: "Dict comprehension",
+      prompt: "Dùng dict comprehension tạo dict binh_phuong ánh xạ mỗi số x trong range(5) tới bình phương của nó, rồi in dict ra.",
+      checks: [
+        { regex: "\\{\\s*\\w+\\s*:\\s*\\w+\\s*\\*\\*\\s*2\\s+for\\s+\\w+\\s+in\\s+range", desc: "Dict comprehension dạng {x: x ** 2 for x in range(...)}", hint: "Ví dụ: {x: x ** 2 for x in range(5)}" },
+        { regex: "print\\s*\\(", desc: "In dict kết quả ra màn hình", hint: "print(binh_phuong)" }
+      ],
+      sample: "binh_phuong = {x: x ** 2 for x in range(5)}\nprint(binh_phuong)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

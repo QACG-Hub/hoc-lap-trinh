@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 8 C++: mảng hai chiều — khai báo int b[2][3], truy cập b[hang][cot], in dạng bảng và tính tổng bằng hai vòng for lồng nhau.">
+  <title>Bài 8: Mảng hai chiều | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-08">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-08</span></div>
+      <h1 class="lesson-title">Mảng hai chiều</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #08 ]</span>
+        <span class="pill">Chương 3 — Hàm &amp; mảng</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Mảng một chiều giống một dãy tủ lockers một hàng. Còn <strong>mảng hai chiều</strong> giống một
+        <em>bảng Excel</em> có hàng có cột — nơi bạn ghi điểm từng môn của cả lớp, hay bản đồ một màn game.
+        Nhiệm vụ hôm nay: khai báo, truy cập, in ra dạng bảng và tính toán trên cả ma trận bằng
+        <strong>hai vòng for lồng nhau</strong>. ⚡
+      </p>
+
+      <h2>Khai báo &amp; truy cập</h2>
+      <p>
+        Mảng hai chiều thực chất là <strong>mảng của các mảng</strong>: mỗi hàng là một mảng con.
+        Khai báo bằng hai cặp ngoặc vuông <code>[số hàng][số cột]</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">mang2c.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int b[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    cout &lt;&lt; b[0][1] &lt;&lt; endl;   // hàng 0, cột 1
+    cout &lt;&lt; b[1][2] &lt;&lt; endl;   // hàng 1, cột 2
+    b[0][0] = 99;              // đổi giá trị như biến thường
+    cout &lt;&lt; b[0][0] &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>2
+6
+99</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu cú pháp khai báo — nhìn kỹ vì mọi thứ xoay quanh hai cặp ngoặc vuông:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="vr">b</span><span class="op">[</span><span class="st">hang</span><span class="op">][</span><span class="st">cot</span><span class="op">]</span> = {{1, 2, 3}, {4, 5, 6}}<span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int</code></td><td>kiểu dữ liệu của TỪNG phần tử trong bảng</td><td>✅</td></tr>
+          <tr><td><code>b</code></td><td>tên mảng — bạn tự đặt</td><td>✅</td></tr>
+          <tr><td><code>[2]</code></td><td>số <strong>hàng</strong> (chiều thứ nhất) — ở đây là 2 hàng</td><td>✅</td></tr>
+          <tr><td><code>[3]</code></td><td>số <strong>cột</strong> (chiều thứ hai) — ở đây là 3 cột</td><td>✅</td></tr>
+          <tr><td><code>{{…}, {…}}</code></td><td>khởi tạo giá trị: mỗi cặp <code>{}</code> bên trong là <strong>một hàng</strong></td><td>❌ (có thể khai báo trống rồi gán sau)</td></tr>
+        </table>
+      </div>
+
+      <p>Muốn in cả bảng cho dễ nhìn, ta cần <strong>hai vòng for lồng nhau</strong>: vòng ngoài chạy theo hàng, vòng trong chạy theo cột:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">in-bang.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int b[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    for (int i = 0; i &lt; 2; i++) {
+        for (int j = 0; j &lt; 3; j++) {
+            if (j &gt; 0) cout &lt;&lt; " ";
+            cout &lt;&lt; b[i][j];
+        }
+        cout &lt;&lt; endl;   // hết một hàng thì xuống dòng
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1 2 3
+4 5 6</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Chỉ số hàng và cột đều đếm từ <strong>0</strong>! Mảng <code>b[2][3]</code> có hàng <code>0, 1</code> và cột
+          <code>0, 1, 2</code>. Truy cập <code>b[2][0]</code> hay <code>b[0][3]</code> là <em>tràn ra ngoài mảng</em> —
+          chương trình có thể chạy sai, thậm chí crash mà compiler không hề báo lỗi.
+        </p>
+      </div>
+
+      <p>Thử sức với 2 bài tập về khai báo và duyệt mảng hai chiều:</p>
+
+      <div class="exercise-box" data-ex="cpp-08-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-08-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-08" data-topic="Mảng 2 chiều cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — MẢNG 2 CHIỀU CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Duyệt &amp; tính toán</h2>
+      <p>
+        Trong thực tế, dữ liệu thường do người dùng nhập vào. Vì mảng hai chiều là "mảng của các mảng",
+        ta chỉ cần <strong>hai vòng for lồng</strong> để nhập từng phần tử theo đúng thứ tự hàng → cột.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhap-xuat.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int b[2][3];
+    for (int i = 0; i &lt; 2; i++)
+        for (int j = 0; j &lt; 3; j++)
+            cin &gt;&gt; b[i][j];          // nhập lần lượt 6 số
+
+    int tong = 0;
+    for (int i = 0; i &lt; 2; i++)
+        for (int j = 0; j &lt; 3; j++)
+            tong += b[i][j];         // cộng dồn toàn bộ
+
+    cout &lt;&lt; "Tong: " &lt;&lt; tong &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1 2 3 4 5 6
+Tong: 21</pre>
+        </div>
+      </div>
+
+      <p>
+        <em>Chú thích nhỏ:</em> dòng <code>1 2 3 4 5 6</code> là phần bạn gõ từ bàn phím, còn
+        <code>Tong: 21</code> mới là thứ chương trình in ra. Máy tính lặng lẽ cộng đúng 1+2+3+4+5+6 = 21.
+      </p>
+
+      <h3>Tổng theo từng hàng</h3>
+      <p>
+        Nếu muốn biết <strong>mỗi hàng</strong> có tổng bao nhiêu, hãy khởi tạo biến tổng <em>bên trong</em> vòng for ngoài —
+        như vậy mỗi hàng có một biến tổng "mới tinh":
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tong-hang.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int b[2][3] = {{1, 2, 3}, {4, 5, 6}};
+    for (int i = 0; i &lt; 2; i++) {
+        int s = 0;                  // tổng RIÊNG của hàng i
+        for (int j = 0; j &lt; 3; j++)
+            s += b[i][j];
+        cout &lt;&lt; "Hang " &lt;&lt; i &lt;&lt; ": " &lt;&lt; s &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hang 0: 6
+Hang 1: 15</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Kích thước mảng phải biết trước khi biên dịch: <code>int b[2][3]</code> là cố định. Muốn mảng "co giãn"
+          theo số người dùng nhập, C++ có <strong>mảng động</strong> với <code>new</code> — hẹn gặp ở <strong>Bài 11</strong>!
+        </p>
+      </div>
+
+      <p>Giờ đến bài tập tính tổng bằng vòng lặp lồng:</p>
+
+      <div class="exercise-box" data-ex="cpp-08-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-08" data-topic="Duyệt mảng 2 chiều" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DUYỆT MẢNG 2 CHIỀU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 08</h2>
+      <ul>
+        <li>Mảng hai chiều khai báo bằng hai cặp ngoặc vuông: <code>int b[2][3];</code> — 2 hàng, 3 cột.</li>
+        <li>Khởi tạo giá trị: <code>int b[2][3] = {{1, 2, 3}, {4, 5, 6}};</code> — mỗi cặp <code>{}</code> là một hàng.</li>
+        <li>Truy cập phần tử: <code>b[hang][cot]</code>; chỉ số đếm từ <strong>0</strong> nên hàng hợp lệ là <code>0..1</code>, cột là <code>0..2</code>.</li>
+        <li>Duyệt toàn mảng cần <strong>hai vòng for lồng nhau</strong>: vòng ngoài theo hàng, vòng trong theo cột.</li>
+        <li>Tổng toàn bộ: khởi tạo <code>tong = 0</code> trước cả hai vòng; tổng từng hàng: khởi tạo lại <code>s = 0</code> trong vòng ngoài.</li>
+        <li>Truy cập quá chỉ số (như <code>b[2][0]</code>) không báo lỗi biên dịch nhưng cực kỳ nguy hiểm — nhớ đúng phạm vi!</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-08" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 08</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-08"] = [
+      /* --- Mảng 2 chiều cơ bản (6) --- */
+      { topic: "Mảng 2 chiều cơ bản", type: "choice", question: "Cách khai báo mảng hai chiều 2 hàng, 3 cột kiểu int nào ĐÚNG?", options: ["int b[2][3];", "int b[2, 3];", "int b[3][2];", "int b[2];"], answer: "int b[2][3];", explain: "Mảng hai chiều dùng HAI cặp ngoặc vuông: [số hàng][số cột]." },
+      { topic: "Mảng 2 chiều cơ bản", type: "choice", code: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\ncout << b[0][1];", question: "Đoạn code trên in ra gì?", options: ["2", "1", "4", "5"], answer: "2", explain: "b[0][1] là hàng 0, cột 1 → phần tử thứ hai của hàng đầu tiên, chính là 2." },
+      { topic: "Mảng 2 chiều cơ bản", type: "choice", code: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\ncout << b[1][2];", question: "Đoạn code trên in ra gì?", options: ["6", "4", "3", "5"], answer: "6", explain: "Hàng 1 là {4, 5, 6}; cột 2 của hàng này là 6." },
+      { topic: "Mảng 2 chiều cơ bản", type: "fill", question: "Viết cú pháp truy cập phần tử ở hàng 1, cột 2 của mảng b:", answer: ["b[1][2]", "b[1][2];"], explain: "Công thức chung là b[hang][cot] → b[1][2]." },
+      { topic: "Mảng 2 chiều cơ bản", type: "choice", question: "Chỉ số hàng và cột của mảng trong C++ bắt đầu từ đâu?", options: ["0", "1", "-1", "Tuỳ giá trị khởi tạo"], answer: "0", explain: "Giống mảng một chiều, cả hàng lẫn cột đều đếm từ 0." },
+      { topic: "Mảng 2 chiều cơ bản", type: "choice", question: "Với mảng int b[2][3]; cách truy cập nào KHÔNG hợp lệ (tràn ngoài mảng)?", options: ["b[2][0]", "b[0][2]", "b[1][1]", "b[1][0]"], answer: "b[2][0]", explain: "Hàng chỉ có chỉ số 0 và 1 thôi — b[2][0] vượt ra ngoài phạm vi mảng." },
+      /* --- Duyệt mảng 2 chiều (6) --- */
+      { topic: "Duyệt mảng 2 chiều", type: "choice", question: "Muốn duyệt hết mọi phần tử của mảng hai chiều, cấu trúc nào phù hợp nhất?", options: ["Hai vòng for lồng nhau: một theo hàng, một theo cột", "Một vòng for duy nhất", "Ba vòng for lồng nhau", "Không cần vòng lặp nào"], answer: "Hai vòng for lồng nhau: một theo hàng, một theo cột", explain: "Vòng ngoài chạy theo hàng i, vòng trong chạy theo cột j." },
+      { topic: "Duyệt mảng 2 chiều", type: "choice", code: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\nint tong = 0;\nfor (int i = 0; i < 2; i++)\n    for (int j = 0; j < 3; j++)\n        tong += b[i][j];\ncout << tong;", question: "Đoạn code trên in ra gì?", options: ["21", "6", "15", "12"], answer: "21", explain: "Cộng toàn bộ: 1+2+3+4+5+6 = 21." },
+      { topic: "Duyệt mảng 2 chiều", type: "choice", code: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\nint s = 0;\nfor (int j = 0; j < 3; j++) s += b[1][j];\ncout << s;", question: "Đoạn code trên in ra gì?", options: ["15", "6", "21", "7"], answer: "15", explain: "Vòng lặp chỉ cộng hàng 1: 4 + 5 + 6 = 15." },
+      { topic: "Duyệt mảng 2 chiều", type: "fill", question: "Điền điều kiện còn thiếu để vòng for ngoài duyệt hết 2 hàng:  for (int i = 0; ____ ; i++)", answer: ["i < 2", "i<2", "i <= 1", "i<=1"], explain: "Hàng có chỉ số 0 và 1 nên điều kiện là i < 2 (hoặc i <= 1)." },
+      { topic: "Duyệt mảng 2 chiều", type: "choice", question: "Muốn tính tổng theo TỪNG hàng, biến tổng nên được khởi tạo lại ở đâu?", options: ["Đầu mỗi hàng — bên trong vòng for ngoài", "Ngoài cả hai vòng for", "Bên trong vòng for cột, mỗi lần lặp", "Sau khi đã in xong kết quả"], answer: "Đầu mỗi hàng — bên trong vòng for ngoài", explain: "Đặt int s = 0; ngay đầu mỗi hàng để mỗi hàng có tổng riêng, không cộng dồn nhầm." },
+      { topic: "Duyệt mảng 2 chiều", type: "choice", code: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\nint dem = 0;\nfor (int i = 0; i < 2; i++)\n    for (int j = 0; j < 3; j++)\n        if (b[i][j] > 3) dem++;\ncout << dem;", question: "Đoạn code trên in ra gì?", options: ["3", "2", "4", "6"], answer: "3", explain: "Các phần tử lớn hơn 3 là 4, 5, 6 → đếm được 3." }
+    ];
+    EXERCISES["cpp-08-ex1"] = {
+      topic: "Khai báo & truy cập mảng 2 chiều",
+      prompt: "Khai báo mảng hai chiều int b[2][3] với giá trị tuỳ ý (dùng {{...}, {...}}), rồi in phần tử ở hàng 1, cột 2 ra màn hình bằng cout.",
+      checks: [
+        { regex: "int\\s+b\\s*\\[\\s*2\\s*\\]\\s*\\[\\s*3\\s*\\]", desc: "Khai báo mảng hai chiều int b[2][3]", hint: "Viết: int b[2][3] = {{1, 2, 3}, {4, 5, 6}};" },
+        { regex: "\\{\\s*\\{[^}]*\\}\\s*,\\s*\\{[^}]*\\}\\s*\\}", desc: "Khởi tạo giá trị bằng hai cặp ngoặc nhọn lồng nhau", hint: "Mỗi hàng là một cặp {}: {{1, 2, 3}, {4, 5, 6}}" },
+        { regex: "b\\s*\\[\\s*1\\s*\\]\\s*\\[\\s*2\\s*\\]", desc: "Truy cập đúng phần tử hàng 1, cột 2 bằng b[1][2]", hint: "Phần tử hàng 1 cột 2 viết là b[1][2]" },
+        { regex: "cout\\s*<<", desc: "In phần tử ra màn hình bằng cout", hint: "cout << b[1][2] << endl;" }
+      ],
+      sample: "int b[2][3] = {{1, 2, 3}, {4, 5, 6}};\ncout << b[1][2] << endl;"
+    };
+    EXERCISES["cpp-08-ex2"] = {
+      topic: "In mảng 2 chiều bằng vòng for lồng",
+      prompt: "Dùng hai vòng for lồng nhau để in toàn bộ phần tử của mảng b (2 hàng, 3 cột): mỗi hàng in trên một dòng, các số cách nhau dấu cách.",
+      checks: [
+        { regex: "for\\s*\\(", minCount: 2, desc: "Dùng ít nhất 2 vòng for", hint: "Một vòng cho hàng i, một vòng cho cột j" },
+        { regex: "\\[\\s*i\\s*\\]\\s*\\[\\s*j\\s*\\]", desc: "Truy cập phần tử bằng b[i][j]", hint: "Phần tử đang duyệt là b[i][j]" },
+        { regex: "cout\\s*<<", desc: "In các phần tử bằng cout", hint: "cout << b[i][j] << \" \";" }
+      ],
+      sample: "for (int i = 0; i < 2; i++) {\n    for (int j = 0; j < 3; j++) {\n        cout << b[i][j] << \" \";\n    }\n    cout << endl;\n}"
+    };
+    EXERCISES["cpp-08-ex3"] = {
+      topic: "Tổng các phần tử mảng 2 chiều",
+      prompt: "Dùng vòng lặp lồng nhau để tính tổng TẤT CẢ phần tử của mảng b (2 hàng, 3 cột), rồi in tổng bằng cout.",
+      checks: [
+        { regex: "for\\s*\\(", minCount: 2, desc: "Dùng vòng for lồng để duyệt mảng", hint: "Hai vòng for: vòng ngoài theo hàng, vòng trong theo cột" },
+        { regex: "\\+\\s*=\\s*b\\s*\\[", desc: "Cộng dồn phần tử vào biến tổng", hint: "tong += b[i][j];" },
+        { regex: "cout\\s*<<", desc: "In kết quả tổng bằng cout", hint: "cout << \"Tong: \" << tong << endl;" }
+      ],
+      sample: "int tong = 0;\nfor (int i = 0; i < 2; i++)\n    for (int j = 0; j < 3; j++)\n        tong += b[i][j];\ncout << \"Tong: \" << tong << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

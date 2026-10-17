@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 11 Python: Dictionary — từ điển. Tạo dict, truy cập theo key, thêm/sửa/xóa key, duyệt keys/values/items, get() an toàn — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 11: Dictionary — từ điển | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-11">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-11</span></div>
+      <h1 class="lesson-title">Dictionary — từ điển</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #11 ]</span>
+        <span class="pill">Chương 3 — Cấu trúc dữ liệu</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        List giỏi đánh số thứ tự, nhưng đời đâu chỉ có số: bạn cần tra cứu theo <em>tên</em>.
+        <strong>Dictionary</strong> (từ điển) cho bạn đúng thứ đó — tra cứu như tra từ điển thật:
+        biết <em>từ khoá</em> là ra ngay <em>nghĩa</em>. Đây là cấu trúc dữ liệu được yêu thích nhất trong Python đấy! ⚡
+      </p>
+
+      <h2>Dictionary — từ điển</h2>
+      <p>
+        <strong>Dictionary</strong> (dict) lưu dữ liệu theo từng cặp <strong>key: value</strong> (khoá: giá trị),
+        viết trong cặp <strong>ngoặc nhọn</strong> <code>{ }</code> — ví dụ <code>{"toan": 8, "van": 9}</code>.
+        Mỗi <em>key</em> là duy nhất, dùng để tra ra <em>value</em> tương ứng.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tu-dien.py</span>
+        </div>
+        <pre><code class="language-python">diem = {"toan": 8, "van": 9, "anh": 7}
+print(diem)          # in cả dict
+print(diem["toan"])  # tra theo key
+print(len(diem))     # số cặp key: value
+
+diem["tin"] = 10     # thêm cặp mới
+diem["van"] = 8      # sửa giá trị của key có sẵn
+del diem["anh"]      # xóa theo key
+print(diem)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>{'toan': 8, 'van': 9, 'anh': 7}
+8
+3
+{'toan': 8, 'van': 8, 'tin': 10}</pre>
+        </div>
+      </div>
+
+      <p>Hãy <strong>giải phẫu</strong> cách tra một giá trị trong dict:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">diem</span><span class="op">[</span><span class="st">"toan"</span><span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>diem</code></td><td>tên biến đang giữ dict</td><td>✅</td></tr>
+          <tr><td><code>[ ]</code></td><td>cặp ngoặc vuông bọc <strong>key</strong> cần tra</td><td>✅</td></tr>
+          <tr><td><code>"toan"</code></td><td>key — với list đây là số vị trí, với dict đây là <strong>từ khoá</strong></td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Tra key <strong>không tồn tại</strong> — ví dụ <code>diem["ly"]</code> — sẽ báo lỗi <code>KeyError: 'ly'</code>.
+        Dictionary không tự "đoán" giúp bạn đâu. Muốn tra an toàn, xem mục sau với <code>get()</code>.</p>
+      </div>
+
+      <p>Tạo từ điển điểm của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="py-11-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-11-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-11" data-topic="Dict cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DICT CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Duyệt &amp; xử lý dict</h2>
+      <p>
+        Dictionary có bộ "đồ nghề" duyệt rất tiện: <code>keys()</code> lấy các khoá, <code>values()</code> lấy các giá trị,
+        <code>items()</code> lấy <strong>từng cặp</strong> (key, value) — thường dùng nhất. Còn <code>get()</code> là chiêu tra cứu
+        <strong>an toàn</strong>: key thiếu thì trả về <code>None</code> (hoặc giá trị mặc định bạn chọn) thay vì báo lỗi.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">duyet-dict.py</span>
+        </div>
+        <pre><code class="language-python">diem = {"toan": 8, "van": 9}
+
+for mon in diem.keys():
+    print("Môn:", mon)
+
+for diem_so in diem.values():
+    print("Điểm:", diem_so)
+
+for mon, diem_so in diem.items():
+    print(mon, "→", diem_so)
+
+print(diem.get("ly"))       # key không tồn tại → None
+print(diem.get("ly", 0))    # có giá trị mặc định → 0</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Môn: toan
+Môn: van
+Điểm: 8
+Điểm: 9
+toan → 8
+van → 9
+None
+0</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p><code>for x in diem:</code> (không gọi gì thêm) cũng duyệt qua các <strong>key</strong> — viết ngắn gọn hơn <code>diem.keys()</code> nhưng cùng ý nghĩa.</p>
+      </div>
+
+      <p>Luyện chiêu duyệt <code>items()</code> — kỹ năng dùng nhiều nhất đời thực:</p>
+
+      <div class="exercise-box" data-ex="py-11-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-11" data-topic="Dict nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DICT NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 11</h2>
+      <ul>
+        <li>Dict lưu cặp <code>key: value</code> trong ngoặc nhọn: <code>{"toan": 8, "van": 9}</code>.</li>
+        <li>Tra giá trị bằng <code>diem["toan"]</code>; key không tồn tại → <code>KeyError</code>.</li>
+        <li>Thêm/sửa: <code>diem["tin"] = 10</code>; xóa: <code>del diem["anh"]</code>.</li>
+        <li>Duyệt: <code>keys()</code>, <code>values()</code>, <code>items()</code> (từng cặp key, value).</li>
+        <li>Tra an toàn bằng <code>get(key)</code> hoặc <code>get(key, mặc_định)</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-11" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 11</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-11"] = [
+      /* --- Dict cơ bản (7) --- */
+      { topic: "Dict cơ bản", type: "choice", question: "Dictionary lưu dữ liệu dạng nào?", options: ["Cặp key: value (khoá: giá trị)", "Dãy số liên tiếp", "Các ký tự của một chuỗi", "Chỉ toàn số nguyên"], answer: "Cặp key: value (khoá: giá trị)", explain: "Tra theo key để lấy value — giống tra từ điển theo từ khoá." },
+      { topic: "Dict cơ bản", type: "choice", code: "d = {\"toan\": 8}\nprint(d[\"toan\"])", question: "Đoạn code trên in ra gì?", options: ["8", "toan", "{\"toan\": 8}", "Lỗi KeyError"], answer: "8", explain: "d[\"toan\"] tra value của key \"toan\" — được 8." },
+      { topic: "Dict cơ bản", type: "fill", question: "Truy cập điểm môn toan của dict diem (gõ cả biểu thức):", answer: ["diem[\"toan\"]", "diem['toan']"], explain: "diem[\"toan\"] — key đặt trong ngoặc vuông." },
+      { topic: "Dict cơ bản", type: "choice", code: "diem = {\"toan\": 8}\nprint(diem[\"ly\"])", question: "Đoạn code trên sẽ ra sao?", options: ["Báo lỗi KeyError", "In ra 0", "In ra None", "Tự thêm key \"ly\" với giá trị 0"], answer: "Báo lỗi KeyError", explain: "Key \"ly\" không tồn tại — dict báo KeyError, không tự đoán giá trị." },
+      { topic: "Dict cơ bản", type: "choice", code: "d = {\"a\": 1}\nd[\"b\"] = 2\nprint(len(d))", question: "Đoạn code trên in ra gì?", options: ["2", "1", "3", "Lỗi"], answer: "2", explain: "d[\"b\"] = 2 thêm cặp mới, dict giờ có 2 cặp key: value." },
+      { topic: "Dict cơ bản", type: "choice", question: "Xóa key \"a\" khỏi dict d, viết thế nào?", options: ["del d['a']", "d.remove('a')", "d.delete('a')", "remove d['a']"], answer: "del d['a']", explain: "del d['a'] — từ khoá del xóa theo key (list mới dùng remove theo giá trị)." },
+      { topic: "Dict cơ bản", type: "choice", question: "Cách tạo dict gồm hai môn Toán 8, Văn 9 nào ĐÚNG?", options: ["{'toan': 8, 'van': 9}", "['toan': 8, 'van': 9]", "('toan': 8, 'van': 9)", "{'toan', 'van'}"], answer: "{'toan': 8, 'van': 9}", explain: "Dict dùng ngoặc nhọn với cặp key: value — thiếu dấu hai chấm là sai." },
+      { topic: "Dict cơ bản", type: "choice", code: "d = {\"toan\": 8, \"van\": 9}\nd[\"van\"] = 10\nprint(d[\"van\"])", question: "Đoạn code trên in ra gì?", options: ["10", "9", "8", "Lỗi"], answer: "10", explain: "Gán vào key có sẵn là SỬA giá trị, không phải thêm cặp mới." },
+
+      /* --- Dict nâng cao (6) --- */
+      { topic: "Dict nâng cao", type: "choice", code: "d = {\"toan\": 8, \"van\": 9}\nfor mon, diem_so in d.items():\n    print(mon, diem_so)", question: "Mỗi lần lặp, mon và diem_so lần lượt nhận gì?", options: ["key và value của từng cặp", "value và key của từng cặp", "index và value", "chỉ nhận key"], answer: "key và value của từng cặp", explain: "items() trả về từng cặp (key, value) — nên mon là key, diem_so là value." },
+      { topic: "Dict nâng cao", type: "choice", code: "d = {\"toan\": 8}\nprint(d.get(\"ly\", 0))", question: "Đoạn code trên in ra gì?", options: ["0", "None", "8", "Lỗi KeyError"], answer: "0", explain: "get(key, mặc_định) trả về giá trị mặc định 0 khi key không tồn tại." },
+      { topic: "Dict nâng cao", type: "choice", code: "d = {\"toan\": 8}\nprint(d.get(\"ly\"))", question: "Đoạn code trên in ra gì?", options: ["None", "0", "8", "Lỗi KeyError"], answer: "None", explain: "get() một đối số trả về None khi key thiếu — an toàn hơn d[\"ly\"]." },
+      { topic: "Dict nâng cao", type: "fill", question: "Điền tên phương thức tra key AN TOÀN, không báo lỗi khi key thiếu (chỉ tên, không ngoặc): d.___(\"ly\")", answer: ["get"], explain: "d.get(\"ly\") trả về None thay vì KeyError." },
+      { topic: "Dict nâng cao", type: "choice", question: "d.keys() trả về gì?", options: ["Danh sách các key", "Danh sách các value", "Các cặp key: value", "Tổng các value"], answer: "Danh sách các key", explain: "keys() cho các khoá; values() cho các giá trị; items() cho cả cặp." },
+      { topic: "Dict nâng cao", type: "choice", question: "for x in d: (không gọi thêm gì) sẽ duyệt qua gì?", options: ["Các key", "Các value", "Các cặp key: value", "Không duyệt được dict"], answer: "Các key", explain: "Duyệt thẳng dict mặc định đi qua các key — tương đương d.keys()." },
+      { topic: "Dict nâng cao", type: "choice", code: "d = {\"toan\": 8, \"van\": 9}\nprint(len(d.values()))", question: "Đoạn code trên in ra gì?", options: ["2", "8", "9", "17"], answer: "2", explain: "values() có 2 giá trị tương ứng 2 key — len đếm số value." }
+    ];
+
+    EXERCISES["py-11-ex1"] = {
+      topic: "Dict điểm 3 môn",
+      prompt: "Tạo dictionary tên diem gồm ít nhất 3 môn với điểm số bất kỳ (dạng \"môn\": điểm), rồi in điểm của MỘT môn bằng diem[\"tên môn\"].",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*\\{[^{}]*[\"'][^\"']+[\"']\\s*:\\s*\\d+\\s*(?:,\\s*[\"'][^\"']+[\"']\\s*:\\s*\\d+\\s*){2,}[^{}]*\\}", desc: "Tạo dict diem với ít nhất 3 cặp key: value", hint: "Ví dụ: diem = {\"toan\": 8, \"van\": 9, \"anh\": 7}" },
+        { regex: "print\\s*\\(\\s*diem\\s*\\[\\s*[\"'][^\"']+[\"']\\s*\\]\\s*\\)", desc: "In điểm một môn bằng diem[\"tên môn\"]", hint: "Ví dụ: print(diem[\"toan\"])" }
+      ],
+      sample: "diem = {\"toan\": 8, \"van\": 9, \"anh\": 7}\nprint(diem[\"toan\"])"
+    };
+
+    EXERCISES["py-11-ex2"] = {
+      topic: "Thêm key mới",
+      prompt: "Đã có dict diem = {\"toan\": 8, \"van\": 9}. Hãy THÊM môn tin với 10 điểm vào dict, rồi in cả dict ra.",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*\\{", desc: "Có dict diem ban đầu", hint: "Bắt đầu bằng: diem = {\"toan\": 8, \"van\": 9}" },
+        { regex: "\\bdiem\\s*\\[\\s*[\"']tin[\"']\\s*\\]\\s*=\\s*10\\b", desc: "Thêm key mới bằng diem[\"tin\"] = 10", hint: "Gán vào key mới: diem[\"tin\"] = 10" },
+        { regex: "print\\s*\\(\\s*diem\\s*\\)", desc: "In cả dict bằng print(diem)", hint: "print(diem) sau khi thêm" }
+      ],
+      sample: "diem = {\"toan\": 8, \"van\": 9}\ndiem[\"tin\"] = 10\nprint(diem)"
+    };
+
+    EXERCISES["py-11-ex3"] = {
+      topic: "Duyệt items()",
+      prompt: "Tạo dict bang_diem gồm 2 môn bất kỳ, dùng for duyệt qua bang_diem.items() và in mỗi cặp ra một dòng.",
+      checks: [
+        { regex: "\\bbang_diem\\s*=\\s*\\{", desc: "Tạo dict tên bang_diem", hint: "Ví dụ: bang_diem = {\"toan\": 8, \"van\": 9}" },
+        { regex: "for\\s+\\w+\\s*,\\s*\\w+\\s+in\\s+bang_diem\\.items\\s*\\(\\s*\\)", desc: "Duyệt bằng for ... in bang_diem.items()", hint: "for mon, diem_so in bang_diem.items():" },
+        { regex: "print\\s*\\(", desc: "In từng cặp trong vòng lặp", hint: "Trong thân vòng lặp: print(mon, \"-\", diem_so)" }
+      ],
+      sample: "bang_diem = {\"toan\": 8, \"van\": 9}\nfor mon, diem_so in bang_diem.items():\n    print(mon, \"-\", diem_so)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

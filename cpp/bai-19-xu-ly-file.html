@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 19 C++: xử lý file với fstream — ghi file bằng ofstream, đọc file bằng ifstream, getline và kiểm tra mở file.">
+  <title>Bài 19: Xử lý file với fstream | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-19">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-19</span></div>
+      <h1 class="lesson-title">Xử lý file với fstream</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #19 ]</span>
+        <span class="pill">Chương 6 — STL &amp; nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Mọi chương trình tới lúc nào đó đều cần <strong>nhớ lâu</strong>. <code>cout</code> in xong là hết, tắt chương trình là biến số bay hơi.
+        <strong>File</strong> là bộ nhớ vĩnh viễn của bạn: ghi điểm vào file để mở máy vẫn còn, đọc dữ liệu từ file thay vì gõ tay
+        từng dòng. Thư viện <code>&lt;fstream&gt;</code> cho ta hai "con robot" đúng việc: <code>ofstream</code> chuyên ghi,
+        <code>ifstream</code> chuyên đọc. 🗂️
+      </p>
+
+      <h2>ofstream — ghi file</h2>
+      <p>
+        Muốn ghi ra file, ta mở "ống nước" <code>ofstream</code> tới tên file, đẩy dữ liệu vào bằng <code>&lt;&lt;</code> —
+        y hệt <code>cout</code> — rồi <strong>đóng file</strong>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ghi-file.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main() {
+    ofstream f("data.txt");     // mở (tạo) file data.txt để ghi
+    f &lt;&lt; "Xin chao file!" &lt;&lt; endl;
+    f &lt;&lt; 2026 &lt;&lt; endl;
+    f.close();                  // đóng file — đừng quên!
+
+    cout &lt;&lt; "Da ghi xong data.txt" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Da ghi xong data.txt</pre>
+        </div>
+      </div>
+
+      <p>
+        Sau khi chạy, thư mục chương trình xuất hiện file <code>data.txt</code> với 2 dòng: <code>Xin chao file!</code> và
+        <code>2026</code>. Chương trình không tự in gì về file đó — nên bài này ta thêm dòng <code>cout</code> báo "xong" cho
+        vui mắt (và để thấy chương trình thực sự chạy!). Giải phẫu dòng mở file:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">ofstream</span> <span class="vr">f</span><span class="op">(</span><span class="st">"data.txt"</span><span class="op">);</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>ofstream</code></td><td>kiểu luồng <strong>output file</strong> — chuyên ghi ra file</td><td>✅</td></tr>
+          <tr><td><code>f</code></td><td>tên biến luồng — đặt gì cũng được, dùng để ghi và đóng</td><td>✅</td></tr>
+          <tr><td><code>("data.txt")</code></td><td>đường dẫn file cần mở; chưa có file thì tự tạo, đã có thì mặc định <strong>ghi đè</strong> từ đầu</td><td>✅</td></tr>
+          <tr><td><code>;</code></td><td>kết thúc câu lệnh</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Hai cái bẫy của <code>ofstream</code>: <strong>(1)</strong> quên <code>f.close();</code> — chương trình vẫn chạy nhưng
+          dữ liệu có thể chưa được đẩy hết xuống file, hãy tạo thói quen đóng file ngay khi ghi xong.
+          <strong>(2)</strong> mở file đã tồn tại sẽ <em>xoá sạch nội dung cũ</em> và ghi lại từ đầu — muốn nối thêm vào cuối thì
+          mở bằng <code>ofstream f("data.txt", ios::app);</code>.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-19" data-topic="Ghi file" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — GHI FILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-19-ex1"></div>
+
+      <h2>ifstream — đọc file</h2>
+      <p>
+        Đọc file thì đổi "robot": dùng <code>ifstream</code> (input file). Sau khi mở, ta đọc từng dòng bằng
+        <code>getline(f, dong)</code> — đúng hàm <code>getline</code> bạn học ở bài 17, chỉ đổi <code>cin</code> thành luồng file:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">doc-file.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ifstream f("data.txt");     // mở file data.txt để đọc
+    if (!f) {                   // không mở được? (file không tồn tại...)
+        cout &lt;&lt; "Khong mo duoc file!" &lt;&lt; endl;
+        return 1;
+    }
+    string dong;
+    getline(f, dong);
+    cout &lt;&lt; "Dong 1: " &lt;&lt; dong &lt;&lt; endl;
+    getline(f, dong);
+    cout &lt;&lt; "Dong 2: " &lt;&lt; dong &lt;&lt; endl;
+    f.close();
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Dong 1: Xin chao file!
+Dong 2: 2026</pre>
+        </div>
+      </div>
+
+      <p>
+        Kết quả trên đọc đúng file do chương trình ở mục 1 tạo ra. Muốn đọc <strong>tới hết file</strong> mà không biết trước
+        bao nhiêu dòng? Cho <code>getline</code> làm điều kiện của <code>while</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">doc-het-file.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    ifstream f("data.txt");
+    if (!f) {
+        cout &lt;&lt; "Khong mo duoc file!" &lt;&lt; endl;
+        return 1;
+    }
+    string dong;
+    while (getline(f, dong)) {   // đọc tới khi hết file
+        cout &lt;&lt; dong &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chao file!
+2026</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>while (getline(f, dong))</code> chạy cho tới khi <code>getline</code> thất bại (hết file) — mỗi vòng lặp <code>dong</code>
+          là một dòng mới. Cả <code>ofstream</code> lẫn <code>ifstream</code> đều nằm trong <code>&lt;fstream&gt;</code>, và đường dẫn
+          <code>"data.txt"</code> là <strong>tương đối</strong> — file được tạo/tìm ngay cạnh chương trình đang chạy.
+        </p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          File không tồn tại <strong>không</strong> làm compiler báo lỗi — chương trình biên dịch ngon lành, chạy tới dòng
+          <code>getline</code> rồi trả về chuỗi rỗng khiến kết quả "trống trơn" khó hiểu. Vì vậy hãy luôn kiểm tra
+          <code>if (!f) { ... }</code> ngay sau khi mở file. Viết <code>if (f)</code> để hỏi ngược lại "mở thành công chứ?".
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-19" data-topic="Đọc file" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐỌC FILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-19-ex2"></div>
+
+      <div class="exercise-box" data-ex="cpp-19-ex3"></div>
+
+      <h2>TỔNG KẾT BÀI 19</h2>
+      <ul>
+        <li>Làm việc với file cần <code>#include &lt;fstream&gt;</code> — trong đó có cả <code>ofstream</code> (ghi) và <code>ifstream</code> (đọc).</li>
+        <li><code>ofstream f("data.txt");</code> mở/tạo file để ghi; đẩy dữ liệu bằng <code>f &lt;&lt; ...;</code> giống <code>cout</code>.</li>
+        <li><code>ifstream f("data.txt");</code> mở file để đọc; đọc từng dòng bằng <code>getline(f, dong)</code>.</li>
+        <li>Luôn <code>f.close();</code> khi xong, và luôn kiểm tra <code>if (!f) { ... }</code> ngay sau khi mở file để bắt lỗi "file không tồn tại".</li>
+        <li>Đọc hết file không cần biết số dòng: <code>while (getline(f, dong)) { ... }</code>.</li>
+        <li>Mở <code>ofstream</code> tới file đã có sẽ ghi đè nội dung cũ; dùng <code>ios::app</code> nếu muốn nối thêm.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-19" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 19</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-19"] = [
+      /* --- Ghi file (6) --- */
+      { topic: "Ghi file", type: "choice", question: "Cần #include thư viện nào để làm việc với file trong C++?", options: ["<fstream>", "<file>", "<ifstream>", "<iostream>"], answer: "<fstream>", explain: "<fstream> chứa cả ofstream (ghi) lẫn ifstream (đọc)." },
+      { topic: "Ghi file", type: "choice", question: "ofstream f(\"data.txt\"); dùng để làm gì?", options: ["Mở/tạo file data.txt để GHI", "Mở file data.txt để ĐỌC", "Xoá file data.txt", "In nội dung data.txt ra màn hình"], answer: "Mở/tạo file data.txt để GHI", explain: "ofstream = output file stream — chuyên ghi ra file; chưa có file thì tự tạo." },
+      { topic: "Ghi file", type: "fill", question: "Điền tên hàm đóng file:  f.______();", answer: ["close"], explain: "f.close(); đóng file, đảm bảo dữ liệu đã được ghi hết xuống đĩa." },
+      { topic: "Ghi file", type: "choice", code: "ofstream f(\"diem.txt\");\nf << \"Nam: 9\" << endl;\nf.close();\ncout << \"Xong\";", question: "Đoạn code trên in ra màn hình gì?", options: ["Xong", "Nam: 9", "Xong rồi Nam: 9", "Không in gì"], answer: "Xong", explain: "f << ... ghi vào FILE chứ không hiện trên màn hình; chỉ cout mới in ra màn hình." },
+      { topic: "Ghi file", type: "choice", question: "Toán tử nào dùng để ghi dữ liệu vào ofstream?", options: ["<<", ">>", "==", "getline"], answer: "<<", explain: "ofstream hoạt động như cout: f << \"chuỗi\" << endl;" },
+      { topic: "Ghi file", type: "choice", question: "Mở ofstream tới một file ĐÃ TỒN TẠI (mặc định) sẽ ra sao?", options: ["Nội dung cũ bị xoá sạch và ghi lại từ đầu", "Dữ liệu được nối thêm vào cuối file", "Chương trình báo lỗi ngay", "Máy tự tạo bản sao của file"], answer: "Nội dung cũ bị xoá sạch và ghi lại từ đầu", explain: "Mặc định ofstream ghi đè; muốn nối thêm thì mở bằng ios::app." },
+      /* --- Đọc file (6) --- */
+      { topic: "Đọc file", type: "choice", question: "Kiểu luồng nào dùng để ĐỌC file?", options: ["ifstream", "ofstream", "iostream", "streamfile"], answer: "ifstream", explain: "ifstream = input file stream — chuyên đọc dữ liệu từ file." },
+      { topic: "Đọc file", type: "choice", code: "ifstream f(\"data.txt\");\nstring dong;\ngetline(f, dong);\ncout << dong;", question: "File data.txt chứa dòng đầu là \"Xin chao\". Đoạn code trên in ra gì?", options: ["Xin chao", "data.txt", "f", "Không in gì"], answer: "Xin chao", explain: "getline(f, dong) đọc một dòng từ file vào biến dong, rồi cout in biến đó." },
+      { topic: "Đọc file", type: "fill", question: "Điền tên hàm đọc MỘT DÒNG từ file f vào biến dong:  ______(f, dong);", answer: ["getline"], explain: "getline(f, dong) — giống getline(cin, dong) nhưng nguồn là file." },
+      { topic: "Đọc file", type: "choice", question: "Cách kiểm tra file mở THẤT BẠI sau khi ifstream f(\"data.txt\");?", options: ["if (!f) { ... }", "if (f == NULL)", "if (f.error())", "if (f.close())"], answer: "if (!f) { ... }", explain: "Luồng file dùng được như điều kiện: !f nghĩa là mở thất bại." },
+      { topic: "Đọc file", type: "choice", question: "Cách đọc lần lượt TỪNG DÒNG cho tới hết file?", options: ["while (getline(f, dong)) { ... }", "for (int i = 0; i < 100; i++) { ... }", "if (getline(f, dong)) { ... }", "while (f.close()) { ... }"], answer: "while (getline(f, dong)) { ... }", explain: "getline trả về 'đọc được hay không' — khi hết file, vòng while kết thúc." },
+      { topic: "Đọc file", type: "choice", question: "File không tồn tại và ta KHÔNG kiểm tra lỗi mở file — chuyện gì xảy ra?", options: ["getline đọc thất bại, biến nhận chuỗi rỗng", "Compiler báo lỗi khi dịch", "Chương trình tự tạo file mới", "Tên file được in ra màn hình"], answer: "getline đọc thất bại, biến nhận chuỗi rỗng", explain: "Đây là lý do phải luôn viết if (!f) { ... } ngay sau khi mở file." }
+    ];
+    EXERCISES["cpp-19-ex1"] = {
+      topic: "Ghi một dòng vào file",
+      prompt: "Dùng ofstream tên f mở file \"data.txt\", ghi một dòng văn bản bất kỳ vào file rồi đóng file bằng close().",
+      checks: [
+        { regex: "ofstream\\s+f\\s*\\(\\s*\"[^\"]+\"\\s*\\)", desc: "Mở file bằng ofstream f(\"...\")", hint: "Viết: ofstream f(\"data.txt\");" },
+        { regex: "f\\s*<<", desc: "Ghi dữ liệu vào file bằng toán tử <<", hint: "f << \"Xin chao file!\" << endl;" },
+        { regex: "f\\s*\\.\\s*close\\s*\\(\\s*\\)", desc: "Đóng file bằng f.close()", hint: "Đừng quên: f.close();" }
+      ],
+      sample: "ofstream f(\"data.txt\");\nf << \"Xin chao file!\" << endl;\nf.close();"
+    };
+    EXERCISES["cpp-19-ex2"] = {
+      topic: "Đọc một dòng từ file",
+      prompt: "Dùng ifstream tên f mở file \"data.txt\", đọc một dòng bằng getline vào biến dong rồi in dòng đó ra màn hình.",
+      checks: [
+        { regex: "ifstream\\s+f\\s*\\(\\s*\"[^\"]+\"\\s*\\)", desc: "Mở file bằng ifstream f(\"...\")", hint: "Viết: ifstream f(\"data.txt\");" },
+        { regex: "getline\\s*\\(\\s*f\\s*,", desc: "Đọc một dòng bằng getline(f, dong)", hint: "string dong; getline(f, dong);" },
+        { regex: "cout\\s*<<", desc: "In dòng đọc được bằng cout", hint: "cout << dong << endl;" }
+      ],
+      sample: "ifstream f(\"data.txt\");\nstring dong;\ngetline(f, dong);\ncout << dong << endl;"
+    };
+    EXERCISES["cpp-19-ex3"] = {
+      topic: "Đọc tới hết file",
+      prompt: "Dùng vòng lặp while (getline(f, dong)) để đọc file tới hết, mỗi dòng đọc được thì in ra màn hình.",
+      checks: [
+        { regex: "while\\s*\\(\\s*getline\\s*\\(\\s*f\\s*,", desc: "Dùng while (getline(f, dong)) làm điều kiện", hint: "while (getline(f, dong)) { ... }" },
+        { regex: "cout\\s*<<", desc: "In từng dòng trong thân vòng lặp", hint: "cout << dong << endl;" }
+      ],
+      sample: "string dong;\nwhile (getline(f, dong)) {\n    cout << dong << endl;\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

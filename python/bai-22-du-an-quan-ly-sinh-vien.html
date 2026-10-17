@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 22 Python — dự án tổng hợp cuối khóa: chương trình quản lý sinh viên với list các dict, thêm — xem — tìm — xóa, menu while True. Kèm bài tập chấm điểm và quiz tốt nghiệp.">
+  <title>Bài 22: Dự án tổng hợp: Quản lý sinh viên | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-22">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-22</span></div>
+      <h1 class="lesson-title">Dự án tổng hợp: Quản lý sinh viên</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #22 ]</span>
+        <span class="pill">Chương 5 — Nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        🌟 <strong>Nhiệm vụ cuối cùng đã tới!</strong> Nhìn lại chặng đường nhé: từ dòng <code>print("Hello, World!")</code> ngơ ngác đầu tiên,
+        qua biến, điều kiện, vòng lặp, list, dict, hàm, file, xử lý lỗi… cho đến class &amp; object, kế thừa, comprehension —
+        bạn đã sở hữu gần như toàn bộ vũ khí của một lập trình viên Python.
+      </p>
+      <p>
+        Hôm nay không có lý thuyết suông: bạn sẽ <strong>ráp tất cả lại</strong> thành một sản phẩm thật —
+        chương trình <strong>QUẢN LÝ SINH VIÊN</strong> chạy được, có menu, thêm — xem — tìm — xóa đầy đủ.
+        Đây là bài tốt nghiệp của bạn, và nó xứng đáng để "hoành tráng". ⚡
+      </p>
+
+      <h2>Đề bài &amp; thiết kế dữ liệu</h2>
+      <p>
+        <strong>Đề bài:</strong> viết chương trình quản lý sinh viên cho một lớp học nhỏ. Yêu cầu tối thiểu:
+        <em>thêm</em> sinh viên, <em>xem</em> danh sách, <em>tìm</em> theo tên, <em>xóa</em> theo tên, và có <em>menu</em> để chọn.
+      </p>
+      <p>
+        Trước khi gõ dòng code nào, dân chuyên nghiệp luôn <strong>thiết kế dữ liệu trước</strong>. Ở đây chỉ cần hai tầng:
+        mỗi sinh viên là một <strong>dict</strong> <code>{"ten": ..., "diem": ...}</code>, còn cả lớp là một <strong>list</strong> các dict đó.
+        Một list ôm nhiều dict — gọn gàng, dễ thêm, dễ duyệt!
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">du-lieu.py</span>
+        </div>
+        <pre><code class="language-python">ds = [
+    {"ten": "Nam", "diem": 8.5},
+    {"ten": "Lan", "diem": 9.0},
+]
+print(ds[0])            # xem cả dict của sinh viên đầu
+print(ds[0]["ten"])     # chỉ lấy tên
+print(ds[0]["diem"])    # chỉ lấy điểm</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>{&#39;ten&#39;: &#39;Nam&#39;, &#39;diem&#39;: 8.5}
+Nam
+8.5</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "viên gạch" cơ bản nhất của dự án — một dict sinh viên:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="op">{</span><span class="st">"ten"</span><span class="op">:</span> <span class="st">"Nam"</span><span class="op">,</span> <span class="st">"diem"</span><span class="op">:</span> <span class="st">8.5</span><span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>{ }</code></td><td>ngoặc nhọn — tạo một dict (từ điển)</td><td>✅</td></tr>
+          <tr><td><code>"ten": "Nam"</code></td><td>một cặp <strong>key : value</strong> ("ten" là key, "Nam" là value)</td><td>✅</td></tr>
+          <tr><td><code>,</code></td><td>dấu phẩy ngăn cách các cặp key : value</td><td>khi có từ 2 cặp</td></tr>
+          <tr><td><code>sv["ten"]</code></td><td>truy cập value theo key — nhớ dấu nháy quanh tên key</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Còn menu thì quen thuộc thôi — một loạt lệnh <code>print()</code> "xếp hàng" in ra các lựa chọn độc giả sẽ thấy:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">menu.py</span>
+        </div>
+        <pre><code class="language-python">print("=== QUẢN LÝ SINH VIÊN ===")
+print("1. Thêm sinh viên")
+print("2. Xem danh sách")
+print("3. Tìm sinh viên")
+print("4. Xóa sinh viên")
+print("0. Thoát")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>=== QUẢN LÝ SINH VIÊN ===
+1. Thêm sinh viên
+2. Xem danh sách
+3. Tìm sinh viên
+4. Xóa sinh viên
+0. Thoát</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Thiết kế dữ liệu quyết định 80% độ dễ của chương trình: <strong>list các dict</strong> cho phép bạn
+          <em>duyệt</em> bằng vòng <code>for</code>, <em>thêm</em> bằng <code>append</code>, <code><em>tìm</em></code> bằng so sánh chuỗi —
+          toàn chiêu đã học, không cần gì mới!
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="py-22" data-topic="Dự án: Dữ liệu &amp; menu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DỮ LIỆU &amp; MENU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Thêm &amp; xem sinh viên</h2>
+      <p>
+        Mỗi chức năng gói gọn trong <strong>một hàm</strong> — code rõ ràng, muốn sửa ở đâu chỉ cần sửa một chỗ.
+        Hàm <code>them_sinh_vien(ds, ten, diem)</code> chỉ làm đúng một việc: đóng gói thông tin thành dict rồi
+        <code>ds.append(...)</code> vào cuối list. Hàm <code>xem_danh_sach(ds)</code> thì duyệt <code>for sv in ds</code> và in từng người.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">them-va-xem.py</span>
+        </div>
+        <pre><code class="language-python">def them_sinh_vien(ds, ten, diem):
+    ds.append({"ten": ten, "diem": diem})
+
+def xem_danh_sach(ds):
+    for sv in ds:
+        print(sv["ten"], "-", sv["diem"])
+
+ds = []
+them_sinh_vien(ds, "Nam", 8.5)
+them_sinh_vien(ds, "Lan", 9.0)
+xem_danh_sach(ds)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nam - 8.5
+Lan - 9.0</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Hàm <code>them_sinh_vien</code> <strong>không cần return</strong> mà list <code>ds</code> bên ngoài vẫn thay đổi:
+          list được truyền vào hàm là <em>cùng một object</em>, nên <code>append</code> tác động thẳng lên nó.
+        </p>
+      </div>
+
+      <p>Viết hai chức năng đầu tiên của dự án:</p>
+
+      <div class="exercise-box" data-ex="py-22-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-22-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-22" data-topic="Dự án: Thêm &amp; xem" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THÊM &amp; XEM</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Tìm &amp; xóa</h2>
+      <p>
+        <strong>Tìm kiếm</strong> là bài toán "duyệt tới khi gặp thì dừng": hàm <code>tim_sinh_vien(ds, ten)</code>
+        trả về luôn dict tìm được, còn không thấy thì trả về <code>None</code> — và bên gọi chỉ cần kiểm tra
+        <code>if ket_qua is not None</code>. Nhớ bài 18 không? Đây chính là cách tránh lỗi gọn nhất!
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tim-kiem.py</span>
+        </div>
+        <pre><code class="language-python">def tim_sinh_vien(ds, ten):
+    for sv in ds:
+        if sv["ten"] == ten:
+            return sv
+    return None
+
+ds = [{"ten": "Nam", "diem": 8.5}, {"ten": "Lan", "diem": 9.0}]
+ket_qua = tim_sinh_vien(ds, "Lan")
+if ket_qua is not None:
+    print("Tìm thấy:", ket_qua["ten"], "-", ket_qua["diem"])
+else:
+    print("Không tìm thấy!")
+print(tim_sinh_vien(ds, "Hoa"))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tìm thấy: Lan - 9.0
+None</pre>
+        </div>
+      </div>
+
+      <p>
+        Còn <strong>xóa</strong>? Chiêu hay nhất là <em>không xóa trực tiếp</em> mà dùng list comprehension (bài 21!) để
+        <strong>tạo list mới, giữ lại những người có tên khác</strong> người cần xóa:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xoa.py</span>
+        </div>
+        <pre><code class="language-python">ds = [{"ten": "Nam", "diem": 8.5}, {"ten": "Lan", "diem": 9.0}]
+
+# giữ lại mọi sinh viên KHÁC "Nam"
+ds = [sv for sv in ds if sv["ten"] != "Nam"]
+print(ds)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[{&#39;ten&#39;: &#39;Lan&#39;, &#39;diem&#39;: 9.0}]</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Đừng vừa duyệt <code>for sv in ds</code> vừa <code>ds.remove(sv)</code> trực tiếp! List co lại ngay giữa lúc duyệt
+          khiến index lệch và bạn sẽ <em>bỏ sót</em> sinh viên — lỗi "ma" rất khó phát hiện. Cứ lọc ra list mới như ví dụ trên.
+        </p>
+      </div>
+
+      <p>Hoàn thiện chức năng "đi tìm người ấy" của dự án:</p>
+
+      <div class="exercise-box" data-ex="py-22-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-22" data-topic="Dự án: Tìm &amp; xóa" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TÌM &amp; XÓA</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Hoàn thiện &amp; mở rộng</h2>
+      <p>
+        Giờ chỉ còn thiếu "trái tim" của chương trình: vòng <code>while True</code> lặp menu mãi cho tới khi người dùng chọn <code>0</code> để thoát.
+        Đây là cách mọi ứng dụng dòng lệnh vẫn làm:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">quan-ly-sinh-vien.py</span>
+        </div>
+        <pre><code class="language-python">ds = []
+while True:
+    print("1. Thêm | 2. Xem | 0. Thoát")
+    chon = input("Chọn: ")
+
+    if chon == "1":
+        ten = input("Tên: ")
+        ds.append({"ten": ten, "diem": float(input("Điểm: "))})
+    elif chon == "2":
+        for sv in ds:
+            print(sv["ten"], "-", sv["diem"])
+    elif chon == "0":
+        print("Tạm biệt!")
+        break</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ (một phiên chạy mẫu — chữ sau "Chọn:", "Tên:", "Điểm:" là người dùng gõ)</span>
+          <pre>1. Thêm | 2. Xem | 0. Thoát
+Chọn: 1
+Tên: Nam
+Điểm: 8.5
+1. Thêm | 2. Xem | 0. Thoát
+Chọn: 2
+Nam - 8.5
+1. Thêm | 2. Xem | 0. Thoát
+Chọn: 0
+Tạm biệt!</pre>
+        </div>
+      </div>
+
+      <p>Bộ khung đã chạy! Nếu muốn dự án "ra dáng sản phẩm thật", đây là vài hướng nâng cấp gợi ý:</p>
+      <ul>
+        <li><strong>Lưu vào file:</strong> dùng <code>open("sinhvien.txt", "w")</code> ghi từng sinh viên, mở lại bằng <code>"r"</code> để đọc — ôn lại bài 17 (Xử lý file) nhé!</li>
+        <li><strong>Sửa điểm:</strong> thêm menu "3. Sửa điểm", tìm bằng <code>tim_sinh_vien</code> rồi gán <code>sv["diem"] = diem_moi</code>.</li>
+        <li><strong>Thống kê điểm trung bình:</strong> gom điểm bằng comprehension rồi chia — xem ví dụ ngay dưới.</li>
+        <li><strong>Kiểm tra menu con:</strong> chọn "2. Xem" khi danh sách trống thì in <code>"Danh sách trống!"</code> cho thân thiện.</li>
+      </ul>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thong-ke.py</span>
+        </div>
+        <pre><code class="language-python">ds = [{"ten": "Nam", "diem": 8.5}, {"ten": "Lan", "diem": 9.0}]
+
+diem = [sv["diem"] for sv in ds]          # comprehension từ bài 21
+print("Điểm trung bình:", sum(diem) / len(diem))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Điểm trung bình: 8.75</pre>
+        </div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 22</h2>
+      <p>
+        🎓 <strong>CHÚC MỪNG TỐT NGHIỆP!</strong> Bạn vừa hoàn thành nhiệm vụ cuối cùng của lộ trình Python —
+        từ cậu bé gõ <code>print("Hello")</code> ngày nào, giờ bạn biết thiết kế dữ liệu, chia hàm, viết menu,
+        và cả tự tay tạo class. Hãy để lại dấu ấn: mở <code>quan-ly-sinh-vien.py</code> của bạn lên và chạy thử một lần cho oai! ⚡
+      </p>
+      <ul>
+        <li>Dự án dùng <strong>list các dict</strong>: mỗi sinh viên là <code>{"ten": ..., "diem": ...}</code>, cả lớp là một list.</li>
+        <li><code>them_sinh_vien</code> gói thông tin thành dict rồi <code>append</code> — list truyền vào hàm được sửa trực tiếp.</li>
+        <li><code>xem_danh_sach</code> duyệt <code>for sv in ds</code>; truy cập bằng key <code>sv["ten"]</code>, <code>sv["diem"]</code>.</li>
+        <li><code>tim_sinh_vien</code> trả về dict khi thấy, <code>None</code> khi không — bên gọi kiểm tra <code>is not None</code>.</li>
+        <li>Xóa an toàn bằng comprehension lọc giữ lại: <code>[sv for sv in ds if sv["ten"] != "Nam"]</code>.</li>
+        <li>Khung chương trình: <code>while True</code> + menu <code>print</code> + <code>input</code>, thoát bằng <code>break</code> khi chọn "0".</li>
+        <li>Đừng quên quay lại ôn các bài trước — <em>ôn cũ học mới</em> là bí quyết của mọi cao thủ!</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-22" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 BÀI KIỂM TRA TỐT NGHIỆP — BÀI 22</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-22"] = [
+      /* --- Dự án: Dữ liệu & menu (5) --- */
+      { topic: "Dự án: Dữ liệu & menu", type: "choice", question: "Trong dự án quản lý sinh viên, mỗi sinh viên được lưu bằng gì?", options: ["Một dict có các key ten và diem", "Một chuỗi \"Nam 8.5\"", "Một list toàn số", "Một file riêng cho mỗi sinh viên"], answer: "Một dict có các key ten và diem", explain: "Dict gom tên và điểm thành một khối: {\"ten\": \"Nam\", \"diem\": 8.5}." },
+      { topic: "Dự án: Dữ liệu & menu", type: "choice", code: "sv = {\"ten\": \"Nam\", \"diem\": 8.5}\nprint(sv[\"ten\"])", question: "Đoạn code trên in ra gì?", options: ["Nam", "ten", "8.5", "{'ten': 'Nam'}"], answer: "Nam", explain: "sv[\"ten\"] lấy value ứng với key \"ten\"." },
+      { topic: "Dự án: Dữ liệu & menu", type: "fill", question: "Điền phần còn thiếu để lấy điểm của sv = {\"ten\": \"Nam\", \"diem\": 8.5} (viết cả key kèm nháy): sv[___]", answer: ["\"diem\"", "'diem'", "diem"], explain: "sv[\"diem\"] → 8.5; key là chuỗi nên thường đặt trong dấu nháy." },
+      { topic: "Dự án: Dữ liệu & menu", type: "choice", question: "Danh sách sinh viên ds của chương trình nên có kiểu dữ liệu là gì?", options: ["list các dict", "một dict duy nhất", "một chuỗi dài các tên", "một tuple các số"], answer: "list các dict", explain: "List cho phép thêm/xóa/duyệt dễ dàng; từng phần tử là dict mang thông tin một sinh viên." },
+      { topic: "Dự án: Dữ liệu & menu", type: "choice", code: "ds = [{\"ten\": \"Nam\", \"diem\": 8.5}]\nprint(ds[0])", question: "Đoạn code trên in ra gì?", options: ["{'ten': 'Nam', 'diem': 8.5}", "Nam", "8.5", "Lỗi vì dict không in được"], answer: "{'ten': 'Nam', 'diem': 8.5}", explain: "ds[0] là cả dict — print in nguyên dict với dấu ngoặc nhọn." },
+
+      /* --- Dự án: Thêm & xem (6) --- */
+      { topic: "Dự án: Thêm & xem", type: "choice", question: "Thân hàm them_sinh_vien(ds, ten, diem) nên viết gì?", options: ["ds.append({\"ten\": ten, \"diem\": diem})", "print(ten, diem)", "return ten + diem", "ds.remove(ten)"], answer: "ds.append({\"ten\": ten, \"diem\": diem})", explain: "Đóng gói ba thông tin thành một dict rồi thêm vào cuối list." },
+      { topic: "Dự án: Thêm & xem", type: "choice", code: "def them_sinh_vien(ds, ten, diem):\n    ds.append({\"ten\": ten, \"diem\": diem})\n\nds = []\nthem_sinh_vien(ds, \"Nam\", 8.5)\nthem_sinh_vien(ds, \"Lan\", 9.0)\nprint(len(ds))", question: "Đoạn code trên in ra gì?", options: ["2", "0", "1", "Lỗi"], answer: "2", explain: "Mỗi lần gọi thêm đúng một dict — sau hai lần gọi list có 2 sinh viên." },
+      { topic: "Dự án: Thêm & xem", type: "fill", question: "Điền tên phương thức thêm sinh viên vào cuối list: ds.___({\"ten\": ten, \"diem\": diem})", answer: ["append"], explain: "append là chiêu thêm phần tử vào cuối list — nhớ từ bài 9 nhé." },
+      { topic: "Dự án: Thêm & xem", type: "choice", question: "Hàm xem_danh_sach(ds) nên duyệt danh sách bằng câu lệnh nào?", options: ["for sv in ds:", "while ds:", "if ds:", "ds.pop()"], answer: "for sv in ds:", explain: "Vòng for duyệt lần lượt từng dict; trong thân in sv[\"ten\"], sv[\"diem\"]." },
+      { topic: "Dự án: Thêm & xem", type: "choice", code: "def xem(ds):\n    for sv in ds:\n        print(sv[\"ten\"])\n\nxem([{\"ten\": \"Nam\", \"diem\": 8.5}, {\"ten\": \"Lan\", \"diem\": 9.0}])", question: "Đoạn code trên in ra gì?", options: ["Nam rồi Lan (hai dòng)", "Nam rồi 8.5", "Hai dòng đều là {'ten': 'Nam'}", "Lỗi vì dict không duyệt được"], answer: "Nam rồi Lan (hai dòng)", explain: "Mỗi vòng lặp sv là một dict; print(sv[\"ten\"]) in tên của người đó." },
+      { topic: "Dự án: Thêm & xem", type: "choice", question: "Vì sao them_sinh_vien thay đổi được list ds ở bên ngoài dù không return gì?", options: ["Vì list truyền vào hàm là tham chiếu tới cùng một list — append tác động lên chính nó", "Vì Python tự sao chép list ra toàn cục", "Vì append luôn ghi thẳng vào file", "Không thay đổi được, bắt buộc phải return ds"], answer: "Vì list truyền vào hàm là tham chiếu tới cùng một list — append tác động lên chính nó", explain: "Đây là lý do các hàm quản lý dữ liệu thường nhận list rồi sửa trực tiếp." },
+
+      /* --- Dự án: Tìm & xóa (6) --- */
+      { topic: "Dự án: Tìm & xóa", type: "choice", question: "tim_sinh_vien(ds, ten) nên trả về gì khi KHÔNG tìm thấy sinh viên nào?", options: ["None", "Số 0", "Chuỗi rỗng", "Tự động báo lỗi chương trình"], answer: "None", explain: "Trả None là quy ước 'không có kết quả'; bên gọi kiểm tra bằng if ... is not None." },
+      { topic: "Dự án: Tìm & xóa", type: "choice", code: "def tim_sinh_vien(ds, ten):\n    for sv in ds:\n        if sv[\"ten\"] == ten:\n            return sv\n    return None\n\nds = [{\"ten\": \"Nam\", \"diem\": 8.5}]\nprint(tim_sinh_vien(ds, \"Hoa\"))", question: "Đoạn code trên in ra gì?", options: ["None", "Nam", "8.5", "Lỗi vì không có sinh viên Hoa"], answer: "None", explain: "Vòng for chạy hết mà không gặp \"Hoa\" nên hàm rơi xuống dòng return None." },
+      { topic: "Dự án: Tìm & xóa", type: "choice", question: "Cách XÓA sinh viên tên \"Nam\" khỏi list ds (an toàn nhất)?", options: ["ds = [sv for sv in ds if sv[\"ten\"] != \"Nam\"]", "ds.delete(\"Nam\")", "ds - \"Nam\"", "xoa ds[\"Nam\"]"], answer: "ds = [sv for sv in ds if sv[\"ten\"] != \"Nam\"]", explain: "Lọc ra list mới chỉ giữ người khác \"Nam\" rồi gán lại cho ds — vừa gọn vừa an toàn." },
+      { topic: "Dự án: Tìm & xóa", type: "choice", code: "ds = [{\"ten\": \"Nam\", \"diem\": 8.5}, {\"ten\": \"Lan\", \"diem\": 9.0}]\nds = [sv for sv in ds if sv[\"ten\"] != \"Nam\"]\nprint(len(ds))", question: "Đoạn code trên in ra gì?", options: ["1", "2", "0", "Lỗi"], answer: "1", explain: "Chỉ Lan được giữ lại, nên list còn đúng 1 phần tử." },
+      { topic: "Dự án: Tìm & xóa", type: "fill", question: "Điền toán tử so sánh để giữ lại sinh viên KHÁC \"Nam\": ds = [sv for sv in ds if sv[\"ten\"] ___ \"Nam\"]", answer: ["!="], explain: "!= là 'khác' — giữ lại mọi người có tên khác \"Nam\"." },
+      { topic: "Dự án: Tìm & xóa", type: "choice", question: "Vì sao KHÔNG nên vừa for sv in ds vừa gọi ds.remove(sv) trực tiếp?", options: ["Vì list co lại giữa lúc duyệt khiến index lệch, dễ bỏ sót phần tử", "Vì Python cấm hoàn toàn việc xóa", "Vì sẽ xóa sạch cả list ngay lập tức", "Vì remove chỉ xóa được số, không xóa được dict"], answer: "Vì list co lại giữa lúc duyệt khiến index lệch, dễ bỏ sót phần tử", explain: "Cách an toàn là lọc ra list mới bằng comprehension như đã học." }
+    ];
+
+    EXERCISES["py-22-ex1"] = {
+      topic: "Hàm thêm sinh viên",
+      prompt: "Viết hàm them_sinh_vien(ds, ten, diem) đóng gói thông tin thành dict {\"ten\": ten, \"diem\": diem} rồi append vào cuối list ds. Tạo list ds rỗng, gọi hàm thêm ít nhất một sinh viên, rồi in ds ra để kiểm tra.",
+      checks: [
+        { regex: "def\\s+them_sinh_vien\\s*\\(\\s*ds\\s*,\\s*ten\\s*,\\s*diem\\s*\\)\\s*:", desc: "Định nghĩa hàm them_sinh_vien(ds, ten, diem)", hint: "def them_sinh_vien(ds, ten, diem): — ba tham số" },
+        { regex: "ds\\s*\\.\\s*append\\s*\\(", desc: "Dùng ds.append(...) để thêm vào cuối list", hint: "ds.append({\"ten\": ten, \"diem\": diem})" },
+        { regex: "[\"']ten[\"']\\s*:\\s*ten", desc: "Dict có key \"ten\" gán từ tham số ten", hint: "Trong dict: \"ten\": ten" },
+        { regex: "print\\s*\\(", desc: "In list ds ra màn hình", hint: "print(ds) — sẽ thấy dict vừa thêm nằm trong list" }
+      ],
+      sample: "def them_sinh_vien(ds, ten, diem):\n    ds.append({\"ten\": ten, \"diem\": diem})\n\nds = []\nthem_sinh_vien(ds, \"Nam\", 8.5)\nprint(ds)"
+    };
+
+    EXERCISES["py-22-ex2"] = {
+      topic: "Hàm xem danh sách",
+      prompt: "Viết hàm xem_danh_sach(ds) duyệt list bằng vòng for và in ra từng sinh viên theo dạng: tên - điểm. Ở ngoài, gọi hàm này với list có ít nhất 2 sinh viên.",
+      checks: [
+        { regex: "def\\s+xem_danh_sach\\s*\\(\\s*ds\\s*\\)\\s*:", desc: "Định nghĩa hàm xem_danh_sach(ds)", hint: "def xem_danh_sach(ds): — chỉ một tham số" },
+        { regex: "for\\s+\\w+\\s+in\\s+ds\\s*:", desc: "Duyệt list bằng for ... in ds:", hint: "for sv in ds:" },
+        { regex: "print\\s*\\(\\s*\\w+\\s*\\[\\s*[\"']ten[\"']\\s*\\]", desc: "In tên sinh viên bằng sv[\"ten\"]", hint: "print(sv[\"ten\"], \"-\", sv[\"diem\"])" },
+        { regex: "xem_danh_sach\\s*\\(", minCount: 1, desc: "Gọi hàm xem_danh_sach(...) ở ngoài", hint: "xem_danh_sach(ds) sau khi tạo list có dữ liệu" }
+      ],
+      sample: "def xem_danh_sach(ds):\n    for sv in ds:\n        print(sv[\"ten\"], \"-\", sv[\"diem\"])\n\nds = [{\"ten\": \"Nam\", \"diem\": 8.5}, {\"ten\": \"Lan\", \"diem\": 9.0}]\nxem_danh_sach(ds)"
+    };
+
+    EXERCISES["py-22-ex3"] = {
+      topic: "Hàm tìm sinh viên",
+      prompt: "Viết hàm tim_sinh_vien(ds, ten) duyệt list: nếu gặp sinh viên có sv[\"ten\"] == ten thì return về dict đó; duyệt hết mà không thấy thì return None.",
+      checks: [
+        { regex: "def\\s+tim_sinh_vien\\s*\\(\\s*ds\\s*,\\s*ten\\s*\\)\\s*:", desc: "Định nghĩa hàm tim_sinh_vien(ds, ten)", hint: "def tim_sinh_vien(ds, ten):" },
+        { regex: "for\\s+\\w+\\s+in\\s+ds\\s*:", desc: "Duyệt list bằng vòng for", hint: "for sv in ds:" },
+        { regex: "if\\s+\\w+\\s*\\[\\s*[\"']ten[\"']\\s*\\]\\s*==\\s*ten\\s*:", desc: "So sánh sv[\"ten\"] == ten", hint: "if sv[\"ten\"] == ten:" },
+        { regex: "return\\s+", minCount: 2, desc: "Có cả return sv (khi thấy) và return None (khi không thấy)", hint: "return sv bên trong if, và return None ở cuối hàm" }
+      ],
+      sample: "def tim_sinh_vien(ds, ten):\n    for sv in ds:\n        if sv[\"ten\"] == ten:\n            return sv\n    return None\n\nds = [{\"ten\": \"Nam\", \"diem\": 8.5}]\nprint(tim_sinh_vien(ds, \"Nam\"))"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

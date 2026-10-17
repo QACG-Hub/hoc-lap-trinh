@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 1 Python: Python là gì, ai tạo ra nó, cài đặt trên Windows/macOS/Linux và chạy chương trình đầu tiên — kèm quiz random và bài tập chấm điểm.">
+  <title>Bài 1: Giới thiệu Python &amp; cài đặt | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-01">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-01</span></div>
+      <h1 class="lesson-title">Giới thiệu Python &amp; cài đặt</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #01 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Chào mừng bạn đến với <strong>nhiệm vụ đầu tiên</strong> của lộ trình Python! Trước khi gõ dòng code nào,
+        ta cần trả lời hai câu hỏi: <em>Python là gì</em> và <em>cài nó lên máy thế nào</em>.
+        Kết thúc bài này, bạn sẽ có Python trên máy và tự tay chạy chương trình đầu tiên. ⚡
+      </p>
+
+      <h2>Python là gì?</h2>
+      <p>
+        <strong>Python</strong> là một ngôn ngữ lập trình ra đời năm <strong>1991</strong>, do <strong>Guido van Rossum</strong> tạo ra.
+        Cái tên này lấy từ nhóm hài kịch ông yêu thích, chứ không phải loài trăn.
+        Điểm khiến Python nổi tiếng khắp thế giới: <strong>cú pháp dễ đọc, gần với tiếng Anh</strong> —
+        người mới học tập trung vào <em>tư duy lập trình</em> thay vì đánh vật với ký hiệu rối rắm.
+      </p>
+      <p>Python có mặt ở gần như mọi lĩnh vực:</p>
+      <ul>
+        <li><strong>Làm web</strong> — xây website, API với Django, Flask.</li>
+        <li><strong>Trí tuệ nhân tạo (AI)</strong> — chatbot, nhận dạng ảnh, học máy với PyTorch, TensorFlow.</li>
+        <li><strong>Tự động hóa</strong> — viết script đổi tên hàng trăm file, gửi email, thu thập dữ liệu... thay việc làm tay.</li>
+        <li><strong>Khoa học dữ liệu</strong> — phân tích số liệu, vẽ biểu đồ với pandas, matplotlib.</li>
+      </ul>
+
+      <h3>Python là ngôn ngữ THÔNG DỊCH</h3>
+      <p>
+        Ngôn ngữ lập trình chia làm hai nhóm. Nhóm <strong>biên dịch</strong> như C++ phải dịch toàn bộ code
+        thành mã máy <em>trước khi</em> chương trình chạy được — bạn sẽ học kỹ bước này ở lộ trình C++.
+        Còn Python thuộc nhóm <strong>thông dịch</strong> (interpreted): trình thông dịch đọc và chạy
+        <strong>từng dòng lệnh một</strong>, gặp dòng nào xử lý dòng đó, không cần bước biên dịch riêng.
+      </p>
+      <p>Nghĩa là bạn gõ code, chạy và có kết quả ngay lập tức:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">diem.py</span>
+        </div>
+        <pre><code class="language-python"># Cú pháp đọc là hiểu ngay
+toan = 8
+van = 9
+print("Điểm trung bình:", (toan + van) / 2)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Điểm trung bình: 8.5</pre>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chao.py</span>
+        </div>
+        <pre><code class="language-python">ten = "An"
+print("Chào", ten, "— chúc học Python vui!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Chào An — chúc học Python vui!</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Vì chạy từng dòng, Python dừng ngay tại dòng gây lỗi và chỉ rõ số dòng đó — tìm và sửa lỗi rất nhanh.
+          Ưu điểm của Python là <em>học nhanh, viết nhanh</em>; còn tốc độ tối đa là sân chơi của C++.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="py-01" data-topic="Tổng quan" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TỔNG QUAN PYTHON</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Cài đặt Python</h2>
+      <p>
+        Bản Python chính thức được tải miễn phí tại
+        <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a>.
+        Cách cài đặt khác nhau đôi chút giữa các hệ điều hành:
+      </p>
+      <ul>
+        <li><strong>Windows</strong> — tải file cài đặt (.exe), mở lên và <strong>tick "Add Python to PATH"</strong> ở màn hình đầu tiên, rồi bấm "Install Now".</li>
+        <li><strong>macOS</strong> — Python 3 thường có sẵn; máy nào chưa có thì tải bản cài đặt từ python.org.</li>
+        <li><strong>Linux</strong> (Ubuntu, Fedora...) — hầu như máy nào cũng có sẵn <code>python3</code>, không cần cài thêm.</li>
+      </ul>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Trên Windows, nếu quên tick <strong>"Add Python to PATH"</strong>, terminal sẽ không nhận ra lệnh <code>python</code>
+          và bạn phải cài lại từ đầu. Hãy tick trước khi bấm Install!
+        </p>
+      </div>
+
+      <p>Kiểm tra xem máy đã có Python chưa bằng lệnh sau trong terminal:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <pre><code class="language-python">python3 --version</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Python 3.12.4</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Trên Windows, gõ <code>python --version</code> (không có số 3). Con số phiên bản trên máy bạn có thể khác —
+          miễn là <strong>3.8 trở lên</strong> là học tốt. Nếu terminal báo "command not found", hãy xem lại bước cài đặt phía trên.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="py-01" data-topic="Cài đặt &amp; chạy" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CÀI ĐẶT &amp; CHẠY</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Chạy chương trình đầu tiên</h2>
+      <p>
+        Có hai cách chạy code Python: gõ trực tiếp trong <strong>REPL</strong>, hoặc viết vào <strong>file <code>.py</code></strong>
+        rồi chạy cả file. Ta thử lần lượt cả hai.
+      </p>
+
+      <h3>Cách 1 — REPL: gõ là chạy ngay</h3>
+      <p>
+        Gõ <code>python3</code> vào terminal rồi nhấn Enter (Windows: gõ <code>python</code>).
+        Dấu nhắc <code>&gt;&gt;&gt;</code> hiện ra — đó là <strong>REPL</strong>, nơi bạn gõ lệnh nào nhận kết quả ngay lệnh đó.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">REPL — gõ từng lệnh</span>
+        </div>
+        <pre><code class="language-python">python3
+Python 3.12.4
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print("Xin chào")
+Xin chào
+>>> exit()</code></pre>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>&gt;&gt;&gt;</code> là dấu nhắc do Python tự hiện — bạn <strong>không gõ nó</strong>.
+          Thoát REPL bằng <code>exit()</code>, hoặc nhấn Ctrl+D (macOS/Linux) / Ctrl+Z rồi Enter (Windows).
+        </p>
+      </div>
+
+      <h3>Cách 2 — Viết file .py bằng VS Code</h3>
+      <p>
+        REPL hợp để thử nhanh, còn code thật nằm trong <strong>file <code>.py</code></strong>.
+        Hãy tải <strong>VS Code</strong> (miễn phí) rồi tạo file <code>hello.py</code> với nội dung:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hello.py</span>
+        </div>
+        <pre><code class="language-python">print("Xin chào, Python!")</code></pre>
+      </div>
+
+      <p>Lưu file, mở terminal ngay tại thư mục chứa file (VS Code: menu Terminal → New Terminal) rồi gõ:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <pre><code class="language-python">python3 hello.py</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào, Python!</pre>
+        </div>
+      </div>
+
+      <p>Để hiểu tận gốc, hãy <strong>giải phẫu</strong> lệnh vừa gõ thành từng bộ phận:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">python3</span> <span class="st">hello.py</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>python3</code></td><td>trình thông dịch — "cỗ máy" đọc code và chạy giúp bạn (Windows dùng <code>python</code>)</td><td>✅</td></tr>
+          <tr><td><code>hello.py</code></td><td>tên file code cần chạy — luôn có đuôi <code>.py</code></td><td>✅</td></tr>
+          <tr><td>Cách gõ</td><td>gõ cả hai phần cách nhau đúng <strong>một dấu cách</strong> rồi Enter — gõ trong terminal, không phải trong file code</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>Máy bạn đã sẵn sàng. Hãy chứng minh bằng bài tập chấm điểm đầu tiên:</p>
+
+      <div class="exercise-box" data-ex="py-01-ex1"></div>
+
+      <h2>TỔNG KẾT BÀI 01</h2>
+      <ul>
+        <li>Python là ngôn ngữ <strong>thông dịch</strong> do Guido van Rossum tạo năm 1991 — chạy từng dòng, không cần biên dịch.</li>
+        <li>Ứng dụng rộng khắp: làm web, AI, tự động hóa, khoa học dữ liệu.</li>
+        <li>Cài Python từ python.org; Windows nhớ tick <strong>"Add Python to PATH"</strong>, macOS/Linux thường có sẵn <code>python3</code>.</li>
+        <li>Kiểm tra phiên bản: <code>python3 --version</code> (Windows: <code>python --version</code>).</li>
+        <li>Thử nhanh trong REPL bằng <code>python3</code> rồi <code>exit()</code>; chạy file bằng <code>python3 hello.py</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-01" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 01</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

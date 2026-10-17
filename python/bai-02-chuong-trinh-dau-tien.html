@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 2 Python: chương trình đầu tiên với print() và comment — giải phẫu cú pháp, tự viết code chấm điểm, quiz random.">
+  <title>Bài 2: Chương trình đầu tiên — print() &amp; comment | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-02">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-02</span></div>
+      <h1 class="lesson-title">Chương trình đầu tiên: print() &amp; comment</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #02 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Chào mừng đến khoảnh khắc thiêng liêng của mọi lập trình viên: <strong>in ra dòng chữ đầu tiên</strong>.
+        Trong bài này bạn sẽ học hàm <code>print()</code> — công cụ giao tiếp cơ bản nhất của chương trình với thế giới,
+        và <strong>comment</strong> — cách để lại ghi chú trong code. Đi kèm là 3 bài tập tự viết code có chấm điểm! ⚡
+      </p>
+
+      <h2>print() — câu lệnh làm nên mọi "Hello World"</h2>
+      <p>
+        <code>print()</code> là một <strong>hàm</strong> (function) — cỗ máy nhỏ nhận dữ liệu đầu vào và xử lý giúp bạn.
+        Nhiệm vụ của nó đơn giản: <em>in ra màn hình</em> bất cứ thứ gì bạn đưa vào trong ngoặc.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hello.py</span>
+        </div>
+        <pre><code class="language-python">print("Hello, World!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hello, World!</pre>
+        </div>
+      </div>
+
+      <p>Để hiểu tận gốc, hãy <strong>giải phẫu</strong> câu lệnh trên thành từng bộ phận:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">print</span><span class="op">(</span><span class="st">"Hello, World!"</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>print</code></td><td>tên hàm — "in ra màn hình"</td><td>✅</td></tr>
+          <tr><td><code>( )</code></td><td>cặp ngoặc đơn bọc nội dung cần in</td><td>✅</td></tr>
+          <tr><td><code>"…"</code></td><td>chuỗi ký tự cần in — phải nằm trong dấu nháy</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <h3>Chuỗi hay phép tính? Dấu nháy quyết định tất cả</h3>
+      <p>
+        Đây là cái bẫy đầu tiên của mọi người mới học: <strong>có dấu nháy là chuỗi (in nguyên văn)</strong>,
+        <strong>không nháy là biểu thức (Python tính rồi in kết quả)</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">phep-tinh.py</span>
+        </div>
+        <pre><code class="language-python">print("2 + 3")   # chuỗi → in nguyên văn
+print(2 + 3)     # biểu thức → Python tính toán
+print("Học" + "vui")  # dấu + nối hai chuỗi</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>2 + 3
+5
+Họcvui</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Dấu <code>+</code> giữa hai chuỗi là <strong>nối chuỗi</strong> (không thêm khoảng trắng). Muốn có khoảng trắng, viết thẳng vào chuỗi: <code>print("Học vui")</code>.</p>
+      </div>
+
+      <h3>In nhiều thứ cùng lúc: dấu phẩy và sep</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhieu-doi-so.py</span>
+        </div>
+        <pre><code class="language-python">print("Python", "C++")              # hai đối số
+print("diem", "A+", sep=": ")      # đổi dấu phân cách
+print()                            # in dòng trống</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Python C++
+diem: A+
+
+</pre>
+        </div>
+      </div>
+
+      <p>Thử sức ngay với 2 bài tập đầu tiên — gõ code vào ô, bấm <strong>[ KIỂM TRA ]</strong> để xem bạn đạt tiêu chí nào:</p>
+
+      <div class="exercise-box" data-ex="py-02-ex1"></div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Quên dấu nháy quanh chuỗi sẽ khiến Python hiểu <code>Hello</code> là tên biến chưa khai báo và báo lỗi <code>NameError</code>. Cứ nháy kép cho an toàn!</p>
+      </div>
+
+      <div class="exercise-box" data-ex="py-02-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-02" data-topic="print()" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — print()</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Comment — ghi chú cho người tương lai</h2>
+      <p>
+        <strong>Comment</strong> (ghi chú) là những dòng Python <em>bỏ qua hoàn toàn</em> khi chạy.
+        Công dụng: giải thích code, đánh dấu việc cần làm, tạm tắt một dòng lệnh.
+        Trong Python, comment bắt đầu bằng dấu <code>#</code> và kéo dài đến hết dòng.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">comment.py</span>
+        </div>
+        <pre><code class="language-python"># Chương trình chào hỏi đầu tiên của tôi
+print("Xin chào!")     # in lời chào
+
+# print("Dòng này bị tắt, sẽ không chạy")
+print("Dòng này vẫn chạy")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào!
+Dòng này vẫn chạy</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="cm"># Chương trình chào hỏi đầu tiên</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>#</code></td><td>mọi thứ từ đây đến hết dòng là ghi chú</td><td>✅</td></tr>
+          <tr><td>Nội dung</td><td>có thể viết tiếng Việt thoải mái</td><td>❌ (nhưng nên có)</td></tr>
+        </table>
+      </div>
+
+      <p>Viết thử một comment của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="py-02-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-02" data-topic="Ghi chú (comment)" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — comment</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 02</h2>
+      <ul>
+        <li><code>print(...)</code> in ra màn hình; chuỗi phải nằm trong dấu nháy.</li>
+        <li>Có nháy → in nguyên văn; không nháy → Python tính toán trước.</li>
+        <li>Nhiều đối số cách nhau dấu phẩy; <code>sep=</code> đổi dấu phân cách; <code>print()</code> trống in dòng trống.</li>
+        <li><code>#</code> bắt đầu comment — Python bỏ qua khi chạy.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-02" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 02</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

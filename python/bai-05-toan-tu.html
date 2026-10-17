@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 5 Python: toán tử số học (+ - * / // % **), toán tử so sánh (== != > < >= <=) và toán tử logic (and, or, not) — ví dụ chạy thật, bài tập chấm điểm và quiz random.">
+  <title>Bài 5: Toán tử &amp; biểu thức | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-05">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-05</span></div>
+      <h1 class="lesson-title">Toán tử &amp; biểu thức</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #05 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Máy tính sinh ra để <em>tính</em> — nhưng muốn ra lệnh tính toán, bạn phải nói đúng ngôn ngữ của nó:
+        <strong>toán tử</strong> và <strong>biểu thức</strong>. Nhiệm vụ này trang bị ba bộ vũ khí:
+        toán tử <strong>số học</strong> (tính toán), <strong>so sánh</strong> (đúng/sai) và <strong>logic</strong> (kết hợp điều kiện).
+        Đây chính là nguyên liệu bắt buộc để học <code>if</code> và vòng lặp ở các bài sau! ⚡
+      </p>
+
+      <h2>Toán tử số học</h2>
+      <p>
+        <strong>Toán tử</strong> (operator) là ký hiệu ra lệnh cho Python thực hiện một phép tính;
+        <strong>biểu thức</strong> (expression) là sự kết hợp các giá trị và toán tử để tạo ra một kết quả mới, ví dụ <code>7 + 3</code>.
+        Bảy toán tử số học bạn sẽ dùng hằng ngày:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">so-hoc.py</span>
+        </div>
+        <pre><code class="language-python">print(7 + 3)     # cộng
+print(7 - 3)     # trừ
+print(7 * 3)     # nhân
+print(7 / 2)     # chia thường → luôn ra số thực
+print(7 // 2)    # chia lấy phần nguyên
+print(7 % 2)     # chia lấy dư
+print(2 ** 3)    # luỹ thừa (2 mũ 3)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>10
+4
+21
+3.5
+3
+1
+8</pre>
+        </div>
+      </div>
+
+      <table>
+        <tr><th>Toán tử</th><th>Ý nghĩa</th><th>Ví dụ</th><th>Kết quả</th></tr>
+        <tr><td><code>+</code></td><td>cộng</td><td><code>7 + 3</code></td><td><code>10</code></td></tr>
+        <tr><td><code>-</code></td><td>trừ</td><td><code>7 - 3</code></td><td><code>4</code></td></tr>
+        <tr><td><code>*</code></td><td>nhân</td><td><code>7 * 3</code></td><td><code>21</code></td></tr>
+        <tr><td><code>/</code></td><td>chia thường — <strong>luôn ra số thực</strong></td><td><code>7 / 2</code></td><td><code>3.5</code></td></tr>
+        <tr><td><code>//</code></td><td>chia lấy phần nguyên</td><td><code>7 // 2</code></td><td><code>3</code></td></tr>
+        <tr><td><code>%</code></td><td>chia lấy dư</td><td><code>7 % 2</code></td><td><code>1</code></td></tr>
+        <tr><td><code>**</code></td><td>luỹ thừa</td><td><code>2 ** 3</code></td><td><code>8</code></td></tr>
+      </table>
+
+      <p>Trong thực tế, biểu thức thường được ghép từ nhiều biến rồi gán cho một biến mới — hãy giải phẫu ví dụ tính điểm trung bình:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">diem</span> <span class="op">=</span> <span class="op">(</span><span class="vr">toan</span> <span class="op">+</span> <span class="vr">van</span><span class="op">)</span> <span class="op">/</span> <span class="st">2</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>(toan + van)</code></td><td>cặp ngoặc — phần được Python tính <strong>trước tiên</strong></td><td>✅</td></tr>
+          <tr><td><code>/ 2</code></td><td>chia tổng vừa tính cho 2 (dấu <code>/</code> luôn ra số thực)</td><td>✅</td></tr>
+          <tr><td><code>=</code></td><td>dấu gán — cất kết quả vào biến <code>diem</code></td><td>✅</td></tr>
+          <tr><td>thứ tự ưu tiên</td><td><code>**</code> → <code>* / // %</code> → <code>+ -</code>, và ngoặc luôn đứng đầu</td><td>—</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Nghi ngờ thứ tự tính toán thì <strong>cứ thêm ngoặc đơn</strong>: <code>(toan + van) / 2</code> rõ nghĩa hơn <code>toan + van / 2</code>
+          (vế sau chia trước rồi mới cộng — kết quả khác hẳn!).
+        </p>
+      </div>
+
+      <p>Thử tính chu vi hình chữ nhật bằng toán tử số học:</p>
+
+      <div class="exercise-box" data-ex="py-05-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-05" data-topic="Toán tử số học" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TOÁN TỬ SỐ HỌC</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Toán tử so sánh</h2>
+      <p>
+        Toán tử so sánh đặt hai giá trị lên "bàn cân" và trả lời một câu duy nhất: <strong>đúng hay sai</strong>?
+        Kết quả trả về thuộc kiểu <code>bool</code> — chỉ có hai giá trị <code>True</code> hoặc <code>False</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">so-sanh.py</span>
+        </div>
+        <pre><code class="language-python">print(5 == 5)    # bằng
+print(5 != 5)    # khác
+print(7 &gt; 3)     # lớn hơn
+print(7 &lt; 3)     # nhỏ hơn
+print(7 &gt;= 7)    # lớn hơn hoặc bằng
+print(3 &lt;= 5)    # nhỏ hơn hoặc bằng</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>True
+False
+True
+False
+True
+True</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu một phép so sánh quen thuộc:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">diem</span> <span class="op">&gt;=</span> <span class="st">5</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>diem</code></td><td>giá trị bên trái — thường là biến cần kiểm tra</td><td>✅</td></tr>
+          <tr><td><code>&gt;=</code></td><td>toán tử so sánh — ở đây là "lớn hơn hoặc bằng"</td><td>✅</td></tr>
+          <tr><td><code>5</code></td><td>giá trị bên phải — mốc để so sánh</td><td>✅</td></tr>
+          <tr><td>kết quả</td><td>luôn là <code>True</code> hoặc <code>False</code> (kiểu <code>bool</code>)</td><td>—</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Đừng nhầm <code>=</code> với <code>==</code>! <code>=</code> là <strong>gán giá trị</strong>, còn <code>==</code> mới là <strong>so sánh bằng</strong>.
+          Viết <code>print(5 = 5)</code> sẽ bị <code>SyntaxError</code> ngay — Python không hiểu nổi bạn muốn gán cho ai.
+        </p>
+      </div>
+
+      <p>Kiểm tra một số có phải số chẵn không — cần cả toán tử <code>%</code> lẫn <code>==</code>:</p>
+
+      <div class="exercise-box" data-ex="py-05-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-05" data-topic="So sánh" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SO SÁNH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Toán tử logic</h2>
+      <p>
+        Một điều kiện thường chưa đủ — bạn cần nói "tuổi từ 13 <em>đến</em> 19", tức là <em>hai</em> điều kiện đúng cùng lúc.
+        Ba toán tử logic giúp bạn <strong>kết hợp</strong> các điều kiện:
+        <code>and</code> (và), <code>or</code> (hoặc), <code>not</code> (phủ định).
+        Chúng chỉ làm việc với giá trị <code>True</code>/<code>False</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">logic.py</span>
+        </div>
+        <pre><code class="language-python">tuoi = 15
+print(tuoi &gt;= 13 and tuoi &lt;= 19)   # cả hai vế đều đúng?
+print(tuoi &lt; 13 or tuoi &gt; 19)      # có ít nhất một vế đúng?
+print(not (tuoi == 15))            # đảo ngược True/False</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>True
+False
+False</pre>
+        </div>
+      </div>
+
+      <table>
+        <tr><th>A</th><th>B</th><th>A and B</th><th>A or B</th></tr>
+        <tr><td>True</td><td>True</td><td>True</td><td>True</td></tr>
+        <tr><td>True</td><td>False</td><td>False</td><td>True</td></tr>
+        <tr><td>False</td><td>True</td><td>False</td><td>True</td></tr>
+        <tr><td>False</td><td>False</td><td>False</td><td>False</td></tr>
+      </table>
+
+      <p>
+        <code>and</code> chỉ đúng khi <strong>cả hai</strong> vế đúng; <code>or</code> đúng khi <strong>ít nhất một</strong> vế đúng;
+        <code>not</code> thì lật ngược giá trị: <code>not True</code> thành <code>False</code> và ngược lại.
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Đọc điều kiện như tiếng Việt cho dễ: <code>tuoi &gt;= 13 and tuoi &lt;= 19</code> đọc là "tuổi lớn hơn hoặc bằng 13 <em>và</em> nhỏ hơn hoặc bằng 19".
+          Viết <code>and</code>, <code>or</code>, <code>not</code> bằng <strong>chữ thường</strong> — viết hoa <code>AND</code> là lỗi ngay!
+        </p>
+      </div>
+
+      <p>Bài tập kết hợp điều kiện bằng <code>and</code>:</p>
+
+      <div class="exercise-box" data-ex="py-05-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-05" data-topic="Logic" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — LOGIC</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 05</h2>
+      <ul>
+        <li>Toán tử số học: <code>+ - * / // % **</code>; <code>7 / 2</code> ra <code>3.5</code>, <code>7 // 2</code> ra <code>3</code>, <code>7 % 2</code> ra <code>1</code>, <code>2 ** 3</code> ra <code>8</code>.</li>
+        <li>Thứ tự ưu tiên: <code>**</code> trước, rồi <code>* / // %</code>, cuối cùng <code>+ -</code>; ngoặc đơn luôn được tính trước.</li>
+        <li>Toán tử so sánh <code>== != &gt; &lt; &gt;= &lt;=</code> trả về <code>True</code>/<code>False</code>; <code>=</code> là gán còn <code>==</code> là so sánh.</li>
+        <li>Toán tử logic: <code>and</code> (cả hai đúng), <code>or</code> (một trong hai đúng), <code>not</code> (đảo ngược).</li>
+        <li><code>tuoi &gt;= 13 and tuoi &lt;= 19</code> là mẫu điều kiện kết hợp kinh điển — sắp dùng ngay ở bài <code>if</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-05" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 05</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-05"] = [
+      /* --- Toán tử số học --- */
+      { topic: "Toán tử số học", type: "choice", code: "print(7 // 2)", question: "Đoạn code trên in ra gì?", options: ["3", "3.5", "4", "1"], answer: "3", explain: "// là chia lấy phần nguyên: 7 chia 2 được 3 dư 1, lấy phần nguyên là 3." },
+      { topic: "Toán tử số học", type: "choice", code: "print(2 ** 3)", question: "Đoạn code trên in ra gì?", options: ["8", "6", "9", "23"], answer: "8", explain: "** là luỹ thừa: 2 mũ 3 = 2 × 2 × 2 = 8." },
+      { topic: "Toán tử số học", type: "choice", question: "Toán tử % thực hiện phép tính gì?", options: ["Chia lấy dư", "Chia lấy phần nguyên", "Phần trăm của một số", "Luỹ thừa"], answer: "Chia lấy dư", explain: "7 % 2 = 1 vì 7 chia 2 dư 1 — rất hay dùng để kiểm tra chẵn/lẻ." },
+      { topic: "Toán tử số học", type: "choice", code: "print(7 % 2)", question: "Đoạn code trên in ra gì?", options: ["1", "3", "3.5", "0"], answer: "1", explain: "7 chia 2 được 3 dư 1 → % lấy phần dư là 1." },
+      { topic: "Toán tử số học", type: "choice", code: "print(7 / 2)", question: "Đoạn code trên in ra gì?", options: ["3.5", "3", "4", "1"], answer: "3.5", explain: "Phép chia / luôn trả về số thực, kể cả khi chia hết." },
+      { topic: "Toán tử số học", type: "choice", code: "print(10 + 2 * 3)", question: "Đoạn code trên in ra gì?", options: ["16", "36", "15", "60"], answer: "16", explain: "Nhân trước cộng sau: 2 * 3 = 6, rồi 10 + 6 = 16." },
+      { topic: "Toán tử số học", type: "fill", question: "Viết ký hiệu của phép chia lấy phần nguyên (ví dụ 7 // 2 = 3):", answer: ["//"], explain: "// là chia lấy phần nguyên, còn / là chia thường ra số thực." },
+      /* --- So sánh --- */
+      { topic: "So sánh", type: "choice", code: "print(5 == 5)", question: "Đoạn code trên in ra gì?", options: ["True", "False", "5", "Lỗi cú pháp"], answer: "True", explain: "== kiểm tra bằng nhau: 5 bằng 5 → True." },
+      { topic: "So sánh", type: "choice", question: "Toán tử != có nghĩa là gì?", options: ["Khác nhau", "Bằng nhau", "Không phủ định", "Gán giá trị"], answer: "Khác nhau", explain: "!= là phép so sánh khác: 5 != 3 → True." },
+      { topic: "So sánh", type: "choice", code: "print(10 >= 10)", question: "Đoạn code trên in ra gì?", options: ["True", "False", "10", "Lỗi"], answer: "True", explain: ">= là lớn hơn HOẶC bằng — bằng nhau cũng tính là đúng." },
+      { topic: "So sánh", type: "choice", code: "print(\"5\" == 5)", question: "Đoạn code trên in ra gì?", options: ["False", "True", "5", "Lỗi"], answer: "False", explain: "Chuỗi \"5\" khác số 5 — hai giá trị khác kiểu thì không bằng nhau." },
+      { topic: "So sánh", type: "choice", question: "Kết quả của một phép so sánh luôn thuộc kiểu dữ liệu nào?", options: ["bool (True/False)", "int", "str", "float"], answer: "bool (True/False)", explain: "Mọi phép so sánh chỉ trả về True hoặc False." },
+      { topic: "So sánh", type: "fill", question: "Viết toán tử kiểm tra hai giá trị BẰNG nhau (gõ đúng 2 ký tự):", answer: ["=="], explain: "== là so sánh bằng; còn = chỉ là gán giá trị." },
+      /* --- Logic --- */
+      { topic: "Logic", type: "choice", code: "print(True and False)", question: "Đoạn code trên in ra gì?", options: ["False", "True", "0", "Lỗi"], answer: "False", explain: "and chỉ đúng khi CẢ HAI vế đều đúng." },
+      { topic: "Logic", type: "choice", code: "print(False or True)", question: "Đoạn code trên in ra gì?", options: ["True", "False", "1", "Lỗi"], answer: "True", explain: "or đúng khi có ÍT NHẤT MỘT vế đúng." },
+      { topic: "Logic", type: "choice", code: "print(not True)", question: "Đoạn code trên in ra gì?", options: ["False", "True", "None", "Lỗi"], answer: "False", explain: "not đảo ngược giá trị: not True → False." },
+      { topic: "Logic", type: "choice", code: "tuoi = 20\nprint(tuoi >= 13 and tuoi <= 19)", question: "Đoạn code trên in ra gì?", options: ["False", "True", "20", "Lỗi"], answer: "False", explain: "tuoi >= 13 đúng nhưng tuoi <= 19 sai → and cần cả hai đúng nên ra False." },
+      { topic: "Logic", type: "choice", code: "print(3 > 2 and 2 > 5)", question: "Đoạn code trên in ra gì?", options: ["False", "True", "Lỗi vì không so sánh được", "3"], answer: "False", explain: "3 > 2 đúng, nhưng 2 > 5 sai → and ra False." },
+      { topic: "Logic", type: "fill", question: "Điền toán tử logic: muốn CẢ HAI điều kiện đều đúng thì dùng ____ (viết chữ thường):", answer: ["and"], explain: "and nối hai điều kiện và chỉ đúng khi cả hai vế đúng." }
+    ];
+
+    EXERCISES["py-05-ex1"] = {
+      topic: "Chu vi hình chữ nhật",
+      prompt: "Tạo biến a = 5 và b = 3, tính chu vi hình chữ nhật bằng công thức (a + b) * 2 rồi in kết quả ra màn hình.",
+      checks: [
+        { regex: "\\ba\\s*=\\s*5\\b", desc: "Có dòng gán a = 5", hint: "Viết: a = 5" },
+        { regex: "\\bb\\s*=\\s*3\\b", desc: "Có dòng gán b = 3", hint: "Viết: b = 3" },
+        { regex: "\\(\\s*a\\s*\\+\\s*b\\s*\\)\\s*\\*\\s*2", desc: "Tính chu vi bằng công thức (a + b) * 2", hint: "cv = (a + b) * 2 — nhớ ngoặc đơn!" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "print(\"Chu vi:\", cv)" }
+      ],
+      sample: "a = 5\nb = 3\ncv = (a + b) * 2\nprint(\"Chu vi:\", cv)"
+    };
+
+    EXERCISES["py-05-ex2"] = {
+      topic: "Kiểm tra số chẵn",
+      prompt: "Tạo biến n gán một số nguyên bất kỳ (ví dụ 8), rồi dùng phép % 2 == 0 để in ra True/False cho biết n có phải số chẵn.",
+      checks: [
+        { regex: "\\bn\\s*=\\s*-?\\d+", desc: "Gán một giá trị số cho biến n", hint: "Ví dụ: n = 8" },
+        { regex: "%\\s*2\\s*==\\s*0", desc: "Có phép kiểm tra n % 2 == 0", hint: "Số chẵn là số chia 2 dư 0: n % 2 == 0" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "print(n % 2 == 0)" }
+      ],
+      sample: "n = 8\nprint(n % 2 == 0)"
+    };
+
+    EXERCISES["py-05-ex3"] = {
+      topic: "Điều kiện kết hợp với and",
+      prompt: "Tạo biến diem gán một giá trị bất kỳ (ví dụ 8), rồi in ra kết quả kiểm tra diem nằm trong khoảng từ 5 đến 10 bằng điều kiện kết hợp and.",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*[0-9.]+", desc: "Gán một giá trị cho biến diem", hint: "Ví dụ: diem = 8" },
+        { regex: "\\band\\b", desc: "Dùng toán tử and để nối hai điều kiện", hint: "diem >= 5 and diem <= 10" },
+        { regex: ">=\\s*5", desc: "Có điều kiện diem >= 5", hint: "Vế thứ nhất: diem >= 5" },
+        { regex: "<\\s*=\\s*10", desc: "Có điều kiện diem <= 10", hint: "Vế thứ hai: diem <= 10" }
+      ],
+      sample: "diem = 8\nprint(diem >= 5 and diem <= 10)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

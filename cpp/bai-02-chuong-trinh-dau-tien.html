@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 2 C++: chương trình Hello World đầu tiên — cấu trúc chương trình, in ra màn hình với cout, endl và comment.">
+  <title>Bài 2: Chương trình đầu tiên: cout | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-02">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-02</span></div>
+      <h1 class="lesson-title">Chương trình đầu tiên: cout</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #02 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Đến lúc viết chương trình C++ hoàn chỉnh đầu tiên! Bạn sẽ <strong>giải phẫu bộ khung</strong> của mọi chương trình C++
+        (<code>#include</code>, <code>main</code>, <code>return 0</code>), học cách in ra màn hình với <code>cout</code> và làm quen với
+        <strong>comment</strong> — ghi chú để lại cho người đọc. Đi kèm là 2 bài tập tự viết code có chấm điểm! ⚡
+      </p>
+
+      <h2>Cấu trúc chương trình C++</h2>
+      <p>
+        Mọi chương trình C++ đều xoay quanh một hàm đặc biệt tên là <code>main()</code> — nơi máy bắt đầu thực thi.
+        Hãy xem chương trình Hello World hoàn chỉnh, chạy được ngay bằng <code>g++</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hello.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello, World!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hello, World!</pre>
+        </div>
+      </div>
+
+      <p>Chỉ 7 dòng nhưng có đủ "bộ khung" mà chương trình C++ nào cũng cần. Đọc từng dòng:</p>
+
+      <table>
+        <tr><th>Dòng</th><th>Ý nghĩa</th></tr>
+        <tr><td><code>#include &lt;iostream&gt;</code></td><td>nạp thư viện nhập/xuất — có nó mới dùng được <code>cout</code>, <code>endl</code></td></tr>
+        <tr><td><code>using namespace std;</code></td><td>cho phép viết ngắn <code>cout</code> thay vì <code>std::cout</code></td></tr>
+        <tr><td><code>int main() { … }</code></td><td>hàm chính — máy bắt đầu thực thi từ đây</td></tr>
+        <tr><td><code>cout &lt;&lt; "Hello, World!" &lt;&lt; endl;</code></td><td>in chuỗi ra màn hình rồi xuống dòng</td></tr>
+        <tr><td><code>return 0;</code></td><td>kết thúc <code>main</code>, trả mã 0 = "mọi thứ thành công"</td></tr>
+      </table>
+
+      <p>Giờ <strong>giải phẫu</strong> dòng lệnh in — trái tim của chương trình này:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">cout</span> <span class="op">&lt;&lt;</span> <span class="st">"Hello"</span> <span class="op">&lt;&lt;</span> <span class="fn">endl</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>cout</code></td><td>luồng xuất chuẩn (character output) — màn hình</td><td>✅</td></tr>
+          <tr><td><code>&lt;&lt;</code></td><td>toán tử "đẩy" dữ liệu vào luồng — hình dung như mũi tên chỉ về màn hình</td><td>✅</td></tr>
+          <tr><td><code>"Hello"</code></td><td>chuỗi cần in — phải nằm trong dấu nháy KÉP</td><td>✅</td></tr>
+          <tr><td><code>endl</code></td><td>xuống dòng sau khi in</td><td>❌ (có thể dùng <code>"\n"</code>)</td></tr>
+          <tr><td><code>;</code></td><td>kết thúc câu lệnh — dấu chấm phẩy là "hết câu" của C++</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Quên dấu <code>;</code> là lỗi kinh điển nhất của người mới học C++: compiler báo <code>error: expected ';' before ...</code> kèm số dòng cần sửa — cứ đọc kỹ rồi thêm vào. Mỗi câu lệnh đều kết thúc bằng dấu chấm phẩy, kể cả <code>return 0;</code>.</p>
+      </div>
+
+      <p>Kiểm tra nhanh phần cấu trúc chương trình:</p>
+
+      <div class="quiz-console" data-lesson="cpp-02" data-topic="Cấu trúc chương trình" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CẤU TRÚC CHƯƠNG TRÌNH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>In ra màn hình với cout</h2>
+      <p>
+        <code>cout</code> là "loa phát thanh" của chương trình. Toán tử <code>&lt;&lt;</code> đẩy dữ liệu về phía màn hình,
+        và bạn có thể <strong>nối nhiều <code>&lt;&lt;</code></strong> trong cùng một lệnh để in nhiều thứ liên tiếp.
+        Cái bẫy đầu tiên cũng giống hệt Python: <strong>có dấu nháy là chuỗi, không nháy là biểu thức</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">so-sanh.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "2 + 3" &lt;&lt; endl;            // chuỗi → in nguyên văn
+    cout &lt;&lt; 2 + 3 &lt;&lt; endl;              // biểu thức → C++ tính trước
+    cout &lt;&lt; "Tong: " &lt;&lt; 2 + 3 &lt;&lt; endl;  // nối nhiều &lt;&lt; trong một lệnh
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>2 + 3
+5
+Tong: 5</pre>
+        </div>
+      </div>
+
+      <p>
+        Một điều thú vị: <code>cout</code> chỉ xuống dòng khi bạn <em>yêu cầu</em>. Hãy xem hai lệnh in liên tiếp
+        và hai cách xuống dòng thông dụng:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xuong-dong.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "A";               // chưa xuống dòng...
+    cout &lt;&lt; "B" &lt;&lt; endl;       // ...nên A và B dính liền nhau: AB
+    cout &lt;&lt; "Dòng 1" &lt;&lt; endl;  // endl: xuống dòng và đẩy dữ liệu ra ngay
+    cout &lt;&lt; "Dòng 2" &lt;&lt; "\n";  // "\n" trong chuỗi: cũng xuống dòng, gõ ngắn hơn
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>AB
+Dòng 1
+Dòng 2</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p><code>cout</code> và <code>endl</code> thực chất nằm trong namespace <code>std</code> — tên đầy đủ là <code>std::cout</code>, <code>std::endl</code>. Dòng <code>using namespace std;</code> cho phép viết tắt. Bỏ dòng đó đi thì phải viết <code>std::cout &lt;&lt; "Hi";</code> — vẫn chạy tốt, chỉ dài hơn.</p>
+      </div>
+
+      <p>Thử sức ngay với 2 bài tập — viết code C++ hoàn chỉnh vào ô rồi bấm <strong>[ KIỂM TRA ]</strong>:</p>
+
+      <div class="exercise-box" data-ex="cpp-02-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-02-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-02" data-topic="cout" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — COUT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Comment</h2>
+      <p>
+        <strong>Comment</strong> (ghi chú) là những phần C++ <em>bỏ qua hoàn toàn</em> khi biên dịch — dùng để giải thích code,
+        đánh dấu việc cần làm hoặc tạm tắt một dòng lệnh. C++ có hai kiểu:
+        <code>//</code> cho <strong>một dòng</strong> và <code>/* … */</code> cho <strong>nhiều dòng</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">comment.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+// Comment một dòng — bắt đầu bằng hai dấu gạch chéo
+
+int main() {
+    cout &lt;&lt; "Dòng này chạy" &lt;&lt; endl;   // ghi chú ngay sau lệnh cũng được
+
+    /* Comment nhiều dòng:
+       trải dài bao nhiêu dòng cũng được,
+       kết thúc bằng dấu đóng */
+
+    // cout &lt;&lt; "Dòng này bị tắt" &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Dòng này chạy</pre>
+        </div>
+      </div>
+
+      <p>Dòng bị comment không hề chạy — hãy <strong>giải phẫu</strong> để nhớ hai kiểu ghi chú:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="cm">// cout &lt;&lt; "A";</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>//</code></td><td>comment một dòng — mọi thứ từ đây đến hết dòng là ghi chú</td><td>❌ (nhưng rất nên dùng)</td></tr>
+          <tr><td><code>/* … */</code></td><td>comment nhiều dòng — bỏ qua mọi thứ nằm giữa cặp dấu</td><td>❌ (dùng khi cần)</td></tr>
+        </table>
+      </div>
+
+      <p>Kiểm tra nhanh phần comment:</p>
+
+      <div class="quiz-console" data-lesson="cpp-02" data-topic="Comment" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — COMMENT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 02</h2>
+      <ul>
+        <li>Bộ khung chương trình C++: <code>#include &lt;iostream&gt;</code> → <code>using namespace std;</code> → <code>int main() { … }</code> → <code>return 0;</code>.</li>
+        <li>Máy luôn bắt đầu chạy từ hàm <code>main()</code>; mỗi câu lệnh kết thúc bằng dấu <code>;</code>.</li>
+        <li><code>cout &lt;&lt; …</code> in ra màn hình; nối nhiều <code>&lt;&lt;</code> trong một lệnh; chuỗi phải nằm trong nháy kép.</li>
+        <li>Có nháy → in nguyên văn; không nháy → C++ tính trước rồi in (giống <code>print()</code> của Python).</li>
+        <li>Xuống dòng bằng <code>endl</code> hoặc <code>"\n"</code>; không có gì thì các lệnh in dính liền nhau.</li>
+        <li>Comment: <code>//</code> một dòng, <code>/* … */</code> nhiều dòng — không ảnh hưởng khi chạy.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-02" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 02</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

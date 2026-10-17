@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 18 C++: pair, map và set trong STL — cặp giá trị first/second, từ điển key–value với map, tập hợp không trùng với set.">
+  <title>Bài 18: Map, Set &amp; Pair | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-18">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-18</span></div>
+      <h1 class="lesson-title">Map, Set &amp; Pair</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #18 ]</span>
+        <span class="pill">Chương 6 — STL &amp; nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Vector giỏi <em>giữ thứ tự</em>, nhưng có những bài toán cần "tra cứu theo tên" như từ điển, hoặc "lọc trùng" như
+        danh sách khách mời. Hôm nay bạn nhận bộ ba vũ khí mới của STL: <strong>pair</strong> (cặp giá trị),
+        <strong>map</strong> (từ điển key–value) và <strong>set</strong> (tập hợp không trùng). Bộ ba này xuất hiện
+        trong gần như mọi kỳ thi và dự án thực tế! ⚡
+      </p>
+
+      <h2>pair — cặp giá trị</h2>
+      <p>
+        <code>pair</code> là "hộp đựng" vừa đúng 2 thứ, hai ô có tên cố định là <code>first</code> và <code>second</code>.
+        Nó như một <em>thẻ học sinh</em> ghi tên một bên, điểm một bên:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">pair.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    pair&lt;string, int&gt; p = {"Nam", 9};
+    cout &lt;&lt; p.first &lt;&lt; endl;            // thành phần thứ nhất
+    cout &lt;&lt; p.second &lt;&lt; endl;           // thành phần thứ hai
+    p.second = 10;                       // cập nhật điểm
+    cout &lt;&lt; p.first &lt;&lt; ": " &lt;&lt; p.second &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nam
+9
+Nam: 10</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu khai báo — thứ tự hai kiểu trong <code>&lt; &gt;</code> quyết định kiểu của <code>first</code> và <code>second</code>:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">pair</span><span class="op">&lt;</span><span class="kw">string</span><span class="op">,</span> <span class="kw">int</span><span class="op">&gt;</span> <span class="vr">p</span> <span class="op">=</span> <span class="st">{"Nam", 9}</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>pair</code></td><td>kiểu dữ liệu "cặp đôi" của STL</td><td>✅</td></tr>
+          <tr><td><code>&lt;string, int&gt;</code></td><td>kiểu của <code>first</code> là <code>string</code>, kiểu của <code>second</code> là <code>int</code> — <strong>đúng thứ tự</strong></td><td>✅</td></tr>
+          <tr><td><code>p</code></td><td>tên biến — bạn tự đặt</td><td>✅</td></tr>
+          <tr><td><code>{"Nam", 9}</code></td><td>giá trị khởi tạo: phần tử đầu → <code>first</code>, phần tử sau → <code>second</code></td><td>❌</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>pair</code> cực hợp để gom "2 thứ đi liền nhau" — ví dụ <code>vector&lt;pair&lt;string, int&gt;&gt;</code> lưu
+          danh sách tên–điểm. Bài sau bạn sẽ thấy <code>map</code> thực chất là "bộ sưu tập các pair" với mỗi phần tử
+          là một cặp key–value, nên <code>.first</code>/<code>.second</code> quay lại ngay!
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-18" data-topic="Pair" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — PAIR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-18-ex1"></div>
+
+      <h2>map — từ điển</h2>
+      <p>
+        <code>map</code> giống cuốn <strong>từ điển</strong>: tra theo <em>key</em> (khoá) để lấy <em>value</em> (giá trị).
+        Mỗi key là duy nhất. Ở đây ta lập "bảng điểm các môn", khoá là tên môn, giá trị là điểm:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">map.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;map&gt;
+using namespace std;
+
+int main() {
+    map&lt;string, int&gt; diem;
+    diem["toan"] = 8;
+    diem["van"] = 7;
+    diem["anh"] = 9;
+
+    cout &lt;&lt; diem["toan"] &lt;&lt; endl;
+    diem["toan"] = 10;               // ghi đè giá trị cũ
+    cout &lt;&lt; diem["toan"] &lt;&lt; endl;
+    cout &lt;&lt; diem.size() &lt;&lt; endl;
+
+    for (auto &amp;m : diem)
+        cout &lt;&lt; m.first &lt;&lt; ": " &lt;&lt; m.second &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>8
+10
+3
+anh: 9
+toan: 10
+van: 7</pre>
+        </div>
+      </div>
+
+      <p>
+        Để ý kết quả in ra: dù nhập <code>toan</code> trước, <code>anh</code> lại hiện đầu tiên — vì <strong>map tự sắp xếp
+        theo key</strong> (thứ tự bảng chữ cái). Nhìn dòng duyệt: mỗi phần tử <code>m</code> là một pair, nên
+        <code>m.first</code> là môn và <code>m.second</code> là điểm.
+      </p>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Truy cập <code>diem["ly"]</code> khi key <code>"ly"</code> <strong>chưa tồn tại</strong> sẽ <em>âm thầm tạo mới</em>
+          key đó với giá trị <code>0</code>! Nếu chỉ muốn kiểm tra, hãy dùng <code>diem.count("ly")</code> (trả về 0 hoặc 1)
+          hoặc <code>diem.find("ly") != diem.end()</code>. Đây là cái bẫy kinh điển khiến <code>size()</code> phình to bất thường.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-18" data-topic="Map" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — MAP</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-18-ex2"></div>
+
+      <h2>set — tập hợp không trùng</h2>
+      <p>
+        <code>set</code> là <strong>tập hợp</strong>: thêm cùng một giá trị bao nhiêu lần cũng chỉ giữ <em>một bản</em>,
+        và các phần tử luôn được xếp tăng dần. Cực hợp cho bài toán "lọc trùng danh sách":
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">set.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;set&gt;
+using namespace std;
+
+int main() {
+    set&lt;int&gt; s;
+    s.insert(3);
+    s.insert(1);
+    s.insert(3);             // trùng — bị bỏ qua
+    s.insert(7);
+
+    cout &lt;&lt; "Cac phan tu:";
+    for (int x : s) cout &lt;&lt; " " &lt;&lt; x;
+    cout &lt;&lt; endl;
+    cout &lt;&lt; "So luong: " &lt;&lt; s.size() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Cac phan tu: 1 3 7
+So luong: 3</pre>
+        </div>
+      </div>
+
+      <p>
+        Bốn lần <code>insert</code> nhưng chỉ còn 3 phần tử — số 3 trùng đã bị <strong>tự loại</strong>. Và chú ý:
+        các phần tử ra theo thứ tự tăng dần chứ không phải thứ tự chèn.
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>set</code> không có chỉ số <code>s[i]</code> — muốn duyệt thì dùng range-based for với <code>set&lt;int&gt; s</code>.
+          Muốn kiểm tra một giá trị có trong set không: <code>s.count(x)</code> trả về 1 nếu có, 0 nếu không.
+          Muốn xoá một phần tử: <code>s.erase(x)</code>.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-18" data-topic="Set" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SET</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-18-ex3"></div>
+
+      <h2>TỔNG KẾT BÀI 18</h2>
+      <ul>
+        <li><code>pair&lt;A, B&gt; p = {x, y};</code> gom 2 giá trị: <code>p.first</code> kiểu A, <code>p.second</code> kiểu B.</li>
+        <li><code>map&lt;K, V&gt; m;</code> là từ điển key–value; truy cập và gán bằng <code>m[key]</code>; key là duy nhất.</li>
+        <li>Duyệt map bằng range-based for: mỗi phần tử là một pair — <code>.first</code> là key, <code>.second</code> là value.</li>
+        <li>Map <strong>tự sắp xếp theo key</strong>; tra key lạ bằng <code>m[key]</code> sẽ tạo key mới giá trị 0 — kiểm tra bằng <code>count</code>/<code>find</code>.</li>
+        <li><code>set&lt;T&gt; s;</code> là tập hợp <strong>không trùng</strong>, tự xếp tăng dần; thêm bằng <code>s.insert(x)</code>, kiểm tra bằng <code>s.count(x)</code>.</li>
+        <li>Bộ ba pair – map – set là công cụ tra cứu &amp; lọc trùng trứ danh của STL — dùng ngay ở bài dự án nhé!</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-18" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 18</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-18"] = [
+      /* --- Pair (6) --- */
+      { topic: "Pair", type: "choice", code: "pair<string, int> p = {\"Nam\", 9};", question: "p.first trong đoạn code trên là gì?", options: ["\"Nam\"", "9", "pair", "Lỗi biên dịch"], answer: "\"Nam\"", explain: "first là thành phần thứ nhất — kiểu string trong khai báo, ở đây là \"Nam\"." },
+      { topic: "Pair", type: "choice", code: "pair<string, int> p = {\"Lan\", 8};\ncout << p.second;", question: "Đoạn code trên in ra gì?", options: ["8", "Lan", "p", "0"], answer: "8", explain: "second là thành phần thứ hai — ở đây là điểm 8." },
+      { topic: "Pair", type: "fill", question: "Điền tên thành phần còn thiếu để in ra 9:  pair<string, int> p = {\"Nam\", 9};  cout << p.______;", answer: ["second"], explain: "p.second là thành phần thứ hai của pair, chính là 9." },
+      { topic: "Pair", type: "choice", question: "Một pair lưu được bao nhiêu giá trị?", options: ["2 giá trị: first và second", "1 giá trị", "3 giá trị", "Không giới hạn"], answer: "2 giá trị: first và second", explain: "pair là 'cặp đôi' — vừa đúng 2 thành phần, không hơn không kém." },
+      { topic: "Pair", type: "choice", code: "pair<int, string> p;", question: "Với khai báo trên, p.first có kiểu dữ liệu gì?", options: ["int", "string", "pair", "auto"], answer: "int", explain: "Kiểu đầu tiên trong <> là kiểu của first — đúng theo thứ tự khai báo." },
+      { topic: "Pair", type: "choice", code: "pair<string, int> p = {\"Nam\", 9};\np.second = 10;", question: "Lệnh p.second = 10; làm gì?", options: ["Cập nhật thành phần thứ hai của p thành 10", "Tạo biến mới tên second", "In số 10 ra màn hình", "Đổi thứ tự hai thành phần của p"], answer: "Cập nhật thành phần thứ hai của p thành 10", explain: "p.second là một biến bình thường — gán giá trị mới cho nó là cập nhật điểm." },
+      /* --- Map (6) --- */
+      { topic: "Map", type: "choice", question: "Cần #include thư viện nào để dùng map?", options: ["<map>", "<set>", "<pair>", "<dictionary>"], answer: "<map>", explain: "#include <map> — còn set thì nằm trong <set>." },
+      { topic: "Map", type: "choice", code: "map<string, int> diem;\ndiem[\"toan\"] = 8;\ncout << diem[\"toan\"];", question: "Đoạn code trên in ra gì?", options: ["8", "toan", "0", "1"], answer: "8", explain: "Gán giá trị 8 cho khoá \"toan\", sau đó tra lại thì nhận đúng 8." },
+      { topic: "Map", type: "fill", question: "Điền tên hàm trả về số cặp key–value trong map diem:  diem.______();", answer: ["size", "size()"], explain: "diem.size() đếm số phần tử — mỗi phần tử là một cặp key–value." },
+      { topic: "Map", type: "choice", question: "Khi duyệt map bằng range-based for, mỗi phần tử chứa gì?", options: ["Một pair: .first là key, .second là value", "Chỉ có value", "Chỉ có key", "Một số nguyên là chỉ số"], answer: "Một pair: .first là key, .second là value", explain: "map là tập hợp các pair<key, value> nên m.first là khoá, m.second là giá trị." },
+      { topic: "Map", type: "choice", code: "map<string, int> diem;\ndiem[\"van\"] = 7;\ndiem[\"anh\"] = 9;\nfor (auto &m : diem) { cout << m.first; break; }", question: "Đoạn code trên in ra gì?", options: ["anh", "van", "9", "7"], answer: "anh", explain: "map tự sắp theo key; \"anh\" đứng trước \"van\" theo bảng chữ cái." },
+      { topic: "Map", type: "choice", question: "diem[\"ly\"] với khoá \"ly\" CHƯA tồn tại trong map sẽ gây ra gì?", options: ["Tự tạo khoá \"ly\" với giá trị 0", "Báo lỗi ngay lập tức", "Trả về chuỗi rỗng", "Xoá toàn bộ map"], answer: "Tự tạo khoá \"ly\" với giá trị 0", explain: "map[] tự tạo key mới giá trị 0 nếu chưa có — dùng count/find nếu chỉ muốn kiểm tra." },
+      /* --- Set (6) --- */
+      { topic: "Set", type: "choice", question: "Cần #include thư viện nào để dùng set?", options: ["<set>", "<map>", "<vector>", "<algorithm>"], answer: "<set>", explain: "#include <set> ở đầu chương trình." },
+      { topic: "Set", type: "choice", code: "set<int> s;\ns.insert(3);\ns.insert(1);\ns.insert(3);\ncout << s.size();", question: "Đoạn code trên in ra gì?", options: ["2", "3", "1", "4"], answer: "2", explain: "Số 3 nhập hai lần nhưng set chỉ giữ một — còn lại 1 và 3 → size = 2." },
+      { topic: "Set", type: "fill", question: "Điền tên hàm thêm phần tử vào set:  s.______(5);", answer: ["insert"], explain: "s.insert(5); thêm 5 vào set — trùng thì bị bỏ qua." },
+      { topic: "Set", type: "choice", question: "Đặc điểm lớn nhất của set là gì?", options: ["Không chứa phần tử trùng và tự sắp tăng dần", "Lưu theo đúng thứ tự chèn", "Cho phép truy cập bằng s[i]", "Chỉ chứa được kiểu số nguyên"], answer: "Không chứa phần tử trùng và tự sắp tăng dần", explain: "Đúng hai tính chất 'ăn tiền' của set: loại trùng + tự sắp xếp." },
+      { topic: "Set", type: "choice", code: "set<int> s = {5, 2, 5, 8};\nfor (int x : s) cout << x;", question: "Đoạn code trên in ra gì?", options: ["258", "5258", "528", "852"], answer: "258", explain: "Số 5 trùng bị loại, các phần tử còn lại tự xếp tăng dần: 2, 5, 8." },
+      { topic: "Set", type: "fill", question: "Điền tên hàm kiểm tra số 7 có trong set s (trả về 1 nếu có, 0 nếu không):  s.______(7)", answer: ["count", "count()"], explain: "s.count(7) trả về 1 hoặc 0 — cách kiểm tra 'có trong set không' không thay đổi dữ liệu." }
+    ];
+    EXERCISES["cpp-18-ex1"] = {
+      topic: "Tạo pair và in hai thành phần",
+      prompt: "Tạo một pair<string, int> tên p với giá trị tuỳ ý, rồi in cả p.first và p.second ra màn hình bằng cout.",
+      checks: [
+        { regex: "pair\\s*<\\s*string\\s*,\\s*int\\s*>\\s*p", desc: "Khai báo pair<string, int> tên p", hint: "Viết: pair<string, int> p = {\"Nam\", 9};" },
+        { regex: "p\\s*\\.\\s*first", desc: "Dùng p.first", hint: "Thành phần thứ nhất của pair là p.first" },
+        { regex: "p\\s*\\.\\s*second", desc: "Dùng p.second", hint: "Thành phần thứ hai của pair là p.second" },
+        { regex: "cout\\s*<<[\\s\\S]*p\\s*\\.\\s*(first|second)", desc: "In thành phần của pair ngay trong lệnh cout", hint: "cout << p.first << \" \" << p.second << endl;" }
+      ],
+      sample: "pair<string, int> p = {\"Nam\", 9};\ncout << p.first << \" \" << p.second << endl;"
+    };
+    EXERCISES["cpp-18-ex2"] = {
+      topic: "Map — gán và tra giá trị",
+      prompt: "Khai báo map<string, int> tên diem, gán điểm cho 2 môn (2 khoá khác nhau), rồi in giá trị của một khoá ra màn hình.",
+      checks: [
+        { regex: "map\\s*<\\s*string\\s*,\\s*int\\s*>\\s*diem", desc: "Khai báo map<string, int> tên diem", hint: "Viết: map<string, int> diem;" },
+        { regex: "diem\\s*\\[\\s*[\"'][^\"']+[\"']\\s*\\]\\s*=", minCount: 2, desc: "Gán giá trị cho 2 khoá khác nhau", hint: "diem[\"toan\"] = 8; rồi diem[\"van\"] = 7;" },
+        { regex: "cout\\s*<<\\s*diem\\s*\\[", desc: "In giá trị tra từ map bằng diem[\"khoá\"]", hint: "cout << diem[\"toan\"] << endl;" }
+      ],
+      sample: "map<string, int> diem;\ndiem[\"toan\"] = 8;\ndiem[\"van\"] = 7;\ncout << diem[\"toan\"] << endl;"
+    };
+    EXERCISES["cpp-18-ex3"] = {
+      topic: "Set — thêm và duyệt",
+      prompt: "Khai báo set<int> tên s, thêm 3 số tuỳ ý bằng insert (thử thêm cả số trùng nếu muốn), rồi duyệt và in các phần tử bằng vòng for.",
+      checks: [
+        { regex: "set\\s*<\\s*int\\s*>\\s*s", desc: "Khai báo set<int> tên s", hint: "Viết: set<int> s;" },
+        { regex: "s\\s*\\.\\s*insert\\s*\\(", minCount: 3, desc: "Thêm ít nhất 3 số bằng s.insert(...)", hint: "s.insert(3); — gọi 3 lần với các số khác nhau" },
+        { regex: "for\\s*\\(", desc: "Dùng vòng for để duyệt set", hint: "for (int x : s) { ... }" },
+        { regex: "cout\\s*<<", desc: "In phần tử ra màn hình bằng cout", hint: "cout << x << endl;" }
+      ],
+      sample: "set<int> s;\ns.insert(3);\ns.insert(1);\ns.insert(7);\nfor (int x : s) cout << x << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

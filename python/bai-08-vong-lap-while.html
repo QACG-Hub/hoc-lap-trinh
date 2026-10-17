@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 8 Python: vòng lặp while — lặp đến khi điều kiện sai, break thoát vòng lặp và continue bỏ qua lần lặp, kèm cảnh báo lặp vô hạn, bài tập chấm điểm và quiz random.">
+  <title>Bài 8: Vòng lặp while, break &amp; continue | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-08">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-08</span></div>
+      <h1 class="lesson-title">Vòng lặp while, break &amp; continue</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #08 ]</span>
+        <span class="pill">Chương 2 — Cấu trúc điều khiển</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        <code>for</code> giỏi khi bạn biết trước số lần lặp. Nhưng đời không đẹp như mơ: có khi bạn phải lặp
+        <em>cho đến khi</em> người dùng nhập đúng mật khẩu, cho đến khi con boss gục ngã, cho đến khi trời sáng.
+        Lúc đó cần đến <strong>while</strong> — cùng hai chiêu <strong>break</strong> và <strong>continue</strong> để điều khiển
+        vòng lặp như một cao thủ. Nhiệm vụ cuối chương 2 đây! ⚡
+      </p>
+
+      <h2>while — lặp đến khi</h2>
+      <p>
+        <code>while</code> ("trong khi") kiểm tra điều kiện <strong>trước mỗi vòng</strong>:
+        còn <code>True</code> thì còn chạy khối lệnh, đến khi điều kiện thành <code>False</code> thì dừng.
+        Điểm mấu chốt: bên trong vòng lặp phải có lệnh <strong>làm thay đổi điều kiện</strong>, nếu không nó sẽ chạy mãi mãi.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dem-1-5.py</span>
+        </div>
+        <pre><code class="language-python">i = 1
+while i &lt;= 5:
+    print(i)
+    i += 1</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+3
+4
+5</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "động cơ" của vòng lặp <code>while</code>:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">while</span> <span class="vr">i</span> <span class="op">&lt;=</span> <span class="st">5</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>while</code></td><td>từ khoá mở đầu vòng lặp — "trong khi…"</td><td>✅</td></tr>
+          <tr><td><code>i &lt;= 5</code></td><td>điều kiện — còn đúng thì còn lặp, sai thì dừng</td><td>✅</td></tr>
+          <tr><td><code>:</code> + khối lệnh</td><td>dấu hai chấm rồi các dòng thụt lề <strong>4 dấu cách</strong></td><td>✅</td></tr>
+          <tr><td><code>i += 1</code></td><td>lệnh <strong>thay đổi điều kiện</strong> bên trong — thiếu nó là lặp vô hạn!</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên <code>i += 1</code> là gặp cảnh <strong>lặp vô hạn</strong>: chương trình in mãi không dừng.
+          Gặp cảnh đó, bấm <code>Ctrl + C</code> trong terminal để "cứu" chương trình.
+          Trước khi viết <code>while</code>, hãy tự hỏi: "Lệnh nào làm điều kiện này sai đi?".
+        </p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>for</code> dùng khi biết trước số lần lặp (duyệt 1..100, duyệt chuỗi).
+          <code>while</code> dùng khi chỉ biết <strong>điều kiện dừng</strong> (chờ nhập đúng, lặp đến khi đủ điều kiện).
+          Chọn đúng vòng lặp cho đúng việc — đó là dấu hiệu của người viết code có nghề!
+        </p>
+      </div>
+
+      <p>Thực hành đếm bằng <code>while</code> trước:</p>
+
+      <div class="exercise-box" data-ex="py-08-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-08" data-topic="while" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — WHILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <p>Thêm một bài cộng dồn bằng <code>while</code> — dạng bài cực kỳ hay gặp:</p>
+
+      <div class="exercise-box" data-ex="py-08-ex2"></div>
+
+      <h2>break &amp; continue</h2>
+      <p>
+        Đôi khi chương trình cần "phanh gấp" giữa vòng lặp. Hai từ khoá làm việc đó:
+        <code>break</code> <strong>thoát khỏi vòng lặp ngay lập tức</strong>, còn <code>continue</code> <strong>bỏ qua phần còn lại
+        của lần lặp hiện tại</strong> để sang lần kế tiếp. Cả hai dùng được cho cả <code>for</code> lẫn <code>while</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">break.py</span>
+        </div>
+        <pre><code class="language-python">i = 1
+while True:
+    print(i)
+    if i == 5:
+        break
+    i += 1
+print("Vòng lặp kết thúc")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+3
+4
+5
+Vòng lặp kết thúc</pre>
+        </div>
+      </div>
+
+      <p>
+        <code>while True:</code> nghe như lặp vô hạn, nhưng <code>break</code> chính là "công tắc dừng khẩn cấp" khi <code>i</code> chạm 5.
+        Đây là mẫu code cực phổ biến khi chưa biết trước số lần lặp.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">continue.py</span>
+        </div>
+        <pre><code class="language-python">i = 0
+while i &lt; 5:
+    i += 1
+    if i == 3:
+        continue
+    print(i)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+4
+5</pre>
+        </div>
+      </div>
+
+      <p>
+        Khi <code>i</code> bằng 3, <code>continue</code> bỏ qua <code>print(i)</code> và quay lại kiểm tra điều kiện — nên số 3
+        không xuất hiện trong kết quả.
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Phân biệt cho chuẩn: <code>break</code> = "bỏ luôn cả vòng lặp", <code>continue</code> = "bỏ lần này thôi".
+          Mẹo nhớ: <em>break phá vòng lặp, continue tiếp tục chặng kế</em>.
+        </p>
+      </div>
+
+      <p>Bài tập cuối cùng của chương — dùng <code>while True</code> cùng <code>break</code>:</p>
+
+      <div class="exercise-box" data-ex="py-08-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-08" data-topic="break &amp; continue" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — BREAK &amp; CONTINUE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 08</h2>
+      <ul>
+        <li><code>while điều_kiện:</code> lặp khi điều kiện còn <code>True</code>, dừng khi thành <code>False</code>.</li>
+        <li>Bên trong <code>while</code> phải có lệnh thay đổi điều kiện (như <code>i += 1</code>) — thiếu là lặp vô hạn, bấm <code>Ctrl + C</code> để dừng.</li>
+        <li><code>break</code> thoát vòng lặp ngay; <code>continue</code> bỏ qua phần còn lại của lần lặp hiện tại.</li>
+        <li>Mẫu kinh điển: <code>while True:</code> + <code>if ...: break</code> — lặp mãi cho đến khi gặp điều kiện dừng.</li>
+        <li>Chọn vòng lặp: biết trước số lần → <code>for</code>; chỉ biết điều kiện dừng → <code>while</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-08" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 08</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-08"] = [
+      /* --- while --- */
+      { topic: "while", type: "choice", question: "Vòng lặp while tiếp tục lặp khi nào?", options: ["Khi điều kiện còn đúng (True)", "Khi điều kiện đã sai", "Luôn luôn lặp vô hạn", "Đúng 10 lần rồi tự dừng"], answer: "Khi điều kiện còn đúng (True)", explain: "while kiểm tra điều kiện trước mỗi vòng; điều kiện False thì dừng." },
+      { topic: "while", type: "choice", code: "i = 1\nwhile i <= 3:\n    print(i)\n    i += 1", question: "Đoạn code trên in ra lần lượt những giá trị nào?", options: ["1, 2, 3", "0, 1, 2", "1, 2, 3, 4", "3, 2, 1"], answer: "1, 2, 3", explain: "Bắt đầu từ 1, in rồi tăng i cho đến khi i = 4 thì điều kiện i <= 3 sai." },
+      { topic: "while", type: "choice", question: "Quên tăng biến đếm trong while sẽ ra sao?", options: ["Lặp vô hạn — chương trình chạy mãi không dừng", "Chương trình tự dừng sau 100 lần lặp", "Báo lỗi SyntaxError ngay", "In ra số 0 rồi dừng"], answer: "Lặp vô hạn — chương trình chạy mãi không dừng", explain: "Điều kiện không bao giờ sai đi thì vòng lặp không có lý do để dừng." },
+      { topic: "while", type: "choice", code: "i = 1\nwhile i <= 3:\n    print(i)", question: "Đoạn code trên sẽ ra sao?", options: ["In số 1 liên tục mãi (lặp vô hạn)", "In 1, 2, 3 rồi dừng", "Không in gì cả", "Báo lỗi ngay lập tức"], answer: "In số 1 liên tục mãi (lặp vô hạn)", explain: "Thiếu lệnh i += 1 nên i mãi bằng 1 — điều kiện luôn đúng. Nhớ bấm Ctrl + C nếu lỡ chạy!" },
+      { topic: "while", type: "choice", question: "Khi nào nên dùng while thay vì for?", options: ["Khi chưa biết trước số lần lặp, chỉ biết điều kiện dừng", "Khi biết chính xác số lần lặp", "Khi cần duyệt từng ký tự chuỗi", "while chỉ dùng được với range()"], answer: "Khi chưa biết trước số lần lặp, chỉ biết điều kiện dừng", explain: "Ví dụ chờ người dùng nhập đúng mật khẩu — chưa biết trước sẽ nhập sai bao nhiêu lần." },
+      { topic: "while", type: "fill", question: "Viết lệnh tăng biến i thêm 1 đơn vị (dạng viết tắt):", answer: ["i += 1", "i+=1", "i = i + 1"], explain: "i += 1 là lệnh thay đổi điều kiện, giúp while kết thúc đúng lúc." },
+      /* --- break & continue --- */
+      { topic: "break & continue", type: "choice", question: "Từ khoá break có tác dụng gì?", options: ["Thoát khỏi vòng lặp ngay lập tức", "Bỏ qua phần còn lại của lần lặp hiện tại", "Tạm dừng chương trình 1 giây", "Kết thúc toàn bộ chương trình"], answer: "Thoát khỏi vòng lặp ngay lập tức", explain: "break phá luôn cả vòng lặp, code sau vòng lặp tiếp tục chạy." },
+      { topic: "break & continue", type: "choice", question: "Từ khoá continue có tác dụng gì?", options: ["Bỏ qua phần còn lại của lần lặp hiện tại, sang lần kế tiếp", "Thoát khỏi vòng lặp ngay", "Lặp lại lần hiện tại từ đầu", "Thoát khỏi chương trình"], answer: "Bỏ qua phần còn lại của lần lặp hiện tại, sang lần kế tiếp", explain: "continue chỉ bỏ MỘT lần — khác hẳn break là bỏ cả vòng lặp." },
+      { topic: "break & continue", type: "choice", code: "for i in range(1, 5):\n    if i == 3:\n        break\n    print(i)", question: "Đoạn code trên in ra gì?", options: ["1, 2", "1, 2, 4", "1, 2, 3", "1, 2, 3, 4"], answer: "1, 2", explain: "Gặp i = 3 là break — in 1, 2 rồi thoát hẳn vòng lặp." },
+      { topic: "break & continue", type: "choice", code: "i = 0\nwhile i < 5:\n    i += 1\n    if i == 3:\n        continue\n    print(i)", question: "Đoạn code trên in ra gì?", options: ["1, 2, 4, 5", "1, 2, 3, 4, 5", "1, 2", "2, 4, 5"], answer: "1, 2, 4, 5", explain: "Khi i = 3, continue bỏ qua print(i) nên số 3 không xuất hiện." },
+      { topic: "break & continue", type: "choice", question: "Mẫu while True: kết hợp break thường dùng khi nào?", options: ["Khi cần lặp mãi cho đến khi một điều kiện đặc biệt xảy ra", "Khi biết trước chính xác số lần lặp", "Khi muốn chương trình chạy nhanh hơn", "Không bao giờ nên dùng"], answer: "Khi cần lặp mãi cho đến khi một điều kiện đặc biệt xảy ra", explain: "while True lặp vô điều kiện, còn break đóng vai trò \"công tắc dừng\" khi điều kiện dừng được thỏa." },
+      { topic: "break & continue", type: "fill", question: "Điền từ khoá thoát khỏi vòng lặp ngay lập tức:", answer: ["break"], explain: "break = phá vòng lặp; continue = bỏ qua lần lặp hiện tại." }
+    ];
+
+    EXERCISES["py-08-ex1"] = {
+      topic: "Đếm 1 đến 5 bằng while",
+      prompt: "Dùng vòng lặp while để in các số từ 1 đến 5: khởi tạo i = 1, in i rồi tăng i bằng += 1 cho đến khi i vượt quá 5.",
+      checks: [
+        { regex: "\\bwhile\\s+\\w+\\s*<\\s*=\\s*5\\s*:", desc: "Có vòng lặp while i <= 5", hint: "while i <= 5:" },
+        { regex: "\\w+\\s*\\+=\\s*1", desc: "Tăng biến đếm bằng += 1 trong vòng lặp", hint: "i += 1 — nếu quên là lặp vô hạn!" },
+        { regex: "print\\s*\\(", desc: "In giá trị bằng print()", hint: "print(i) bên trong vòng lặp" }
+      ],
+      sample: "i = 1\nwhile i <= 5:\n    print(i)\n    i += 1"
+    };
+
+    EXERCISES["py-08-ex2"] = {
+      topic: "Tính tổng 1 đến 10 bằng while",
+      prompt: "Dùng vòng lặp while tính tổng các số từ 1 đến 10: chuẩn bị biến đếm và biến tổng bằng 0, cộng dồn rồi tăng biến đếm, in kết quả (mong đợi 55).",
+      checks: [
+        { regex: "\\bwhile\\s+\\w+\\s*<\\s*=\\s*10\\s*:", desc: "Có vòng lặp while i <= 10", hint: "while i <= 10:" },
+        { regex: "\\w+\\s*\\+=\\s*\\w+", desc: "Cộng dồn giá trị vào biến tổng bằng +=", hint: "tong += i bên trong vòng lặp" },
+        { regex: "\\w+\\s*\\+=\\s*1", desc: "Tăng biến đếm bằng += 1", hint: "i += 1 sau khi cộng dồn" },
+        { regex: "print\\s*\\(", desc: "In tổng ra màn hình bằng print()", hint: "print(\"Tổng =\", tong)" }
+      ],
+      sample: "i = 1\ntong = 0\nwhile i <= 10:\n    tong += i\n    i += 1\nprint(\"Tổng =\", tong)"
+    };
+
+    EXERCISES["py-08-ex3"] = {
+      topic: "while True với break",
+      prompt: "Dùng while True kết hợp break: in các số bắt đầu từ 1, dừng vòng lặp ngay khi i bằng 5 (dùng if i == 5: break trước khi tăng i).",
+      checks: [
+        { regex: "\\bwhile\\s+True\\s*:", desc: "Có vòng lặp while True:", hint: "while True: — lặp mãi cho đến khi gặp break" },
+        { regex: "\\bbreak\\b", desc: "Dùng break để thoát vòng lặp", hint: "break nằm trong khối if i == 5:" },
+        { regex: "\\bif\\s+\\w+\\s*==\\s*5\\s*:", desc: "Có điều kiện if ... == 5 kích hoạt break", hint: "if i == 5:" }
+      ],
+      sample: "i = 1\nwhile True:\n    print(i)\n    if i == 5:\n        break\n    i += 1"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

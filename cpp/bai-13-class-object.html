@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 13 C++: class & object — định nghĩa lớp với public, tạo đối tượng, truy cập qua dấu chấm và viết phương thức đầu tiên.">
+  <title>Bài 13: Class &amp; Object | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-13">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-13</span></div>
+      <h1 class="lesson-title">Class &amp; Object</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #13 ]</span>
+        <span class="pill">Chương 5 — Lập trình hướng đối tượng</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Nếu <code>struct</code> là "hộp dữ liệu" thụ động, thì <code>class</code> là <strong>cỗ máy mini</strong>:
+        chứa cả dữ liệu <em>lẫn</em> những hàm hành động. Từ đây bạn bước vào tư duy
+        <strong>lập trình hướng đối tượng</strong> (OOP) — cách tổ chức code mà mọi dự án lớn đều dùng.
+        Trước khi vào bài: <em>class là bản thiết kế, object là sản phẩm đúc ra từ bản thiết kế đó</em>. ⚡
+      </p>
+
+      <h2>class &amp; public</h2>
+      <p>
+        Từ khóa <code>class</code> tạo một "bản thiết kế" mới, gồm các <strong>thuộc tính</strong> (dữ liệu) và
+        <strong>phương thức</strong> (hàm). Muốn code bên ngoài dùng được các thành viên, ta mở "cửa" bằng nhãn
+        <code>public:</code>. Cùng xem lớp <code>HocSinh</code> đầu tiên:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hocsinh.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class HocSinh {
+public:
+    string ten;
+    int diem;
+};
+
+int main() {
+    HocSinh hs;        // tạo object từ class
+    hs.ten = "An";
+    hs.diem = 9;
+    cout &lt;&lt; hs.ten &lt;&lt; " - " &lt;&lt; hs.diem &lt;&lt; " diem" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>An - 9 diem</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "bản thiết kế" — chú ý nhãn <code>public:</code> khác gì struct:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">class</span> <span class="fn">HocSinh</span> <span class="op">{</span> <span class="kw">public</span><span class="op">:</span> <span class="kw">string</span> <span class="vr">ten</span><span class="op">;</span> <span class="kw">int</span> <span class="vr">diem</span><span class="op">;</span> <span class="op">};</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>class</code></td><td>từ khóa mở đầu định nghĩa lớp</td><td>✅</td></tr>
+          <tr><td><code>HocSinh</code></td><td>tên lớp — quy ước viết hoa chữ đầu mỗi từ</td><td>✅</td></tr>
+          <tr><td><code>public:</code></td><td>"cửa mở": các thành viên phía sau truy cập được từ bên ngoài</td><td>✅ (bỏ qua thì mặc định là <code>private</code>!)</td></tr>
+          <tr><td><code>{ … }</code></td><td>thân class — nơi khai báo thuộc tính &amp; phương thức</td><td>✅</td></tr>
+          <tr><td><code>;</code> sau <code>}</code></td><td>kết thúc định nghĩa lớp</td><td>✅</td></tr>
+          <tr><td><code>hs.ten</code></td><td>dấu chấm — truy cập thành viên qua <strong>object</strong></td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên nhãn <code>public:</code> là bẫy số một của class. Khác với struct, mọi thành viên của class
+          <strong>mặc định là private</strong> — code bên ngoài truy cập sẽ bị compiler chặn ngay:
+          <code>error: 'ten' is private within this context</code>. Thấy lỗi "private" hãy thêm <code>public:</code>
+        vào đầu danh sách thuộc tính.
+        </p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Về khả năng, <code>struct</code> và <code>class</code> gần như giống hệt nhau. Chúng chỉ khác
+          <em>mặc định</em>: thành viên <code>struct</code> mặc định <code>public</code>, còn <code>class</code> mặc định
+          <code>private</code>. Người C++ thường dùng <code>struct</code> cho "hộp dữ liệu" đơn giản, <code>class</code>
+          cho thứ có hành động phức tạp.
+        </p>
+      </div>
+
+      <p>Thử đúc "bản thiết kế" hình chữ nhật của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="cpp-13-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-13" data-topic="Class &amp; Object" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CLASS &amp; OBJECT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Phương thức</h2>
+      <p>
+        <strong>Phương thức</strong> (member function) chỉ là hàm nằm <em>bên trong</em> class. Điều hay ho:
+        nó dùng được trực tiếp các thuộc tính của chính object đang gọi — không cần truyền tham số lằng nhằng.
+        Hãy xem lớp <code>HinhChuNhat</code> tự tính diện tích:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hinhchunhat.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class HinhChuNhat {
+public:
+    int dai;
+    int rong;
+
+    int dienTich() {          // phương thức: hàm nằm trong class
+        return dai * rong;    // dùng luôn thuộc tính của chính object
+    }
+};
+
+int main() {
+    HinhChuNhat a, b;             // hai object cùng class
+    a.dai = 5;  a.rong = 3;
+    b.dai = 4;  b.rong = 6;
+    cout &lt;&lt; "a: " &lt;&lt; a.dienTich() &lt;&lt; endl;   // 5 * 3
+    cout &lt;&lt; "b: " &lt;&lt; b.dienTich() &lt;&lt; endl;   // 4 * 6
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>a: 15
+b: 24</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu một phương thức — cấu trúc giống hàm, nhưng sống trong class:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="fn">dienTich</span><span class="op">()</span> <span class="op">{</span> <span class="kw">return</span> <span class="vr">dai</span> <span class="op">*</span> <span class="vr">rong</span><span class="op">;</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int</code></td><td>kiểu giá trị trả về (không trả gì thì dùng <code>void</code>)</td><td>✅</td></tr>
+          <tr><td><code>dienTich</code></td><td>tên phương thức — bạn tự đặt, gọi bằng <code>h.dienTich()</code></td><td>✅</td></tr>
+          <tr><td><code>()</code></td><td>danh sách tham số — để rỗng nếu không cần dữ liệu từ ngoài</td><td>✅</td></tr>
+          <tr><td><code>{ … }</code></td><td>thân phương thức — viết thẳng tên thuộc tính, C++ hiểu là của object đang gọi</td><td>✅</td></tr>
+          <tr><td><code>return dai * rong;</code></td><td>trả kết quả về nơi gọi</td><td>✅ (nếu hàm có kiểu trả về)</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Mỗi object có <strong>dữ liệu riêng</strong>: <code>a</code> giữ 5×3, <code>b</code> giữ 4×6 — cùng một class
+          nhưng giá trị độc lập. Gọi <code>a.dienTich()</code> thì <code>dai</code>, <code>rong</code> bên trong phương thức
+          chính là của <code>a</code>. Giống hai chiếc máy cùng model nhưng mỗi chiếc chứa nguyên liệu khác nhau.
+        </p>
+      </div>
+
+      <p>Thử sức với phương thức — bắt đầu bằng việc bổ sung <code>dienTich()</code> vào lớp cũ:</p>
+
+      <div class="exercise-box" data-ex="cpp-13-ex2"></div>
+
+      <div class="exercise-box" data-ex="cpp-13-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-13" data-topic="Phương thức" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — PHƯƠNG THỨC</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 13</h2>
+      <ul>
+        <li><code>class</code> là "bản thiết kế" gồm <strong>thuộc tính</strong> (dữ liệu) và <strong>phương thức</strong> (hàm); <strong>object</strong> là biến được tạo từ class.</li>
+        <li>Thành viên class mặc định là <code>private</code> — muốn dùng từ bên ngoài phải mở "cửa" bằng <code>public:</code>.</li>
+        <li>Tạo object: <code>HocSinh hs;</code> — truy cập thành viên bằng dấu chấm: <code>hs.ten</code>, <code>hs.diem</code>.</li>
+        <li>Phương thức là hàm nằm trong class, dùng trực tiếp thuộc tính của object; gọi bằng <code>h.dienTich()</code>.</li>
+        <li>Mỗi object giữ dữ liệu riêng dù cùng class: <code>a</code> là 5×3, <code>b</code> là 4×6, kết quả độc lập nhau.</li>
+        <li><code>struct</code> vs <code>class</code>: khác nhau ở mặc định truy cập (<code>public</code> vs <code>private</code>) — còn lại gần như tương đương.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-13" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 13</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-13"] = [
+      /* --- Class & Object (6) --- */
+      { topic: "Class & Object", type: "choice", question: "Từ khóa nào dùng để định nghĩa một lớp (class) trong C++?", options: ["class", "def", "object", "type"], answer: "class", explain: "class HocSinh { ... }; — 'def' là của Python nhé!" },
+      { topic: "Class & Object", type: "choice", question: "Nếu không ghi nhãn truy cập, thành viên của class mặc định là gì?", options: ["private", "public", "protected", "static"], answer: "private", explain: "Khác struct (mặc định public), class mặc định private — phải thêm public: mới truy cập được từ ngoài." },
+      { topic: "Class & Object", type: "choice", code: "class HocSinh {\npublic:\n    string ten;\n    int diem;\n};\nHocSinh hs;\nhs.diem = 9;\ncout << hs.diem;", question: "Đoạn code trên in ra gì?", options: ["9", "0", "Lỗi vì diem là private", "ten"], answer: "9", explain: "hs.diem được gán 9 rồi in ra — public: cho phép truy cập từ ngoài." },
+      { topic: "Class & Object", type: "choice", question: "Quên ghi public: trong class, khi truy cập thành viên từ ngoài sẽ ra sao?", options: ["Compiler báo lỗi vì thành viên mặc định là private", "Chương trình vẫn chạy vì mặc định là public", "Chỉ bị cảnh báo, vẫn chạy được", "C++ tự động thêm public cho bạn"], answer: "Compiler báo lỗi vì thành viên mặc định là private", explain: "Lỗi kiểu: 'ten' is private within this context — câu thần chú quen thuộc của dân OOP." },
+      { topic: "Class & Object", type: "fill", question: "Điền nhãn truy cập còn thiếu để thuộc tính dùng được từ bên ngoài:   class A { ______ int x; };", answer: ["public:", "public"], explain: "Viết public: (kèm dấu hai chấm) trước danh sách thành viên muốn mở." },
+      { topic: "Class & Object", type: "choice", question: "Object (đối tượng) là gì?", options: ["Một biến được tạo ra từ class", "Tên khác của class", "Một hàm đặc biệt", "Một file code"], answer: "Một biến được tạo ra từ class", explain: "Class là bản thiết kế, object là sản phẩm đúc ra: HocSinh hs; tạo object hs." },
+      /* --- Phương thức (6) --- */
+      { topic: "Phương thức", type: "choice", question: "Phương thức (member function) là gì?", options: ["Hàm được định nghĩa bên trong class", "Biến nằm trong class", "Một loại comment mới", "Một kiểu dữ liệu"], answer: "Hàm được định nghĩa bên trong class", explain: "Phương thức là 'hành động' của object — hàm sống trong class." },
+      { topic: "Phương thức", type: "choice", code: "class HinhChuNhat {\npublic:\n    int dai;\n    int rong;\n    int dienTich() {\n        return dai * rong;\n    }\n};\nHinhChuNhat h;\nh.dai = 4;\nh.rong = 6;\ncout << h.dienTich();", question: "Đoạn code trên in ra gì?", options: ["24", "10", "46", "Lỗi"], answer: "24", explain: "h.dienTich() trả về 4 * 6 = 24." },
+      { topic: "Phương thức", type: "choice", question: "Cách gọi phương thức dienTich() của object h nào ĐÚNG?", options: ["h.dienTich()", "dienTich(h)", "h->dienTich", "h dienTich()"], answer: "h.dienTich()", explain: "Object thường dùng dấu chấm: h.dienTich(). (h-> chỉ dành cho con trỏ.)" },
+      { topic: "Phương thức", type: "choice", question: "Bên trong phương thức, viết dai và rong là đang nói tới cái gì?", options: ["Thuộc tính của chính object đang gọi phương thức", "Hai biến toàn cục", "Tham số truyền vào", "Hằng số của chương trình"], answer: "Thuộc tính của chính object đang gọi phương thức", explain: "C++ hiểu dai, rong thuộc object hiện tại — nên a.dienTich() và b.dienTich() cho kết quả khác nhau." },
+      { topic: "Phương thức", type: "choice", code: "class HocSinh {\npublic:\n    string ten;\n    void chao() {\n        cout << \"Chao \" << ten << \"!\" << endl;\n    }\n};\nHocSinh hs;\nhs.ten = \"An\";\nhs.chao();", question: "Đoạn code trên in ra gì?", options: ["Chao An!", "Chao !", "An", "Chao ten!"], answer: "Chao An!", explain: "Trong chao(), ten chính là hs.ten = \"An\" → in \"Chao An!\"." },
+      { topic: "Phương thức", type: "fill", question: "Viết lời gọi phương thức dienTich() của object h:", answer: ["h.dienTich()", "h.dienTich();"], explain: "Tên object + dấu chấm + tên phương thức + cặp ngoặc: h.dienTich()" }
+    ];
+    EXERCISES["cpp-13-ex1"] = {
+      topic: "Class HinhChuNhat đầu tiên",
+      prompt: "Định nghĩa class HinhChuNhat với hai thuộc tính public int dai và int rong. Khai báo object h kiểu HinhChuNhat rồi gán h.dai = 5; h.rong = 3;",
+      checks: [
+        { regex: "class\\s+HinhChuNhat\\s*\\{", desc: "Định nghĩa class HinhChuNhat", hint: "Bắt đầu bằng: class HinhChuNhat {" },
+        { regex: "public\\s*:", desc: "Có nhãn public: để mở 'cửa' truy cập", hint: "Ngay sau dấu { của class, viết public:" },
+        { regex: "int\\s+(?:dai|rong)\\s*;.*int\\s+(?:dai|rong)\\s*;", desc: "Có đủ hai thuộc tính int dai và int rong", hint: "Trong class cần: int dai; và int rong;" },
+        { regex: "\\.\\s*(?:dai|rong)\\s*=", desc: "Tạo object và gán thuộc tính qua dấu chấm", hint: "HinhChuNhat h; rồi h.dai = 5; h.rong = 3;" }
+      ],
+      sample: "class HinhChuNhat {\npublic:\n    int dai;\n    int rong;\n};\n\nHinhChuNhat h;\nh.dai = 5;\nh.rong = 3;"
+    };
+    EXERCISES["cpp-13-ex2"] = {
+      topic: "Thêm phương thức dienTich()",
+      prompt: "Thêm phương thức int dienTich() vào class HinhChuNhat để trả về dai * rong. Tạo object, gán dai = 5, rong = 3 rồi in diện tích ra màn hình bằng cout.",
+      checks: [
+        { regex: "int\\s+dienTich\\s*\\(\\s*\\)", desc: "Định nghĩa phương thức int dienTich() không tham số", hint: "int dienTich() { return dai * rong; }" },
+        { regex: "return\\s+dai\\s*\\*\\s*rong\\s*;", desc: "Trả về dai * rong", hint: "Bên trong phương thức: return dai * rong;" },
+        { regex: "\\.\\s*dienTich\\s*\\(\\s*\\)", desc: "Gọi phương thức qua object bằng dấu chấm", hint: "cout << h.dienTich() << endl;" },
+        { regex: "cout\\s*<<", desc: "In kết quả bằng cout", hint: "cout << h.dienTich() << endl;" }
+      ],
+      sample: "class HinhChuNhat {\npublic:\n    int dai;\n    int rong;\n\n    int dienTich() {\n        return dai * rong;\n    }\n};\n\nHinhChuNhat h;\nh.dai = 5;\nh.rong = 3;\ncout << h.dienTich() << endl;"
+    };
+    EXERCISES["cpp-13-ex3"] = {
+      topic: "Class SinhVien với phương thức",
+      prompt: "Định nghĩa class SinhVien có thuộc tính public string ten và phương thức void inThongTin() in ra dòng: Sinh vien: <tên>. Tạo object sv, gán tên tuỳ ý rồi gọi sv.inThongTin().",
+      checks: [
+        { regex: "class\\s+SinhVien\\s*\\{.*string\\s+ten\\s*;", desc: "class SinhVien có thuộc tính string ten", hint: "class SinhVien { public: string ten; ... };" },
+        { regex: "void\\s+inThongTin\\s*\\(\\s*\\)", desc: "Có phương thức void inThongTin()", hint: "void inThongTin() { ... }" },
+        { regex: "cout\\s*<<[^;]*\\bten\\b", desc: "In giá trị ten bằng cout bên trong phương thức", hint: "cout << \"Sinh vien: \" << ten << endl;" },
+        { regex: "\\.\\s*inThongTin\\s*\\(\\s*\\)", desc: "Gọi phương thức qua object: sv.inThongTin()", hint: "sv.inThongTin();" }
+      ],
+      sample: "class SinhVien {\npublic:\n    string ten;\n\n    void inThongTin() {\n        cout << \"Sinh vien: \" << ten << endl;\n    }\n};\n\nSinhVien sv;\nsv.ten = \"An\";\nsv.inThongTin();"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

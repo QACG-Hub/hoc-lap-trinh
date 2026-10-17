@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 10 C++: con trỏ (pointer) cơ bản — lấy địa chỉ với &a, khai báo int *p, giải tham chiếu *p, con trỏ với mảng và truyền con trỏ vào hàm để đổi giá trị gốc.">
+  <title>Bài 10: Con trỏ (pointer) cơ bản | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-10">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-10</span></div>
+      <h1 class="lesson-title">Con trỏ (pointer) cơ bản</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #10 ]</span>
+        <span class="pill">Chương 4 — Con trỏ &amp; bộ nhớ</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Đây là bài "ngầu" nhất chương này: <strong>con trỏ</strong> — thứ khiến C++ vừa mạnh mẽ vừa đáng sợ.
+        Hãy tưởng tượng mỗi biến là một căn nhà, còn con trỏ chỉ là <em>mẩu giấy ghi địa chỉ căn nhà</em> đó.
+        Nắm được mẩu giấy, bạn có thể tìm tới tận nơi và sửa mọi thứ bên trong. ⚡
+      </p>
+
+      <h2>Địa chỉ &amp; con trỏ</h2>
+      <p>
+        Mọi biến trong bộ nhớ đều có một <strong>địa chỉ</strong> — na ná số nhà. Toán tử <code>&amp;</code> đặt trước biến
+        sẽ lấy ra địa chỉ đó; còn <code>*</code> khi khai báo sẽ tạo một <strong>con trỏ</strong> để giữ địa chỉ ấy.
+        Dùng <code>*p</code> thêm lần nữa để "đi tới căn nhà" và lấy giá trị bên trong:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">con-tro.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 5;
+    int *p = &amp;a;          // p trỏ tới a
+    cout &lt;&lt; a &lt;&lt; endl;    // giá trị của a
+    cout &lt;&lt; *p &lt;&lt; endl;   // giải tham chiếu: cũng là 5
+    *p = 10;              // đổi giá trị qua con trỏ
+    cout &lt;&lt; a &lt;&lt; endl;    // a đổi theo
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+5
+10</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="op">*</span><span class="vr">p</span> = <span class="op">&amp;</span><span class="vr">a</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int</code></td><td>kiểu dữ liệu mà con trỏ sẽ TRỎ TỚI (trỏ tới biến int)</td><td>✅</td></tr>
+          <tr><td><code>*</code></td><td>dấu hiệu khai báo con trỏ — khi khai báo, <code>*</code> đứng cạnh tên biến</td><td>✅</td></tr>
+          <tr><td><code>p</code></td><td>tên con trỏ — bạn tự đặt</td><td>✅</td></tr>
+          <tr><td><code>= &amp;a</code></td><td>gán ĐỊA CHỈ của a cho p (không phải giá trị 5!)</td><td>❌ (nhưng nên khởi tạo ngay)</td></tr>
+          <tr><td><code>*p</code></td><td>khi dùng trong biểu thức: <strong>giải tham chiếu</strong> — lấy giá trị tại địa chỉ p trỏ tới</td><td>—</td></tr>
+        </table>
+      </div>
+
+      <p>Muốn "nhìn thấy" địa chỉ, chỉ cần in con trỏ hoặc <code>&amp;a</code> ra — chúng sẽ in địa chỉ dạng số hệ 16:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dia-chi.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 5;
+    int *p = &amp;a;
+    cout &lt;&lt; "Dia chi cua a: " &lt;&lt; &amp;a &lt;&lt; endl;
+    cout &lt;&lt; "p cung tro toi: " &lt;&lt; p &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Dia chi cua a: 0x7fc2b797ec
+p cung tro toi: 0x7fc2b797ec</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Địa chỉ cụ thể (kiểu <code>0x7fc2b797ec</code>) <strong>khác nhau trên từng máy và từng lần chạy</strong> — điều quan trọng
+          là <code>p</code> và <code>&amp;a</code> luôn in ra <em>cùng một giá trị</em>, chứng tỏ p đang trỏ đúng tới a.
+        </p>
+      </div>
+
+      <p>Thử sức với 2 bài tập về lấy địa chỉ và thay giá trị qua con trỏ:</p>
+
+      <div class="exercise-box" data-ex="cpp-10-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-10-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-10" data-topic="Con trỏ cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CON TRỎ CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Con trỏ &amp; mảng + truyền vào hàm</h2>
+      <p>
+        Đây là bí mật động trời: <strong>tên mảng chính là con trỏ</strong>! Khi dùng một mình, <code>arr</code> tương đương
+        <code>&amp;arr[0]</code> — địa chỉ của phần tử đầu tiên. Vì thế bạn có thể dùng cú pháp con trỏ để duyệt mảng:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tro-vao-mang.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int arr[3] = {10, 20, 30};
+    int *p = arr;              // tên mảng = địa chỉ phần tử đầu
+    cout &lt;&lt; p[0] &lt;&lt; endl;      // 10
+    cout &lt;&lt; *(p + 1) &lt;&lt; endl;  // 20
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>10
+20</pre>
+        </div>
+      </div>
+
+      <p>
+        <code>*(p + 1)</code> nghĩa là "đi thêm 1 ô nhớ rồi lấy giá trị" — tương đương <code>p[1]</code>. Giờ đến ứng dụng
+        thực chiến nhất của con trỏ: <strong>truyền vào hàm để sửa giá trị gốc</strong>. Bình thường hàm nhận bản sao,
+        sửa xong bản sao thì biến gốc "không biết gì"; nhưng nhận <em>địa chỉ</em> thì hàm chạm được tận biến gốc:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">truyen-con-tro.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+void gapDoi(int *x) {      // hàm nhận ĐỊA CHỈ
+    *x = *x * 2;           // sửa giá trị tại địa chỉ đó
+}
+
+int main() {
+    int a = 5;
+    gapDoi(&amp;a);            // truyền địa chỉ của a
+    cout &lt;&lt; a &lt;&lt; endl;      // a đã bị "chỉnh" từ trong hàm
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>10</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Con trỏ <strong>chưa trỏ tới đâu</strong> là một quả bom: <code>int *p; *p = 5;</code> sẽ ghi giá trị vào một
+          vùng nhớ ngẫu nhiên — chương trình có thể crash ngay (<em>undefined behavior</em>). Khi chưa có địa chỉ hợp lệ,
+          hãy gán <code>int *p = nullptr;</code> và chỉ giải tham chiếu <code>*p</code> sau khi p đã trỏ tới một biến thật.
+        </p>
+      </div>
+
+      <p>Bài tập cuối: in ra địa chỉ của biến:</p>
+
+      <div class="exercise-box" data-ex="cpp-10-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-10" data-topic="Con trỏ nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CON TRỎ NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 10</h2>
+      <ul>
+        <li><code>&amp;a</code> lấy <strong>địa chỉ</strong> của biến a; <code>*p</code> trong biểu thức là <strong>giải tham chiếu</strong> — lấy giá trị tại địa chỉ p trỏ tới.</li>
+        <li>Khai báo con trỏ: <code>int *p = &amp;a;</code> — kiểu phải khớp với kiểu biến mà nó trỏ tới.</li>
+        <li>Dùng <code>*p = …</code> có thể <strong>thay đổi giá trị biến gốc</strong> — vì cả hai cùng chỉ tới một ô nhớ.</li>
+        <li>Tên mảng hoạt động như con trỏ tới phần tử đầu: <code>arr</code> tương đương <code>&amp;arr[0]</code>; <code>*(p + i)</code> tương đương <code>p[i]</code>.</li>
+        <li>Truyền <code>&amp;a</code> vào hàm để hàm nhận <code>int *x</code> và sửa được giá trị của <code>a</code>.</li>
+        <li>Đừng bao giờ giải tham chiếu con trỏ chưa trỏ tới đâu — dùng <code>nullptr</code> làm mặc định an toàn.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-10" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 10</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-10"] = [
+      /* --- Con trỏ cơ bản (6) --- */
+      { topic: "Con trỏ cơ bản", type: "choice", question: "Toán tử & đặt trước biến a (&a) cho ta gì?", options: ["Địa chỉ của a trong bộ nhớ", "Giá trị của a", "Một bản sao của a", "Bình phương của a"], answer: "Địa chỉ của a trong bộ nhớ", explain: "& là toán tử lấy địa chỉ — hình dung như lấy số nhà của căn nhà tên a." },
+      { topic: "Con trỏ cơ bản", type: "choice", question: "Trong biểu thức, *p có nghĩa gì (khi p là con trỏ)?", options: ["Lấy giá trị TẠI địa chỉ p đang trỏ tới (giải tham chiếu)", "Khai báo một con trỏ mới", "Nhân p với chính nó", "Xoá p khỏi bộ nhớ"], answer: "Lấy giá trị TẠI địa chỉ p đang trỏ tới (giải tham chiếu)", explain: "Khi khai báo, * tạo con trỏ; khi dùng trong biểu thức, *p là giải tham chiếu." },
+      { topic: "Con trỏ cơ bản", type: "choice", code: "int a = 5;\nint *p = &a;\ncout << *p;", question: "Đoạn code trên in ra gì?", options: ["5", "Địa chỉ của a", "Lỗi cú pháp", "&a"], answer: "5", explain: "p trỏ tới a; *p lấy giá trị tại đó, chính là 5." },
+      { topic: "Con trỏ cơ bản", type: "choice", code: "int a = 5;\nint *p = &a;\n*p = 10;\ncout << a;", question: "Đoạn code trên in ra gì?", options: ["10", "5", "Địa chỉ của a", "Lỗi"], answer: "10", explain: "Ghi *p = 10 nghĩa là ghi thẳng vào ô nhớ của a — a đổi thành 10." },
+      { topic: "Con trỏ cơ bản", type: "fill", question: "Khai báo con trỏ p kiểu int trỏ tới biến a (đúng cú pháp, kết thúc bằng dấu ;):", answer: ["int *p = &a;", "int* p = &a;", "int *p=&a;", "int* p=&a;", "int * p = &a;"], explain: "int *p = &a; — kiểu int, dấu * báo con trỏ, gán địa chỉ &a." },
+      { topic: "Con trỏ cơ bản", type: "choice", question: "Đoạn code nào NGUY HIỂM vì dùng con trỏ chưa trỏ tới đâu?", options: ["int *p; *p = 5;", "int a = 5; int *p = &a;", "int *p = nullptr;", "int a = 5; cout << &a;"], answer: "int *p; *p = 5;", explain: "p chưa trỏ tới đâu mà đã ghi giá trị — hành vi không xác định, có thể crash ngay." },
+      /* --- Con trỏ nâng cao (6) --- */
+      { topic: "Con trỏ nâng cao", type: "choice", question: "Khi dùng một mình, tên mảng arr tương đương với gì?", options: ["Địa chỉ phần tử đầu tiên: arr == &arr[0]", "Giá trị phần tử đầu tiên", "Số phần tử của mảng", "Toàn bộ mảng được copy ra"], answer: "Địa chỉ phần tử đầu tiên: arr == &arr[0]", explain: "Tên mảng 'suy biến' thành con trỏ tới phần tử đầu — bí mật giúp p = arr hoạt động." },
+      { topic: "Con trỏ nâng cao", type: "choice", code: "int arr[3] = {10, 20, 30};\nint *p = arr;\ncout << *(p + 1);", question: "Đoạn code trên in ra gì?", options: ["20", "10", "30", "Địa chỉ của arr"], answer: "20", explain: "*(p + 1) = đi thêm 1 ô nhớ = phần tử thứ hai = 20 (tương đương p[1])." },
+      { topic: "Con trỏ nâng cao", type: "choice", question: "Muốn một hàm thay đổi được giá trị của biến gốc, ta truyền gì vào hàm?", options: ["Địa chỉ của biến (&a) để hàm nhận con trỏ", "Bản sao giá trị của biến", "Không thể thay đổi từ trong hàm", "Tên biến dạng chuỗi"], answer: "Địa chỉ của biến (&a) để hàm nhận con trỏ", explain: "Hàm nhận địa chỉ thì sửa thẳng vào biến gốc: void tang(int *x) { *x = *x + 1; }" },
+      { topic: "Con trỏ nâng cao", type: "choice", code: "void tang(int *x) { *x = *x + 1; }\nint main() {\n    int a = 5;\n    tang(&a);\n    cout << a;\n}", question: "Đoạn code trên in ra gì?", options: ["6", "5", "Lỗi biên dịch", "Địa chỉ của a"], answer: "6", explain: "Hàm nhận &a và tăng giá trị tại địa chỉ đó lên 1 → a thành 6." },
+      { topic: "Con trỏ nâng cao", type: "fill", question: "Điền giá trị AN TOÀN cho con trỏ chưa trỏ tới đâu:", answer: ["nullptr", "NULL"], explain: "nullptr là giá trị chuẩn cho con trỏ 'chưa trỏ tới đâu' trong C++ hiện đại." },
+      { topic: "Con trỏ nâng cao", type: "choice", question: "Giải tham chiếu một con trỏ đang là nullptr (*p) sẽ thế nào?", options: ["Chương trình lỗi/crash khi chạy (hành vi không xác định)", "In ra 0", "Tự động cấp phát bộ nhớ", "Chương trình tự bỏ qua lệnh đó"], answer: "Chương trình lỗi/crash khi chạy (hành vi không xác định)", explain: "nullptr không trỏ tới đâu cả — giải tham chiếu nó là lỗi nghiêm trọng, thường crash ngay." }
+    ];
+    EXERCISES["cpp-10-ex1"] = {
+      topic: "Giải tham chiếu con trỏ",
+      prompt: "Khai báo int a = 5; tạo con trỏ p trỏ tới a; rồi in giá trị tại địa chỉ p bằng *p.",
+      checks: [
+        { regex: "int\\s+a\\s*=\\s*5\\s*;", desc: "Khai báo int a = 5;", hint: "Dòng đầu tiên: int a = 5;" },
+        { regex: "int\\s*\\*\\s*p\\s*=\\s*&\\s*a\\s*;", desc: "Khai báo con trỏ p trỏ tới a: int *p = &a;", hint: "int *p = &a;" },
+        { regex: "cout\\s*<<\\s*\\*\\s*p\\b", desc: "In giá trị tại địa chỉ bằng *p", hint: "cout << *p << endl;" }
+      ],
+      sample: "int a = 5;\nint *p = &a;\ncout << *p << endl;"
+    };
+    EXERCISES["cpp-10-ex2"] = {
+      topic: "Thay giá trị qua con trỏ",
+      prompt: "Tạo con trỏ p trỏ tới biến a, dùng *p = 10; để đổi giá trị tại địa chỉ p trỏ tới, rồi in biến a để thấy giá trị đã thay đổi.",
+      checks: [
+        { regex: "int\\s*\\*\\s*p\\s*=\\s*&\\s*a", desc: "Có con trỏ p trỏ tới a", hint: "int *p = &a;" },
+        { regex: "\\*\\s*p\\s*=\\s*10\\s*;", desc: "Gán *p = 10; để đổi giá trị tại địa chỉ p trỏ tới", hint: "*p = 10;" },
+        { regex: "cout\\s*<<\\s*a\\b", desc: "In biến a để thấy giá trị đã đổi", hint: "cout << a << endl;" }
+      ],
+      sample: "int a = 5;\nint *p = &a;\n*p = 10;\ncout << a << endl;"
+    };
+    EXERCISES["cpp-10-ex3"] = {
+      topic: "In địa chỉ của biến",
+      prompt: "Tạo biến int a = 5 và con trỏ p trỏ tới a, sau đó in ĐỊA CHỈ của a — dùng cout << p hoặc cout << &a. (Địa chỉ sẽ khác nhau trên từng máy — điều đó là bình thường!)",
+      checks: [
+        { regex: "int\\s+a\\s*=\\s*5\\s*;", desc: "Khai báo biến int a = 5;", hint: "int a = 5;" },
+        { regex: "int\\s*\\*\\s*p\\s*=\\s*&\\s*a\\s*;", desc: "Tạo con trỏ p trỏ tới a", hint: "int *p = &a;" },
+        { regex: "cout\\s*<<\\s*(p\\b|&\\s*a\\b)", desc: "In địa chỉ bằng cout << p hoặc cout << &a", hint: "cout << p << endl; hoặc cout << &a << endl;" }
+      ],
+      sample: "int a = 5;\nint *p = &a;\ncout << p << endl;\ncout << &a << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

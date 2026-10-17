@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 17 Python: Xử lý file — ghi file với open mode w, đọc file với read()/readlines(), và khối with tự đóng file khi xử lý từng dòng — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 17: Xử lý file | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-17">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-17</span></div>
+      <h1 class="lesson-title">Xử lý file</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #17 ]</span>
+        <span class="pill">Chương 4 — Hàm &amp; module</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Chương trình chỉ chạy rồi… quên sạch kết quả khi tắt máy thì thật uổng. Nhiệm vụ hôm nay:
+        dạy chương trình <strong>ghi kết quả xuống file</strong> để lưu giữ, và <strong>đọc file</strong> để tiếp tục xử lý.
+        Nhờ vậy, dữ liệu của bạn "bất tử" qua mọi lần tắt máy! ⚡
+      </p>
+
+      <h2>Ghi file</h2>
+      <p>
+        Muốn làm việc với file, bạn <strong>mở nó ra</strong> bằng hàm <code>open(đường_dẫn, mode, encoding=...)</code>.
+        Mode <code>"w"</code> nghĩa là "ghi mới" — nếu file đã tồn tại, nội dung cũ bị xóa sạch để ghi lại từ đầu.
+        Ghi xong thì <strong>đóng file</strong> bằng <code>f.close()</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ghi-file.py</span>
+        </div>
+        <pre><code class="language-python">f = open("data.txt", "w", encoding="utf-8")
+f.write("Xin chào\n")
+f.write("Dòng thứ hai")
+f.close()
+print("Đã ghi xong!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Đã ghi xong!</pre>
+        </div>
+      </div>
+
+      <p>
+        Sau khi chạy, file <code>data.txt</code> nằm cạnh chương trình, chứa đúng hai dòng: <code>Xin chào</code> và <code>Dòng thứ hai</code>.
+        Cùng <strong>giải phẫu</strong> lời gọi <code>open(...)</code> để hiểu từng tham số:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">open</span><span class="op">(</span><span class="st">"data.txt"</span><span class="op">,</span> <span class="st">"w"</span><span class="op">,</span> <span class="vr">encoding</span><span class="op">=</span><span class="st">"utf-8"</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>open</code></td><td>hàm mở file của Python</td><td>✅</td></tr>
+          <tr><td><code>"data.txt"</code></td><td>đường dẫn file — không có sẽ được tạo mới khi ghi</td><td>✅</td></tr>
+          <tr><td><code>"w"</code></td><td>mode: <code>"w"</code> ghi mới (xóa nội dung cũ), <code>"r"</code> chỉ đọc</td><td>✅</td></tr>
+          <tr><td><code>encoding="utf-8"</code></td><td>bảng mã ký tự — giữ tiếng Việt ghi/đọc đúng</td><td>❌ (nhưng rất nên có!)</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Trên Windows, quên <code>encoding="utf-8"</code> là công thức lỗi tiếng Việt: chữ <code>Xin chào</code> có thể bị lưu sai
+          hoặc gây <code>UnicodeEncodeError</code>. Cứ thêm <code>encoding="utf-8"</code> ngay từ đầu cho chắc — thói quen của cao thủ!
+        </p>
+      </div>
+
+      <p>Bài tập đầu tiên — ghi dòng đầu tiên của bạn xuống file:</p>
+
+      <div class="exercise-box" data-ex="py-17-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-17" data-topic="Ghi file" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — GHI FILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Đọc file</h2>
+      <p>
+        Đọc file cũng qua <code>open(...)</code> nhưng mode là <code>"r"</code>. Sau khi có đối tượng file,
+        bạn có hai món vũ khí chính: <code>read()</code> — đọc <em>cả file</em> thành một chuỗi dài;
+        <code>readlines()</code> — đọc thành <em>danh sách các dòng</em> (list). Xong việc nhớ <code>f.close()</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">doc-file.py</span>
+        </div>
+        <pre><code class="language-python">f = open("data.txt", "r", encoding="utf-8")
+noi_dung = f.read()
+f.close()
+print(noi_dung)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào
+Dòng thứ hai</pre>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">doc-tung-dong.py</span>
+        </div>
+        <pre><code class="language-python">f = open("data.txt", "r", encoding="utf-8")
+cac_dong = f.readlines()
+f.close()
+print(cac_dong)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>['Xin chào\n', 'Dòng thứ hai']</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          So sánh kết quả hai lần đọc: <code>read()</code> trả về một <strong>chuỗi</strong> gộp cả file;
+          <code>readlines()</code> trả về một <strong>list</strong> các dòng. Để ý mỗi phần tử giữ luôn ký tự xuống dòng
+          <code>\n</code> ở cuối (trừ dòng cuối cùng không có) — đó là lý do thấy cả <code>\n</code> trong list!
+        </p>
+      </div>
+
+      <p>Thực hành đọc file bằng with:</p>
+
+      <div class="exercise-box" data-ex="py-17-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-17" data-topic="Đọc file" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐỌC FILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>with — tự đóng file</h2>
+      <p>
+        Gõ <code>f.close()</code> hoài cũng mỏi tay — quên một lần là rò rỉ tài nguyên ngay.
+        Python có chiêu cao thủ: khối <strong><code>with open(...) as f:</code></strong>.
+        Hết khối, file được <em>tự động đóng</em> giúp bạn, khỏi lo quên!
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ghi-bang-with.py</span>
+        </div>
+        <pre><code class="language-python">with open("ghi-chu.txt", "w", encoding="utf-8") as f:
+    f.write("Học Python mỗi ngày\n")
+
+print("Xong, file tự đóng rồi!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xong, file tự đóng rồi!</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">with</span> <span class="fn">open</span><span class="op">(</span><span class="st">"data.txt"</span><span class="op">,</span> <span class="st">"r"</span><span class="op">)</span> <span class="kw">as</span> <span class="vr">f</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>with</code></td><td>từ khóa mở khối quản lý tài nguyên</td><td>✅</td></tr>
+          <tr><td><code>open(...)</code></td><td>mở file như thường — mode, encoding giữ nguyên</td><td>✅</td></tr>
+          <tr><td><code>as f</code></td><td>đặt tên cho đối tượng file trong khối</td><td>✅</td></tr>
+          <tr><td><code>:</code> + thụt lề</td><td>các dòng bên trong khối; hết khối file tự đóng</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Còn đây là combo "đọc từng dòng": dùng <code>for dong in f</code> để duyệt file như duyệt danh sách —
+        mỗi vòng lặp nhận một dòng. Thử đếm xem file <code>data.txt</code> có bao nhiêu dòng:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dem-dong.py</span>
+        </div>
+        <pre><code class="language-python">with open("data.txt", "r", encoding="utf-8") as f:
+    dem = 0
+    for dong in f:
+        dem = dem + 1
+
+print("Số dòng:", dem)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Số dòng: 2</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <code>with</code> đóng file <strong>kể cả khi có lỗi xảy ra</strong> bên trong khối — dữ liệu vẫn an toàn.
+          Ngược lại, cách mở file thường mà quên <code>f.close()</code> khi gặp lỗi có thể khiến file bị khóa hoặc mất dữ liệu chưa ghi.
+          Từ giờ, "mở file là dùng <code>with</code>" — quy tắc vàng!
+        </p>
+      </div>
+
+      <p>Bài tập tổng hợp — đếm số dòng bằng <code>with</code>:</p>
+
+      <div class="exercise-box" data-ex="py-17-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-17" data-topic="with &amp; xử lý dòng" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — WITH &amp; XỬ LÝ DÒNG</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 17</h2>
+      <ul>
+        <li><code>open("data.txt", "w", encoding="utf-8")</code> mở file để ghi — nội dung cũ bị xóa; ghi bằng <code>f.write(...)</code>.</li>
+        <li><code>f.close()</code> đóng file sau khi dùng; luôn nhớ <code>encoding="utf-8"</code> cho tiếng Việt.</li>
+        <li>Mode <code>"r"</code> để đọc: <code>read()</code> trả cả nội dung thành chuỗi, <code>readlines()</code> trả list các dòng.</li>
+        <li><code>with open(...) as f:</code> tự đóng file khi hết khối — kể cả khi có lỗi.</li>
+        <li>Duyệt file từng dòng bằng <code>for dong in f:</code> — đếm dòng, lọc dữ liệu, xử lý tuỳ thích.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-17" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 17</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-17"] = [
+      /* --- Ghi file --- */
+      { topic: "Ghi file", type: "choice", question: "Mode nào mở file để GHI MỚI — nội dung cũ trong file sẽ bị xóa?", options: ['"w"', '"r"', '"a"', '"d"'], answer: '"w"', explain: "\"w\" = write: ghi mới từ đầu; \"r\" chỉ để đọc." },
+      { topic: "Ghi file", type: "choice", code: "f = open(\"data.txt\", \"w\", encoding=\"utf-8\")\nf.write(\"Xin chào\")\nf.close()", question: "Biết data.txt đã có nội dung cũ. Sau khi chạy, file data.txt thay đổi thế nào?", options: ["Nội dung cũ bị xóa, file chỉ còn chữ Xin chào", "Chữ Xin chào được thêm vào cuối file cũ", "File bị xóa hoàn toàn khỏi ổ đĩa", "Báo lỗi vì file đã tồn tại"], answer: "Nội dung cũ bị xóa, file chỉ còn chữ Xin chào", explain: "Mode \"w\" luôn bắt đầu lại từ trang giấy trắng — cẩn thận mất dữ liệu cũ!" },
+      { topic: "Ghi file", type: "choice", question: "Tham số encoding=\"utf-8\" có tác dụng gì khi mở file?", options: ["Giúp ghi/đọc đúng tiếng Việt có dấu, tránh lỗi trên Windows", "Tăng tốc độ ghi file", "Nén file nhỏ hơn", "Đặt mật khẩu cho file"], answer: "Giúp ghi/đọc đúng tiếng Việt có dấu, tránh lỗi trên Windows", explain: "utf-8 là bảng mã phổ biến nhất, hỗ trợ đầy đủ ký tự tiếng Việt." },
+      { topic: "Ghi file", type: "fill", question: "Sau khi ghi xong, gọi lệnh gì để đóng file f? (viết cả tên biến)", answer: ["f.close()", "f.close"], explain: "f.close() giải phóng file cho hệ điều hành — đừng bỏ quên!" },
+      { topic: "Ghi file", type: "choice", question: "f.write() có tự xuống dòng sau mỗi lần ghi không?", options: ["Không — muốn xuống dòng phải tự thêm \n vào cuối chuỗi", "Có — mỗi lần ghi tự động xuống dòng", "Chỉ tự xuống dòng khi ghi tiếng Việt", "Chỉ tự xuống dòng khi ghi số"], answer: "Không — muốn xuống dòng phải tự thêm \n vào cuối chuỗi", explain: "f.write(\"Xin chào\n\") — ký tự \n nằm ngay trong chuỗi mới có tác dụng." },
+      /* --- Đọc file --- */
+      { topic: "Đọc file", type: "choice", question: "Mode nào dùng để mở file chỉ nhằm ĐỌC nội dung?", options: ['"r"', '"w"', '"read"', '"open"'], answer: '"r"', explain: "\"r\" = read: mở file chỉ để đọc, không sửa được nội dung." },
+      { topic: "Đọc file", type: "choice", code: "f = open(\"data.txt\", \"r\", encoding=\"utf-8\")\ncac_dong = f.readlines()\nf.close()\nprint(cac_dong)", question: "Biết data.txt chứa \"Xin chào\\nDòng thứ hai\". Đoạn code trên in ra gì?", options: ["['Xin chào\\n', 'Dòng thứ hai']", "['Xin chào', 'Dòng thứ hai']", "Xin chào Dòng thứ hai", "Lỗi vì thiếu encoding"], answer: "['Xin chào\\n', 'Dòng thứ hai']", explain: "readlines() trả về list các dòng; dòng nào kết thúc bằng ký tự xuống dòng thì phần tử giữ nguyên \\n đó." },
+      { topic: "Đọc file", type: "choice", question: "So sánh read() và readlines(), câu nào ĐÚNG?", options: ["read() trả cả nội dung thành một chuỗi; readlines() trả về list các dòng", "read() trả về list; readlines() trả về chuỗi", "Cả hai trả về giống hệt nhau", "readlines() chỉ đọc được dòng đầu tiên"], answer: "read() trả cả nội dung thành một chuỗi; readlines() trả về list các dòng", explain: "Chọn read() khi cần cả khối văn bản; chọn readlines() khi cần xử lý từng dòng." },
+      { topic: "Đọc file", type: "fill", question: "Sau khi mở file, gọi phương thức nào để đọc TOÀN BỘ nội dung thành một chuỗi? (không cần tên biến)", answer: ["read()", "read", "f.read()", "f.read"], explain: "noi_dung = f.read() — đọc cả file thành một chuỗi duy nhất." },
+      { topic: "Đọc file", type: "choice", question: "Quên gọi f.close() sau khi đọc xong thì chuyện gì có thể xảy ra?", options: ["File vẫn mở — nên close() hoặc dùng with để tránh rò rỉ tài nguyên", "File tự xóa khỏi ổ đĩa", "Toàn bộ dữ liệu vừa đọc biến mất", "Python tự đóng file ngay lập tức"], answer: "File vẫn mở — nên close() hoặc dùng with để tránh rò rỉ tài nguyên", explain: "File mở mà không đóng chiếm tài nguyên hệ thống; with sẽ tự đóng giúp bạn." },
+      /* --- with & xử lý dòng --- */
+      { topic: "with & xử lý dòng", type: "choice", question: "Cú pháp nào mở file bằng with ĐÚNG?", options: ['with open("data.txt", "r", encoding="utf-8") as f:', 'with open("data.txt", "r", encoding="utf-8") f:', 'with f as open("data.txt"):', 'open("data.txt") with f:'], answer: 'with open("data.txt", "r", encoding="utf-8") as f:', explain: "with + open(...) + as + tên biến + dấu hai chấm — đúng thứ tự đó." },
+      { topic: "with & xử lý dòng", type: "choice", code: "with open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:\n    for dong in f:\n        print(dong)", question: "Vòng lặp for trong đoạn code lặp qua cái gì?", options: ["Từng dòng của file f", "Từng ký tự trong file", "Các tên biến của chương trình", "Chỉ dòng đầu tiên của file"], answer: "Từng dòng của file f", explain: "Duyệt đối tượng file bằng for cho bạn từng dòng một — không cần readlines()." },
+      { topic: "with & xử lý dòng", type: "choice", question: "Khối with tự đóng file khi nào?", options: ["Khi khối lệnh kết thúc, kể cả khi có lỗi xảy ra bên trong", "Chỉ khi gọi f.close() thủ công", "Chỉ khi tắt chương trình", "Không bao giờ tự đóng"], answer: "Khi khối lệnh kết thúc, kể cả khi có lỗi xảy ra bên trong", explain: "Đó là lý do dân chuyên nghiệp luôn ưu tiên with khi làm việc với file." },
+      { topic: "with & xử lý dòng", type: "fill", question: "Từ khóa nào mở khối tự động đóng file sau khi dùng xong?", answer: ["with"], explain: "with open(...) as f: — hết khối, file tự đóng ngay." },
+      { topic: "with & xử lý dòng", type: "choice", code: "dem = 0\nwith open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:\n    for dong in f:\n        dem = dem + 1\nprint(dem)", question: "Biết data.txt có 3 dòng. Đoạn code trên in ra gì?", options: ["3", "2", "4", "Lỗi vì dem nằm ngoài khối with"], answer: "3", explain: "Mỗi dòng tăng dem thêm 1 → 3. with không tạo phạm vi biến mới nên dem vẫn dùng được sau khối." }
+    ];
+
+    EXERCISES["py-17-ex1"] = {
+      topic: "Ghi dòng đầu tiên xuống file",
+      prompt: "Mở file note.txt ở mode \"w\" với encoding=\"utf-8\", ghi một dòng bất kỳ (kèm \n), rồi đóng file bằng f.close().",
+      checks: [
+        { regex: "open\\s*\\(\\s*[\"'][^\"']+[\"']\\s*,\\s*[\"']w[\"']", desc: "Mở file bằng open(..., \"w\")", hint: "f = open(\"note.txt\", \"w\", encoding=\"utf-8\")" },
+        { regex: "encoding\\s*=\\s*[\"'][uU][tT][fF]-8[\"']", desc: "Có encoding=\"utf-8\"", hint: "Thêm encoding=\"utf-8\" để ghi tiếng Việt an toàn" },
+        { regex: "\\.write\\s*\\(", desc: "Ghi nội dung bằng f.write(...)", hint: "f.write(\"Dòng đầu tiên\\n\")" },
+        { regex: "\\.close\\s*\\(\\s*\\)", desc: "Đóng file bằng f.close()", hint: "Sau khi ghi xong: f.close()" }
+      ],
+      sample: "f = open(\"note.txt\", \"w\", encoding=\"utf-8\")\nf.write(\"Dòng đầu tiên\\n\")\nf.close()"
+    };
+
+    EXERCISES["py-17-ex2"] = {
+      topic: "Đọc file bằng with",
+      prompt: "Dùng with open(..., \"r\", encoding=\"utf-8\") as f: để mở file data.txt, đọc toàn bộ nội dung bằng f.read() vào biến noi_dung, rồi in noi_dung ra màn hình.",
+      checks: [
+        { regex: "with\\s+open\\s*\\(", desc: "Mở file bằng with open(...)", hint: "with open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:" },
+        { regex: "[\"']r[\"']", desc: "Dùng mode \"r\" để đọc", hint: "Tham số thứ hai của open là \"r\"" },
+        { regex: "\\.read\\s*\\(", desc: "Đọc nội dung bằng f.read()", hint: "noi_dung = f.read()" },
+        { regex: "print\\s*\\(", desc: "In nội dung bằng print()", hint: "Sau khối with, in biến noi_dung" }
+      ],
+      sample: "with open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:\n    noi_dung = f.read()\nprint(noi_dung)"
+    };
+
+    EXERCISES["py-17-ex3"] = {
+      topic: "Đếm số dòng trong file",
+      prompt: "Dùng with open(..., \"r\", encoding=\"utf-8\") as f: kết hợp for dong in f: để đếm số dòng của file data.txt vào biến dem, rồi in dem ra màn hình.",
+      checks: [
+        { regex: "with\\s+open\\s*\\(", desc: "Mở file bằng with open(...)", hint: "with open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:" },
+        { regex: "for\\s+\\w+\\s+in\\s+\\w+", desc: "Duyệt từng dòng bằng for ... in f", hint: "for dong in f:" },
+        { regex: "\\bdem\\s*=\\s*dem\\s*\\+\\s*1\\b|\\bdem\\s*\\+=\\s*1\\b", desc: "Tăng biến đếm lên 1 mỗi dòng", hint: "dem = dem + 1 hoặc dem += 1" },
+        { regex: "print\\s*\\(", desc: "In số dòng bằng print()", hint: "print(\"Số dòng:\", dem)" }
+      ],
+      sample: "dem = 0\nwith open(\"data.txt\", \"r\", encoding=\"utf-8\") as f:\n    for dong in f:\n        dem = dem + 1\nprint(\"Số dòng:\", dem)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

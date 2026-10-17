@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 19 Python: OOP — Class & Object. Định nghĩa class, __init__, self, thuộc tính & phương thức, nhiều object độc lập — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 19: OOP: Class &amp; Object | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-19">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-19</span></div>
+      <h1 class="lesson-title">OOP: Class &amp; Object</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #19 ]</span>
+        <span class="pill">Chương 5 — Nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Chào mừng tới <strong>chương cuối</strong> — nơi bạn học cách <em>tự đúc ra những "cỗ máy"</em> của riêng mình.
+        Tới giờ, mỗi sinh viên của bạn là ba biến rời rạc: <code>ten</code>, <code>diem</code>, <code>lop</code>… cồng kềnh và dễ lẫn.
+        <strong>OOP</strong> (lập trình hướng đối tượng) gom tất cả thành một khối duy nhất: một <strong>object</strong> biết giữ dữ liệu và biết tự xử lý.
+      </p>
+      <p>
+        Nhiệm vụ #19 gồm hai phần: <strong>class &amp; __init__</strong> (chiếc khuôn đúc) và
+        <strong>thuộc tính &amp; phương thức</strong> (linh hồn của object). Cuối bài có 3 bài tập tự viết code và 2 đề quiz. ⚡
+      </p>
+
+      <h2>class &amp; __init__</h2>
+      <p>
+        <strong>Class</strong> (lớp) là <em>bản thiết kế</em>, còn <strong>object</strong> (đối tượng) là <em>sản phẩm</em> đúc ra từ bản thiết kế đó.
+        Một bản thiết kế <code>HocSinh</code> có thể đúc ra hàng nghìn học sinh: Nam, Lan, Hùng… mỗi người là một object riêng.
+      </p>
+      <p>
+        Trong class có một phương thức đặc biệt tên là <code>__init__</code> — nó <strong>tự chạy ngay khi object được tạo</strong>,
+        dùng để gán dữ liệu ban đầu cho object. Xem thử:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hoc-sinh.py</span>
+        </div>
+        <pre><code class="language-python">class HocSinh:
+    def __init__(self, ten):
+        self.ten = ten
+        print("Đã tạo học sinh", ten)
+
+    def chao(self):
+        print("Chào, mình là", self.ten)
+
+hs = HocSinh("Nam")
+hs.chao()</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Đã tạo học sinh Nam
+Chào, mình là Nam</pre>
+        </div>
+      </div>
+
+      <p>
+        Không hề có dòng nào gọi <code>__init__</code>, nhưng nó vẫn chạy — vì dòng <code>hs = HocSinh("Nam")</code>
+        <strong>tạo object</strong> và Python tự động gọi nó, truyền <code>"Nam"</code> vào tham số <code>ten</code>.
+        Hãy <strong>giải phẫu</strong> dòng định nghĩa đó:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">def</span> <span class="fn">__init__</span><span class="op">(</span><span class="vr">self</span>, <span class="vr">ten</span><span class="op">)</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>def</code></td><td>từ khóa định nghĩa hàm / phương thức — y như hàm thường</td><td>✅</td></tr>
+          <tr><td><code>__init__</code></td><td>tên đặc biệt (2 gạch dưới mỗi bên) — Python tự gọi khi tạo object</td><td>✅</td></tr>
+          <tr><td><code>self</code></td><td>chính object vừa được tạo — luôn đứng đầu, <strong>không truyền tay</strong></td><td>✅</td></tr>
+          <tr><td><code>ten</code></td><td>tham số bạn truyền vào lúc tạo: <code>HocSinh("Nam")</code></td><td>tuỳ nhu cầu</td></tr>
+          <tr><td><code>:</code> + thụt lề</td><td>mở thân phương thức — nhớ thụt lề 4 dấu cách</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Tạo object bằng cú pháp <code>TênLớp(...)</code>: <code>hs = HocSinh("Nam")</code>.
+          Quy ước đặt tên lớp là <strong>viết hoa chữ cái đầu mỗi từ</strong> (<code>HocSinh</code>, <code>SanPham</code>) để phân biệt với biến thường.
+        </p>
+      </div>
+
+      <p>Đúc "object" đầu tiên trong đời bạn:</p>
+
+      <div class="exercise-box" data-ex="py-19-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-19" data-topic="Class &amp; Object" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CLASS &amp; OBJECT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Thuộc tính &amp; phương thức</h2>
+      <p>
+        Dữ liệu gắn vào object như <code>self.ten</code>, <code>self.diem</code> gọi là <strong>thuộc tính</strong> (attribute).
+        Còn <strong>phương thức</strong> (method) là hàm định nghĩa <em>bên trong class</em> — nó luôn nhận <code>self</code>
+        để đọc/ghi dữ liệu của object. Object vì thế vừa <em>biết nhớ</em>, vừa <em>biết hành động</em>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hoc-luc.py</span>
+        </div>
+        <pre><code class="language-python">class HocSinh:
+    def __init__(self, ten, diem):
+        self.ten = ten
+        self.diem = diem
+
+    def hoc_luc(self):
+        if self.diem >= 8:
+            return "Giỏi"
+        return "Cần cố gắng"
+
+a = HocSinh("Nam", 8.5)
+b = HocSinh("Lan", 6.0)
+print(a.ten, "-", a.hoc_luc())
+print(b.ten, "-", b.hoc_luc())</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nam - Giỏi
+Lan - Cần cố gắng</pre>
+        </div>
+      </div>
+
+      <p>
+        Cùng một phương thức <code>hoc_luc()</code>, nhưng gọi trên <code>a</code> thì <code>self</code> là <code>a</code> (điểm 8.5 → Giỏi),
+        gọi trên <code>b</code> thì <code>self</code> là <code>b</code> (điểm 6.0 → Cần cố gắng). Giải phẫu lời gọi:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">a</span><span class="op">.</span><span class="fn">hoc_luc</span><span class="op">(</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>a</code></td><td>object đang gọi — bên trong phương thức, <code>self</code> chính là nó</td><td>✅</td></tr>
+          <tr><td><code>.</code></td><td>dấu chấm: "lấy thứ bên trong object này ra dùng"</td><td>✅</td></tr>
+          <tr><td><code>hoc_luc</code></td><td>tên phương thức (hoặc thuộc tính) cần lấy</td><td>✅</td></tr>
+          <tr><td><code>( )</code></td><td>gọi nó chạy — có tham số thì đặt vào trong ngoặc</td><td>khi gọi</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Mỗi object có <strong>bộ thuộc tính riêng</strong>. Đúc hai chú mèo rồi đổi tên một chú — chú kia tuyệt nhiên không biết gì:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hai-chu-meo.py</span>
+        </div>
+        <pre><code class="language-python">class Meo:
+    def __init__(self, ten):
+        self.ten = ten
+
+m1 = Meo("Miu")
+m2 = Meo("Mun")
+m1.ten = "Vàng"          # đổi tên mèo thứ nhất
+print(m1.ten, m2.ten)    # mèo thứ hai giữ nguyên tên</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Vàng Mun</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Class chỉ là <em>bản thiết kế</em> — dữ liệu thật nằm trong từng object. <code>m1.ten</code> và <code>m2.ten</code>
+          là hai ngăn kéo khác nhau, sửa ngăn này không đụng ngăn kia.
+        </p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên <code>self</code> là lỗi kinh điển của người mới học OOP. Viết <code>def speak():</code> (thiếu self) rồi gọi
+          <code>m.speak()</code> sẽ báo <code>TypeError</code> — vì Python tự truyền object vào tham số đầu tiên,
+          mà phương thức của bạn chẳng có tham số nào để nhận!
+        </p>
+      </div>
+
+      <p>Luyện hai chiêu: thêm phương thức cho class, rồi đúc nhiều object:</p>
+
+      <div class="exercise-box" data-ex="py-19-ex2"></div>
+
+      <div class="exercise-box" data-ex="py-19-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-19" data-topic="Thuộc tính &amp; phương thức" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THUỘC TÍNH &amp; PHƯƠNG THỨC</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 19</h2>
+      <ul>
+        <li><code>class</code> là bản thiết kế; <code>TenLop(...)</code> đúc ra <strong>object</strong> (instance).</li>
+        <li><code>__init__(self, ...)</code> tự chạy khi tạo object — dùng để gán thuộc tính ban đầu.</li>
+        <li><code>self</code> là chính object đang thao tác; luôn đứng đầu danh sách tham số của phương thức.</li>
+        <li>Thuộc tính <code>self.diem</code> lưu dữ liệu; phương thức <code>def hoc_luc(self)</code> xử lý dữ liệu đó.</li>
+        <li>Gọi bằng dấu chấm: <code>a.hoc_luc()</code>; mỗi object có bộ thuộc tính <strong>riêng và độc lập</strong>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-19" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 19</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-19"] = [
+      /* --- Class & Object (7) --- */
+      { topic: "Class & Object", type: "choice", question: "Từ khóa nào dùng để định nghĩa một lớp (class) trong Python?", options: ["class", "def", "object", "struct"], answer: "class", explain: "class HocSinh: — đúng một từ khóa class, sau đó là tên lớp và dấu hai chấm." },
+      { topic: "Class & Object", type: "choice", code: "class Cho:\n    def __init__(self, ten):\n        self.ten = ten\n\nc = Cho(\"Milu\")\nprint(c.ten)", question: "Đoạn code trên in ra gì?", options: ["Milu", "ten", "Cho", "Lỗi"], answer: "Milu", explain: "__init__ nhận \"Milu\" và gán vào self.ten; c.ten đọc lại đúng giá trị đó." },
+      { topic: "Class & Object", type: "choice", question: "Theo quy ước, tên class trong Python nên viết thế nào?", options: ["Viết hoa chữ cái đầu mỗi từ (HocSinh)", "viết thường toàn bộ (hocsinh)", "VIẾT HOA TOÀN BỘ (HOCSINH)", "Bắt đầu bằng chữ số (1HocSinh)"], answer: "Viết hoa chữ cái đầu mỗi từ (HocSinh)", explain: "Kiểu PascalCase giúp mắt phân biệt ngay class với biến/hàm thường." },
+      { topic: "Class & Object", type: "choice", question: "Phương thức __init__ được gọi khi nào?", options: ["Tự động ngay khi tạo object mới", "Chỉ khi ta gọi tay hs.__init__()", "Mỗi lần gọi print()", "Khi chương trình kết thúc"], answer: "Tự động ngay khi tạo object mới", explain: "Cứ viết HocSinh(\"Nam\") là __init__ chạy ngay — không cần gọi tay bao giờ." },
+      { topic: "Class & Object", type: "fill", question: "Điền từ khóa còn thiếu để tạo lớp: ___ HocSinh:", answer: ["class"], explain: "class HocSinh: — từ khóa class mở đầu mọi định nghĩa lớp." },
+      { topic: "Class & Object", type: "choice", code: "class Cho:\n    def __init__(self, ten):\n        self.ten = ten\n\nprint(Cho.ten)", question: "Đoạn code trên sẽ ra sao?", options: ["Báo lỗi AttributeError", "In ra Milu", "In ra None", "In ra chữ ten"], answer: "Báo lỗi AttributeError", explain: "ten là thuộc tính của TỪNG OBJECT, không nằm trên class — class Cho không có Cho.ten." },
+      { topic: "Class & Object", type: "choice", question: "Object được tạo ra từ class còn được gọi là gì?", options: ["Instance (thể hiện) của lớp", "Bản sao của file .py", "Một hàm đặc biệt", "Biến toàn cục"], answer: "Instance (thể hiện) của lớp", explain: "hs = HocSinh(\"Nam\") tạo một instance của lớp HocSinh." },
+
+      /* --- Thuộc tính & phương thức (7) --- */
+      { topic: "Thuộc tính & phương thức", type: "choice", question: "Trong phương thức, self đại diện cho cái gì?", options: ["Chính object đang gọi phương thức", "Tên của class", "Một biến toàn cục của chương trình", "Giá trị mặc định của tham số"], answer: "Chính object đang gọi phương thức", explain: "a.hoc_luc() → bên trong phương thức, self chính là a; b.hoc_luc() → self là b." },
+      { topic: "Thuộc tính & phương thức", type: "choice", code: "class HinhVuong:\n    def __init__(self, canh):\n        self.canh = canh\n\n    def dien_tich(self):\n        return self.canh * self.canh\n\nh = HinhVuong(3)\nprint(h.dien_tich())", question: "Đoạn code trên in ra gì?", options: ["9", "6", "3", "Lỗi"], answer: "9", explain: "dien_tich trả về self.canh * self.canh = 3 * 3 = 9." },
+      { topic: "Thuộc tính & phương thức", type: "choice", question: "Muốn GỌI phương thức dien_tich() của object h, viết thế nào?", options: ["h.dien_tich()", "h(dien_tich)", "dien_tich.h()", "dien_tich = h"], answer: "h.dien_tich()", explain: "Object trước, dấu chấm, tên phương thức, rồi cặp ngoặc đơn để gọi." },
+      { topic: "Thuộc tính & phương thức", type: "fill", question: "Điền từ khóa đại diện cho chính object bên trong phương thức: def hoc_luc(___):", answer: ["self"], explain: "Tham số đầu tiên luôn là self — Python tự truyền object vào đó." },
+      { topic: "Thuộc tính & phương thức", type: "choice", code: "class HocSinh:\n    def __init__(self, ten, diem):\n        self.ten = ten\n        self.diem = diem\n\na = HocSinh(\"Nam\", 8.5)\nb = HocSinh(\"Lan\", 9.0)\na.diem = 5.0\nprint(b.diem)", question: "Đoạn code trên in ra gì?", options: ["9.0", "5.0", "8.5", "Lỗi"], answer: "9.0", explain: "a và b có bộ thuộc tính riêng — sửa a.diem không ảnh hưởng b.diem." },
+      { topic: "Thuộc tính & phương thức", type: "choice", question: "Thuộc tính (attribute) của object được lưu ở đâu?", options: ["Trong chính object, ví dụ self.diem", "Trong một biến toàn cục dùng chung", "Trong file .txt trên ổ đĩa", "Trong hàm print()"], answer: "Trong chính object, ví dụ self.diem", explain: "Mỗi object mang theo dữ liệu của riêng nó, gán qua self trong __init__ hoặc sau đó." },
+      { topic: "Thuộc tính & phương thức", type: "choice", code: "class Meo:\n    def speak():\n        print(\"Meo meo\")\n\nm = Meo()\nm.speak()", question: "Đoạn code trên sẽ ra sao?", options: ["Lỗi TypeError vì def speak() thiếu self", "In ra Meo meo", "In ra None", "Lỗi vì tên lớp phải viết thường"], answer: "Lỗi TypeError vì def speak() thiếu self", explain: "Python tự truyền object vào tham số đầu tiên, nhưng speak() không có tham số nào để nhận — sửa thành def speak(self)." }
+    ];
+
+    EXERCISES["py-19-ex1"] = {
+      topic: "Class Dog đầu tiên",
+      prompt: "Định nghĩa class Dog với __init__(self, ten) gán self.ten = ten. Tạo một object chó tên bất kỳ (ví dụ Milu) rồi in tên nó ra bằng print().",
+      checks: [
+        { regex: "class\\s+Dog\\s*:", desc: "Định nghĩa class Dog", hint: "Mở đầu bằng: class Dog:" },
+        { regex: "def\\s+__init__\\s*\\(\\s*self\\s*,\\s*ten\\s*\\)\\s*:", desc: "Có __init__(self, ten)", hint: "def __init__(self, ten): — nhớ self đứng đầu và dấu hai chấm cuối dòng" },
+        { regex: "self\\.ten\\s*=\\s*ten", desc: "Gán self.ten = ten", hint: "Trong __init__: self.ten = ten" },
+        { regex: "print\\s*\\(\\s*\\w+\\s*\\.\\s*ten\\s*\\)", desc: "In tên của object: <biến>.ten", hint: "Ví dụ: c = Dog(\"Milu\") rồi print(c.ten)" }
+      ],
+      sample: "class Dog:\n    def __init__(self, ten):\n        self.ten = ten\n\nc = Dog(\"Milu\")\nprint(c.ten)"
+    };
+
+    EXERCISES["py-19-ex2"] = {
+      topic: "Thêm phương thức cho class",
+      prompt: "Định nghĩa class Dog có phương thức speak(self) in ra đúng dòng chữ Gâu gâu! . Tạo một object Dog rồi gọi c.speak().",
+      checks: [
+        { regex: "def\\s+speak\\s*\\(\\s*self\\s*\\)\\s*:", desc: "Có phương thức def speak(self)", hint: "def speak(self): — đừng quên self trong ngoặc" },
+        { regex: "print\\s*\\(\\s*[\"']Gâu gâu!?[\"']\\s*\\)", desc: "In ra chuỗi Gâu gâu!", hint: "Bên trong speak: print(\"Gâu gâu!\")" },
+        { regex: "\\.\\s*speak\\s*\\(\\s*\\)", desc: "Gọi phương thức speak() trên object", hint: "Ví dụ: c = Dog() rồi c.speak()" }
+      ],
+      sample: "class Dog:\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nc = Dog()\nc.speak()"
+    };
+
+    EXERCISES["py-19-ex3"] = {
+      topic: "Hai object độc lập",
+      prompt: "Định nghĩa class HocSinh với __init__(self, ten, diem) gán self.ten, self.diem. Tạo HAI object với tên khác nhau (điểm gì cũng được) rồi in tên của cả hai ra.",
+      checks: [
+        { regex: "class\\s+HocSinh\\s*:", desc: "Định nghĩa class HocSinh", hint: "Mở đầu: class HocSinh:" },
+        { regex: "def\\s+__init__\\s*\\(\\s*self\\s*,\\s*ten\\s*,\\s*diem\\s*\\)\\s*:", desc: "Có __init__(self, ten, diem)", hint: "def __init__(self, ten, diem): — ba tham số cách nhau dấu phẩy" },
+        { regex: "HocSinh\\s*\\([^)]*\\)", minCount: 2, desc: "Tạo ít nhất 2 object HocSinh(...)", hint: "Ví dụ: a = HocSinh(\"Nam\", 8.5) và b = HocSinh(\"Lan\", 9.0)" },
+        { regex: "print\\s*\\(", minCount: 2, desc: "In tên cả hai bằng ít nhất 2 lệnh print", hint: "print(a.ten) và print(b.ten)" }
+      ],
+      sample: "class HocSinh:\n    def __init__(self, ten, diem):\n        self.ten = ten\n        self.diem = diem\n\na = HocSinh(\"Nam\", 8.5)\nb = HocSinh(\"Lan\", 9.0)\nprint(a.ten)\nprint(b.ten)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

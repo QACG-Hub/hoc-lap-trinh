@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 13 Python: Xử lý chuỗi chuyên sâu — index, slicing, đảo ngược [::-1], upper/lower/strip/replace/split/join/find và f-string định dạng số .2f.">
+  <title>Bài 13: Xử lý chuỗi chuyên sâu | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-13">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-13</span></div>
+      <h1 class="lesson-title">Xử lý chuỗi chuyên sâu</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #13 ]</span>
+        <span class="pill">Chương 3 — Cấu trúc dữ liệu</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Dữ liệu thật ngoài đời phần lớn là… <em>chuỗi</em>: tên người, địa chỉ, tin nhắn, dữ liệu nhập từ bàn phím.
+        Nhiệm vụ cuối của chương này là biến bạn thành <strong>cao thủ chuỗi</strong>: cắt, ghép, làm sạch và định dạng
+        mọi chuỗi bằng những chiêu gọn gàng nhất. ⚡
+      </p>
+
+      <h2>Truy cập &amp; cắt chuỗi</h2>
+      <p>
+        Chuỗi hoạt động gần giống list: mỗi ký tự có một <strong>index</strong> bắt đầu từ <strong>0</strong>,
+        và bạn <strong>cắt</strong> được một đoạn bằng <strong>slice</strong> <code>s[a:b]</code> — lấy từ index <code>a</code> đến <strong>trước</strong> index <code>b</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">cat-chuoi.py</span>
+        </div>
+        <pre><code class="language-python">s = "Python"
+print(s[0])      # ký tự đầu tiên
+print(s[-1])     # ký tự cuối cùng
+print(len(s))    # độ dài chuỗi
+print(s[0:3])    # 3 ký tự đầu
+print(s[2:])     # từ index 2 đến hết
+print(s[::-1])   # đảo ngược chuỗi!</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>P
+n
+6
+Pyt
+thon
+nohtyP</pre>
+        </div>
+      </div>
+
+      <p>Hãy <strong>giải phẫu</strong> cú pháp cắt chuỗi:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">s</span><span class="op">[</span><span class="st">0</span><span class="op">:</span><span class="st">3</span><span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>s</code></td><td>chuỗi gốc cần cắt</td><td>✅</td></tr>
+          <tr><td><code>0</code></td><td>vị trí <strong>bắt đầu</strong> (tính từ 0)</td><td>❌ — bỏ trống = từ đầu</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm ngăn cách điểm đầu và điểm cuối</td><td>✅</td></tr>
+          <tr><td><code>3</code></td><td>vị trí <strong>kết thúc</strong> — lấy đến TRƯỚC index 3</td><td>❌ — bỏ trống = đến hết</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Chuỗi cũng <strong>bất biến</strong> như tuple: <code>s[0] = "J"</code> sẽ báo lỗi <code>TypeError: 'str' object does not support item assignment</code>. Muốn chuỗi mới, hãy tạo chuỗi mới bằng cắt ghép.</p>
+      </div>
+
+      <div class="quiz-console" data-lesson="py-13" data-topic="Chuỗi cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CHUỖI CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Phương thức chuỗi</h2>
+      <p>
+        Chuỗi có sẵn bộ <strong>phương thức</strong> (method) đủ để làm sạch và biến đổi dữ liệu:
+        <code>strip()</code> cắt khoảng trắng thừa, <code>upper()</code>/<code>lower()</code> đổi hoa thường,
+        <code>replace()</code> thay thế, <code>split()</code> tách thành list, <code>join()</code> nối list thành chuỗi,
+        <code>find()</code> tìm vị trí.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">phuong-thuc-chuoi.py</span>
+        </div>
+        <pre><code class="language-python">s = "  Học Python  "
+print(s.strip())                        # bỏ khoảng trắng hai đầu
+print(s.strip().upper())                # làm sạch rồi IN HOA
+print("PYTHON".lower())                 # chuỗi thường
+print("python".replace("p", "P"))       # thay thế
+print("a,b,c".split(","))               # tách thành list
+print("-".join(["2026", "10", "17"]))   # nối list thành chuỗi
+print("Học Python".find("Python"))      # tìm vị trí</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Học Python
+HỌC PYTHON
+python
+Python
+['a', 'b', 'c']
+2026-10-17
+4</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Các phương thức chuỗi <strong>không sửa chuỗi gốc</strong> — chúng trả về chuỗi <em>mới</em>. Muốn giữ kết quả, hãy gán lại: <code>s = s.strip().upper()</code>. Cũng vì thế bạn nối được liên hoàn: <code>s.strip().upper()</code>.</p>
+      </div>
+
+      <p>Luyện hai chiêu làm sạch dữ liệu hay dùng nhất:</p>
+
+      <div class="exercise-box" data-ex="py-13-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-13-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-13" data-topic="Phương thức chuỗi" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — PHƯƠNG THỨC CHUỖI</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>f-string — in chuỗi không còn đau đầu</h2>
+      <p>
+        Trước đây muốn ghép biến vào chuỗi bạn phải dùng dấu <code>+</code> lích kích. <strong>f-string</strong> giải quyết tất cả:
+        thêm chữ <code>f</code> trước dấu nháy, rồi đặt biến hoặc biểu thức trong cặp ngoặc nhọn <code>{ }</code> —
+        Python tự thay giá trị vào. Kèm luôn khả năng <strong>định dạng số</strong> như <code>:.2f</code> (2 chữ số thập phân).
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">f-string.py</span>
+        </div>
+        <pre><code class="language-python">ten = "An"
+diem = 8.5
+
+print(f"Xin chào {ten}!")
+print(f"{ten} được {diem} điểm")
+print(f"Điểm làm tròn: {diem:.2f}")
+
+don_gia = 12000
+so_luong = 3
+print(f"Tổng tiền: {don_gia * so_luong:,} VNĐ")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào An!
+An được 8.5 điểm
+Điểm làm tròn: 8.50
+Tổng tiền: 36,000 VNĐ</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">f</span><span class="st">"Xin chào {ten}!"</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>f</code></td><td>tiền tố báo Python: "đây là f-string, hãy thay giá trị vào { }"</td><td>✅</td></tr>
+          <tr><td><code>"…"</code></td><td>chuỗi như bình thường</td><td>✅</td></tr>
+          <tr><td><code>{ten}</code></td><td>chỗ trống chèn giá trị của biến <code>ten</code></td><td>❌ — chỉ khi cần chèn</td></tr>
+          <tr><td><code>:.2f</code></td><td>định dạng số thực với 2 chữ số thập phân (thêm sau dấu <code>:</code>)</td><td>❌ — tuỳ nhu cầu</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Quên chữ <code>f</code> là cái bẫy kinh điển: <code>print("Chào {ten}")</code> sẽ in nguyên văn <code>Chào {ten}</code> thay vì thay tên vào. Thấy dấu <code>{ }</code> lạ lạ trong kết quả — kiểm tra ngay chữ <code>f</code>!</p>
+      </div>
+
+      <p>Trổ tài với f-string — chiêu in ấn dùng nhiều nhất khi làm dự án:</p>
+
+      <div class="exercise-box" data-ex="py-13-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-13" data-topic="f-string" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — F-STRING</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 13</h2>
+      <ul>
+        <li>Chuỗi đánh index từ 0; <code>s[0]</code>, <code>s[-1]</code>, <code>len(s)</code> hoạt động như list.</li>
+        <li>Slice <code>s[0:3]</code> lấy đến <em>trước</em> index 3; <code>s[::-1]</code> đảo ngược chuỗi.</li>
+        <li>Chuỗi bất biến — không gán được <code>s[0] = ...</code>.</li>
+        <li>Phương thức: <code>strip</code>, <code>upper</code>, <code>lower</code>, <code>replace</code>, <code>split</code>, <code>join</code>, <code>find</code> — trả về chuỗi MỚI.</li>
+        <li>f-string: <code>f"Xin chào {ten}"</code> chèn giá trị; <code>{diem:.2f}</code> định dạng 2 chữ số thập phân.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-13" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 13</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-13"] = [
+      /* --- Chuỗi cơ bản (7) --- */
+      { topic: "Chuỗi cơ bản", type: "choice", code: "s = \"Python\"\nprint(s[1])", question: "Đoạn code trên in ra gì?", options: ["y", "P", "t", "o"], answer: "y", explain: "Index 0 là P, index 1 là y — đếm từ 0 nhé." },
+      { topic: "Chuỗi cơ bản", type: "choice", code: "s = \"Python\"\nprint(len(s))", question: "Đoạn code trên in ra gì?", options: ["6", "5", "7", "P"], answer: "6", explain: "P-y-t-h-o-n có 6 ký tự — len đếm cả chữ, không đếm từ." },
+      { topic: "Chuỗi cơ bản", type: "choice", question: "s[0:3] lấy ra những gì?", options: ["Ba ký tự đầu (index 0, 1, 2)", "Ba ký tự cuối", "Từ index 0 đến hết chuỗi", "Ký tự thứ ba"], answer: "Ba ký tự đầu (index 0, 1, 2)", explain: "Slice lấy đến TRƯỚC index 3 — tức 0, 1, 2." },
+      { topic: "Chuỗi cơ bản", type: "choice", code: "print(\"abc\"[::-1])", question: "Đoạn code trên in ra gì?", options: ["cba", "abc", "abcba", "Lỗi cú pháp"], answer: "cba", explain: "[::-1] là chiêu đảo ngược chuỗi kinh điển của Python." },
+      { topic: "Chuỗi cơ bản", type: "fill", question: "Lấy ký tự CUỐI của chuỗi s bằng index âm (gõ cả biểu thức):", answer: ["s[-1]"], explain: "s[-1] — index âm đếm từ cuối chuỗi." },
+      { topic: "Chuỗi cơ bản", type: "choice", code: "s = \"Python\"\nprint(s[2:])", question: "Đoạn code trên in ra gì?", options: ["thon", "Pyt", "th", "Python"], answer: "thon", explain: "Bỏ trống vị trí cuối = lấy từ index 2 đến hết chuỗi." },
+      { topic: "Chuỗi cơ bản", type: "choice", code: "s = \"Python\"\ns[0] = \"J\"", question: "Đoạn code trên sẽ ra sao?", options: ["Báo lỗi TypeError vì chuỗi bất biến", "s trở thành Jython", "s trở thành jython", "Chạy bình thường nhưng không đổi gì"], answer: "Báo lỗi TypeError vì chuỗi bất biến", explain: "Chuỗi không sửa được từng ký tự — muốn đổi phải tạo chuỗi mới." },
+
+      /* --- Phương thức chuỗi (8) --- */
+      { topic: "Phương thức chuỗi", type: "choice", code: "print(\"  hi  \".strip())", question: "Đoạn code trên in ra gì?", options: ["hi", "  hi  ", "hi  ", "HI"], answer: "hi", explain: "strip() cắt khoảng trắng ở cả hai đầu chuỗi." },
+      { topic: "Phương thức chuỗi", type: "choice", question: "\"abc\".upper() trả về gì?", options: ["ABC", "abc", "Abc", "abcABC"], answer: "ABC", explain: "upper() chuyển thành chữ IN HOA; lower() làm ngược lại." },
+      { topic: "Phương thức chuỗi", type: "choice", code: "print(\"a,b,c\".split(\",\"))", question: "Đoạn code trên in ra gì?", options: ["['a', 'b', 'c']", "['a,b,c']", "a b c", "('a', 'b', 'c')"], answer: "['a', 'b', 'c']", explain: "split(\",\") cắt chuỗi tại dấu phẩy thành list 3 phần tử." },
+      { topic: "Phương thức chuỗi", type: "fill", question: "Nối các phần tử của ds thành chuỗi, ngăn bởi gạch ngang (chỉ gõ tên phương thức, không ngoặc): \"-\".___(ds)", answer: ["join"], explain: "\"-\".join(ds) ghép các phần tử lại, chèn gạch ngang ở giữa." },
+      { topic: "Phương thức chuỗi", type: "choice", code: "print(\"Học Python\".find(\"Python\"))", question: "Đoạn code trên in ra gì?", options: ["4", "5", "3", "-1"], answer: "4", explain: "find() trả về vị trí bắt đầu của chuỗi con — P đứng ở index 4." },
+      { topic: "Phương thức chuỗi", type: "choice", code: "s = \"hi\"\nprint(s.replace(\"h\", \"H\"))", question: "Đoạn code trên in ra gì?", options: ["Hi", "hi", "H", "hHi"], answer: "Hi", explain: "replace(\"h\", \"H\") thay mọi chữ h bằng H." },
+      { topic: "Phương thức chuỗi", type: "choice", code: "s = \"hi\"\ns.upper()\nprint(s)", question: "Đoạn code trên in ra gì?", options: ["hi", "HI", "Hi", "Lỗi"], answer: "hi", explain: "upper() trả về chuỗi MỚI chứ không đổi s — kết quả bị bỏ đi nếu không gán lại." },
+      { topic: "Phương thức chuỗi", type: "choice", code: "s = \"  Học Python  \"\nprint(len(s.strip()))", question: "Đoạn code trên in ra gì?", options: ["10", "14", "12", "8"], answer: "10", explain: "strip() bỏ 4 khoảng trắng hai đầu: 14 − 4 = 10 ký tự." },
+
+      /* --- f-string (8) --- */
+      { topic: "f-string", type: "choice", question: "Cách tạo f-string chào biến ten nào ĐÚNG?", options: ["f\"Xin chào {ten}\"", "\"Xin chào {ten}\"", "f\"Xin chào ten\"", "\"Xin chào {ten}\".format(ten)"], answer: "f\"Xin chào {ten}\"", explain: "Cần chữ f trước dấu nháy và biến đặt trong cặp ngoặc nhọn." },
+      { topic: "f-string", type: "choice", code: "ten = \"An\"\nprint(f\"Chào {ten}\")", question: "Đoạn code trên in ra gì?", options: ["Chào An", "Chào {ten}", "Chào ten", "Lỗi cú pháp"], answer: "Chào An", explain: "f-string thay {ten} bằng giá trị của biến ten." },
+      { topic: "f-string", type: "choice", code: "x = 3.14159\nprint(f\"{x:.2f}\")", question: "Đoạn code trên in ra gì?", options: ["3.14", "3.14159", "3.142", "3.1"], answer: "3.14", explain: ":.2f làm tròn hiển thị còn 2 chữ số thập phân (3.14159 → 3.14)." },
+      { topic: "f-string", type: "fill", question: "Điền vào chỗ trống để in điểm với ĐÚNG 2 chữ số thập phân: f\"{diem:___}\"", answer: [".2f", "2f"], explain: ":.2f — dấu chấm, số 2, chữ f tạo định dạng 2 chữ số thập phân." },
+      { topic: "f-string", type: "choice", code: "a = 2\nb = 3\nprint(f\"{a} + {b} = {a + b}\")", question: "Đoạn code trên in ra gì?", options: ["2 + 3 = 5", "a + b = 5", "2 + 3 = a + b", "Lỗi cú pháp"], answer: "2 + 3 = 5", explain: "Trong { } thậm chí viết được cả biểu thức — Python tự tính trước khi in." },
+      { topic: "f-string", type: "choice", code: "ten = \"An\"\nprint(\"Chào {ten}\")", question: "Đoạn code trên in ra gì?", options: ["Chào {ten}", "Chào An", "Chào ten", "Lỗi cú pháp"], answer: "Chào {ten}", explain: "Thiếu chữ f nên chuỗi giữ nguyên — dấu { } không được thay giá trị." },
+      { topic: "f-string", type: "fill", question: "Gõ tiền tố (một ký tự) cần thêm ngay trước dấu nháy để tạo f-string:", answer: ["f"], explain: "Chữ f báo hiệu f-string — như trong f\"Xin chào {ten}\"." },
+      { topic: "f-string", type: "choice", code: "diem = 8.5\nprint(f\"{diem:.2f}\")", question: "Đoạn code trên in ra gì?", options: ["8.50", "8.5", "8.45", "9.00"], answer: "8.50", explain: ":.2f luôn hiện đủ 2 chữ số thập phân — 8.5 thành 8.50." }
+    ];
+
+    EXERCISES["py-13-ex1"] = {
+      topic: "In hoa chuỗi",
+      prompt: "Cho biến ten = \"python\" (chữ thường). In ra bản IN HOA của chuỗi bằng phương thức .upper().",
+      checks: [
+        { regex: "\\bten\\s*=\\s*[\"']python[\"']", desc: "Gán chuỗi \"python\" cho biến ten", hint: "ten = \"python\"" },
+        { regex: "\\.upper\\s*\\(\\s*\\)", desc: "Dùng phương thức .upper()", hint: "ten.upper() trả về bản in hoa" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "Ví dụ: print(ten.upper())" }
+      ],
+      sample: "ten = \"python\"\nprint(ten.upper())"
+    };
+
+    EXERCISES["py-13-ex2"] = {
+      topic: "Đếm độ dài chuỗi",
+      prompt: "Cho ten = \"Học Python\". In ra ĐỘ DÀI của chuỗi bằng hàm len().",
+      checks: [
+        { regex: "\\bten\\s*=\\s*[\"']Học Python[\"']", desc: "Gán chuỗi \"Học Python\" cho biến ten", hint: "ten = \"Học Python\"" },
+        { regex: "len\\s*\\(\\s*ten\\s*\\)", desc: "Dùng len(ten) để đếm ký tự", hint: "len(ten) — kết quả là 10" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "Ví dụ: print(len(ten))" }
+      ],
+      sample: "ten = \"Học Python\"\nprint(len(ten))"
+    };
+
+    EXERCISES["py-13-ex3"] = {
+      topic: "f-string chào & định dạng điểm",
+      prompt: "Tạo ten = \"An\" và diem = 8.5. Dùng f-string in ra hai dòng: Xin chào An! và Điểm: 8.50 (định dạng .2f cho điểm).",
+      checks: [
+        { regex: "\\bten\\s*=\\s*[\"']An[\"']", desc: "Tạo biến ten = \"An\"", hint: "ten = \"An\"" },
+        { regex: "\\bdiem\\s*=\\s*8\\.5\\b", desc: "Tạo biến diem = 8.5", hint: "diem = 8.5" },
+        { regex: "f[\"'][^\"']*\\{\\s*ten\\s*\\}", desc: "Có f-string chèn {ten}", hint: "Ví dụ: f\"Xin chào {ten}!\"" },
+        { regex: "f[\"'][^\"']*\\{\\s*diem\\s*:\\s*\\.2f\\s*\\}", desc: "Có f-string định dạng {diem:.2f}", hint: "Ví dụ: f\"Điểm: {diem:.2f}\"" }
+      ],
+      sample: "ten = \"An\"\ndiem = 8.5\nprint(f\"Xin chào {ten}!\")\nprint(f\"Điểm: {diem:.2f}\")"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

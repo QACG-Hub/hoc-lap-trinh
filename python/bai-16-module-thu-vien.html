@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 16 Python: Module &amp; thư viện chuẩn — import, from ... import, đặt bí danh as, và các thư viện math, random, datetime — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 16: Module &amp; thư viện chuẩn | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-16">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-16</span></div>
+      <h1 class="lesson-title">Module &amp; thư viện chuẩn</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #16 ]</span>
+        <span class="pill">Chương 4 — Hàm &amp; module</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Bạn không cần tự viết mọi thứ từ đầu — Python đi kèm cả một <em>kho vũ khí</em> khổng lồ gọi là
+        <strong>thư viện chuẩn (standard library)</strong>: tính căn bậc hai, tung xúc xắc ngẫu nhiên, lấy ngày tháng…
+        tất cả đã có sẵn, chỉ chờ bạn <strong>import</strong> về dùng. Nhiệm vụ hôm nay: học cách "triệu hồi" chúng! ⚡
+      </p>
+
+      <h2>import — dùng code có sẵn</h2>
+      <p>
+        <strong>Module</strong> là một file chứa sẵn các hàm và hằng số. Muốn dùng, bạn viết <code>import tên_module</code>,
+        rồi gọi hàm qua dấu chấm: <code>tên_module.tên_hàm(...)</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">can-bac-hai.py</span>
+        </div>
+        <pre><code class="language-python">import math
+
+print(math.sqrt(16))
+print(math.sqrt(2))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>4.0
+1.4142135623730951</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">math</span><span class="op">.</span><span class="fn">sqrt</span><span class="op">(</span><span class="st">16</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>math</code></td><td>tên module đã import — "kho" chứa hàm</td><td>✅</td></tr>
+          <tr><td><code>.</code></td><td>dấu chấm — "lấy thứ này từ trong kho ra"</td><td>✅</td></tr>
+          <tr><td><code>sqrt</code></td><td>tên hàm (square root — căn bậc hai)</td><td>✅</td></tr>
+          <tr><td><code>(16)</code></td><td>đối số truyền cho hàm như mọi hàm khác</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Nếu chỉ cần <em>một vài thứ</em>, bạn có thể lấy thẳng bằng <code>from … import …</code> và gọi không cần tiền tố.
+        Còn khi tên module dài dòng, đặt <strong>bí danh</strong> bằng <code>as</code> cho gọn:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">lay-truc-tiep.py</span>
+        </div>
+        <pre><code class="language-python">from math import pi
+
+print(pi)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3.141592653589793</pre>
+        </div>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">bi-danh.py</span>
+        </div>
+        <pre><code class="language-python">import math as m
+
+print(m.sqrt(25))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5.0</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Ba kiểu import bạn vừa gặp: <code>import math</code> → gọi <code>math.sqrt(...)</code>;
+        <code>from math import pi</code> → gọi thẳng <code>pi</code>;
+        <code>import math as m</code> → gọi <code>m.sqrt(...)</code>. Chọn kiểu nào cũng đúng, miễn bạn nhớ cách gọi!</p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <strong>Đừng đặt tên file của bạn trùng tên module</strong> — ví dụ <code>math.py</code>.
+          Khi đó <code>import math</code> có thể "vơ" nhầm file của bạn thay vì thư viện chuẩn, gây lỗi khó hiểu như
+          <code>AttributeError: module 'math' has no attribute 'sqrt'</code>. Đặt tên file kiểu <code>toan-hoc.py</code> cho an toàn!
+        </p>
+      </div>
+
+      <p>Thực hành import theo hai kiểu vừa học:</p>
+
+      <div class="exercise-box" data-ex="py-16-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-16-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-16" data-topic="Import" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — IMPORT</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Thư viện chuẩn hay dùng</h2>
+      <p>
+        Thư viện chuẩn có hàng trăm module — nhưng ba "cạ cứng" dưới đây sẽ theo bạn suốt chặng đường:
+        <code>math</code> (toán học), <code>random</code> (ngẫu nhiên) và <code>datetime</code> (ngày tháng).
+      </p>
+
+      <h3>math — toán học</h3>
+      <p><code>math.sqrt(x)</code> tính căn bậc hai, <code>math.pi</code> là hằng số π nổi tiếng:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">toan-hoc.py</span>
+        </div>
+        <pre><code class="language-python">import math
+
+print(math.sqrt(81))
+print(math.pi)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>9.0
+3.141592653589793</pre>
+        </div>
+      </div>
+
+      <h3>random — ngẫu nhiên</h3>
+      <p>
+        <code>random.randint(a, b)</code> trả về số nguyên ngẫu nhiên từ <code>a</code> đến <code>b</code> (bao gồm cả hai đầu),
+        còn <code>random.choice(ds)</code> chọn ngẫu nhiên một phần tử của danh sách:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xuc-xac.py</span>
+        </div>
+        <pre><code class="language-python">import random
+
+print(random.randint(1, 6))
+print(random.choice(["An", "Bình", "Cường"]))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>6
+An</pre>
+        </div>
+      </div>
+
+      <p>
+        <em>Kết quả trên là một lần chạy cụ thể</em> — mỗi lần chạy lại, con xúc xắc và cái tên có thể khác.
+        Đó chính là điều thú vị của <code>random</code>!
+      </p>
+
+      <h3>datetime — ngày tháng</h3>
+      <p>
+        <code>date.today()</code> cho biết ngày hôm nay, còn <code>date(nam, thang, ngay)</code> tạo một ngày bất kỳ để tính toán:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ngay-thang.py</span>
+        </div>
+        <pre><code class="language-python">from datetime import date
+
+hom_nay = date.today()
+print("Hôm nay:", hom_nay)
+sinh_nhat = date(2010, 5, 20)
+print("Sinh nhật:", sinh_nhat)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hôm nay: 2026-10-17
+Sinh nhật: 2010-05-20</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Dòng <code>Hôm nay: 2026-10-17</code> là ngày tác giả chạy thử — máy bạn chạy hôm nào sẽ in ngày hôm đó.
+          Còn <code>sinh_nhat.year</code>, <code>sinh_nhat.month</code> cho bạn lấy riêng từng phần của một ngày.
+        </p>
+      </div>
+
+      <p>Thử sức với "con xúc xắc số" của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="py-16-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-16" data-topic="Thư viện chuẩn" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THƯ VIỆN CHUẨN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 16</h2>
+      <ul>
+        <li><code>import math</code> nạp module; gọi hàm qua dấu chấm: <code>math.sqrt(16)</code>.</li>
+        <li><code>from math import pi</code> lấy thẳng một thứ; <code>import math as m</code> đặt bí danh cho gọn.</li>
+        <li>Không đặt file trùng tên module (<code>math.py</code>) kẻo import nhầm file của bạn.</li>
+        <li><code>math</code>: <code>sqrt</code>, <code>pi</code> — <code>random</code>: <code>randint</code>, <code>choice</code> — <code>datetime</code>: <code>date.today()</code>.</li>
+        <li>Thư viện chuẩn có sẵn ngay khi cài Python — không cần cài thêm gì!</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-16" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 16</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-16"] = [
+      /* --- Import --- */
+      { topic: "Import", type: "choice", question: "Lệnh nào nạp thư viện math để dùng?", options: ["import math", "include math", "using math", "math.load()"], answer: "import math", explain: "import tên_module là cú pháp nạp module chuẩn của Python." },
+      { topic: "Import", type: "choice", code: "import math\nprint(math.sqrt(16))", question: "Đoạn code trên in ra gì?", options: ["4.0", "4", "16.0", "Lỗi vì thiếu from math import sqrt"], answer: "4.0", explain: "sqrt luôn trả về số thực: căn bậc hai của 16 là 4.0." },
+      { topic: "Import", type: "choice", code: "from math import pi\nprint(pi)", question: "Đoạn code trên in ra gì?", options: ["3.141592653589793", "3.14", "pi", "Lỗi vì thiếu math."], answer: "3.141592653589793", explain: "from math import pi lấy thẳng hằng số pi, gọi không cần tiền tố math." },
+      { topic: "Import", type: "choice", question: "Câu lệnh import math as m có nghĩa là gì?", options: ["Đặt bí danh m cho module math, gọi bằng m.sqrt(...)", "Nhập hàm m từ module math", "Nhập tất cả module trừ math", "So sánh math với m"], answer: "Đặt bí danh m cho module math, gọi bằng m.sqrt(...)", explain: "as đặt tên ngắn gọn thay cho tên module gốc — tiện khi tên dài." },
+      { topic: "Import", type: "fill", question: "Điền từ khóa dùng để nạp một module:", answer: ["import"], explain: "import math — ba chữ cái mở ra cả kho vũ khí." },
+      { topic: "Import", type: "choice", question: "Nếu bạn đặt file của mình tên math.py cùng thư mục, chuyện gì có thể xảy ra?", options: ["import math có thể nhập nhầm file của bạn và báo lỗi thiếu hàm", "Không ảnh hưởng gì cả", "Python tự đổi tên file giúp bạn", "Thư viện math bị xóa khỏi máy"], answer: "import math có thể nhập nhầm file của bạn và báo lỗi thiếu hàm", explain: "File cùng thư mục được ưu tiên hơn thư viện chuẩn — tránh đặt tên trùng module!" },
+      /* --- Thư viện chuẩn --- */
+      { topic: "Thư viện chuẩn", type: "choice", code: "import math\nprint(math.sqrt(25))", question: "Đoạn code trên in ra gì?", options: ["5.0", "5", "25.0", "Lỗi"], answer: "5.0", explain: "Căn bậc hai của 25 là 5.0 — math.sqrt luôn trả về số thực." },
+      { topic: "Thư viện chuẩn", type: "choice", question: "random.randint(1, 6) trả về giá trị như thế nào?", options: ["Số nguyên ngẫu nhiên từ 1 đến 6, bao gồm cả 1 và 6", "Số thực ngẫu nhiên giữa 1 và 6", "Luôn luôn là 6", "Số ngẫu nhiên từ 0 đến 5"], answer: "Số nguyên ngẫu nhiên từ 1 đến 6, bao gồm cả 1 và 6", explain: "randint(a, b) lấy cả hai đầu — đúng chuẩn con xúc xắc 6 mặt." },
+      { topic: "Thư viện chuẩn", type: "choice", code: "import random\nprint(random.choice([\"a\", \"b\", \"c\"]))", question: "Đoạn code trên in ra gì?", options: ["Một trong ba phần tử a, b hoặc c — ngẫu nhiên mỗi lần chạy", "Luôn luôn là a", "Cả ba phần tử a b c", "Lỗi vì choice cần số"], answer: "Một trong ba phần tử a, b hoặc c — ngẫu nhiên mỗi lần chạy", explain: "random.choice chọn ngẫu nhiên một phần tử từ danh sách." },
+      { topic: "Thư viện chuẩn", type: "choice", question: "date.today() trả về thông tin gì?", options: ["Ngày hôm nay (một đối tượng date)", "Giờ hiện tại", "Ngày mai", "Chuỗi \"today\""], answer: "Ngày hôm nay (một đối tượng date)", explain: "from datetime import date rồi date.today() — lấy ngày hiện tại của máy bạn." },
+      { topic: "Thư viện chuẩn", type: "fill", question: "Thư viện chuẩn nào cung cấp hàm sqrt và hằng số pi? (chỉ tên thư viện)", answer: ["math"], explain: "math.sqrt(...) và math.pi — kho toán học của Python." },
+      { topic: "Thư viện chuẩn", type: "fill", question: "Hàm của thư viện random trả về số nguyên ngẫu nhiên trong khoảng a đến b tên là gì?", answer: ["randint", "random.randint", "random.randint()"], explain: "random.randint(1, 6) — hàm ngẫu nhiên số nguyên hay dùng nhất." },
+      { topic: "Thư viện chuẩn", type: "choice", question: "Thư viện chuẩn (standard library) nghĩa là gì?", options: ["Bộ thư viện có sẵn khi cài Python, không cần cài thêm", "Thư viện phải trả phí mới dùng", "Thư viện do bạn tự viết", "Thư viện chỉ chạy khi có mạng"], answer: "Bộ thư viện có sẵn khi cài Python, không cần cài thêm", explain: "Cài Python là có sẵn math, random, datetime… dùng ngay bằng import." }
+    ];
+
+    EXERCISES["py-16-ex1"] = {
+      topic: "Import math và căn bậc hai",
+      prompt: "Dùng import math, rồi in căn bậc hai của 81 bằng math.sqrt(81).",
+      checks: [
+        { regex: "import\\s+math\\b", desc: "Nạp thư viện bằng import math", hint: "Dòng đầu tiên: import math" },
+        { regex: "math\\.sqrt\\s*\\(\\s*81\\s*\\)", desc: "Gọi math.sqrt(81)", hint: "Căn bậc hai của 81: math.sqrt(81)" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "print(math.sqrt(81))" }
+      ],
+      sample: "import math\n\nprint(math.sqrt(81))"
+    };
+
+    EXERCISES["py-16-ex2"] = {
+      topic: "from ... import",
+      prompt: "Dùng from math import pi để lấy thẳng hằng số pi, rồi in giá trị của pi (không viết math. phía trước).",
+      checks: [
+        { regex: "from\\s+math\\s+import\\s+pi\\b", desc: "Dòng lệnh: from math import pi", hint: "Viết đúng: from math import pi" },
+        { regex: "print\\s*\\(\\s*pi\\s*\\)", desc: "In trực tiếp pi bằng print(pi)", hint: "Sau khi from ... import, gọi thẳng: print(pi)" }
+      ],
+      sample: "from math import pi\n\nprint(pi)"
+    };
+
+    EXERCISES["py-16-ex3"] = {
+      topic: "Tung xúc xắc với random",
+      prompt: "Dùng import random, rồi in một số ngẫu nhiên từ 1 đến 6 bằng random.randint(1, 6).",
+      checks: [
+        { regex: "import\\s+random\\b", desc: "Nạp thư viện bằng import random", hint: "Dòng đầu tiên: import random" },
+        { regex: "random\\.randint\\s*\\(\\s*1\\s*,\\s*6\\s*\\)", desc: "Gọi random.randint(1, 6)", hint: "Con xúc xắc 6 mặt: random.randint(1, 6)" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "print(random.randint(1, 6))" }
+      ],
+      sample: "import random\n\nprint(random.randint(1, 6))"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

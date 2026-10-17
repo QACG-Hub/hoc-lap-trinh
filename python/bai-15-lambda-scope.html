@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 15 Python: Lambda &amp; phạm vi biến — biến local vs global, từ khóa global, lambda một dòng, lambda nhiều tham số và ứng dụng với sorted(key=...) — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 15: Lambda &amp; phạm vi biến | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-15">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-15</span></div>
+      <h1 class="lesson-title">Lambda &amp; phạm vi biến</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #15 ]</span>
+        <span class="pill">Chương 4 — Hàm &amp; module</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Hàm thì bạn đã biết rồi — nhưng còn một câu hỏi hóc búa: biến "sống" ở đâu, và sống được bao lâu?
+        Nhiệm vụ hôm nay gồm hai phần: hiểu <strong>phạm vi biến</strong> (local vs global) và làm quen với
+        <strong>lambda</strong> — "hàm ninja" viết gọn trong một dòng. Chuẩn bị tinh thần cao thủ nhé! ⚡
+      </p>
+
+      <h2>Phạm vi biến</h2>
+      <p>
+        Mỗi hàm giống như một <em>căn phòng riêng</em>: biến tạo bên trong phòng chỉ tồn tại trong phòng đó
+        — gọi là <strong>biến cục bộ (local)</strong>. Biến khai báo ở ngoài mọi hàm thuộc về cả "ngôi nhà"
+        — gọi là <strong>biến toàn cục (global)</strong>, ai ở đâu cũng nhìn thấy.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">pham-vi.py</span>
+        </div>
+        <pre><code class="language-python">ten = "toàn cục"        # biến global — sống ngoài mọi hàm
+
+def hien():
+    ten = "địa phương"  # biến local — chỉ sống trong hàm
+    print("Trong hàm:", ten)
+
+hien()
+print("Ngoài hàm:", ten)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Trong hàm: địa phương
+Ngoài hàm: toàn cục</pre>
+        </div>
+      </div>
+
+      <p>
+        Để ý: hai biến cùng tên <code>ten</code> nhưng <em>không hề đụng nhau</em> — biến <code>ten</code> trong hàm là một biến local
+        hoàn toàn mới, chỉ sống trong lúc hàm chạy. Hàm kết thúc là nó "bốc hơi".
+      </p>
+      <p>
+        Còn <strong>đọc</strong> biến global từ trong hàm thì thoải mái, không cần xin phép ai cả:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">doc-bien-ngoai.py</span>
+        </div>
+        <pre><code class="language-python">diem = 10
+
+def xem():
+    print("Thấy biến ngoài:", diem)  # chỉ đọc thì không cần global
+
+xem()</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Thấy biến ngoài: 10</pre>
+        </div>
+      </div>
+
+      <p>Nhưng nếu muốn <strong>sửa</strong> biến global bên trong hàm thì phải khai báo rõ ràng:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dung-global.py</span>
+        </div>
+        <pre><code class="language-python">dem = 0
+
+def tang():
+    global dem      # "cho tôi quyền" sửa biến dem bên ngoài
+    dem = dem + 1
+
+tang()
+print("dem =", dem)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>dem = 1</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Thiếu <code>global dem</code>, dòng <code>dem = dem + 1</code> sẽ khiến Python tạo biến local mới và bạn gặp lỗi
+          <code>UnboundLocalError</code> ngay. Tuy nhiên <strong>hãy hạn chế dùng <code>global</code></strong>:
+          hàm phụ thuộc vào biến bên ngoài sẽ khó kiểm soát, dễ sinh lỗi ngầm. Cách "sạch" hơn là truyền biến vào qua tham số
+          và nhận kết quả qua <code>return</code>.
+        </p>
+      </div>
+
+      <p>Thử thách nhanh về phạm vi biến:</p>
+
+      <div class="quiz-console" data-lesson="py-15" data-topic="Phạm vi biến" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — PHẠM VI BIẾN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Lambda — hàm một dòng</h2>
+      <p>
+        <strong>Lambda</strong> là "hàm ninja" không cần tên, viết gọn trên một dòng, không có <code>return</code> —
+        vì giá trị của biểu thức <em>tự động</em> được trả về. Cú pháp:
+        <code>lambda tham_số: biểu_thức</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhan-doi.py</span>
+        </div>
+        <pre><code class="language-python">nhan_doi = lambda x: x * 2
+
+print(nhan_doi(4))
+print(nhan_doi(7))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>8
+14</pre>
+        </div>
+      </div>
+
+      <p>Lambda nhận được nhiều tham số, miễn là mọi thứ gói gọn trong <em>một biểu thức</em>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">lambda-cong.py</span>
+        </div>
+        <pre><code class="language-python">cong = lambda a, b: a + b
+
+print(cong(2, 3))
+print(cong(10, 20))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+30</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">nhan_doi</span> <span class="op">=</span> <span class="kw">lambda</span> <span class="vr">x</span><span class="op">:</span> <span class="vr">x</span> <span class="op">*</span> <span class="st">2</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>nhan_doi =</code></td><td>gán hàm lambda cho biến để gọi lại về sau</td><td>❌ (có thể dùng lambda trực tiếp)</td></tr>
+          <tr><td><code>lambda</code></td><td>từ khóa tạo hàm ẩn danh</td><td>✅</td></tr>
+          <tr><td><code>x</code></td><td>tham số (một hoặc nhiều, cách nhau dấu phẩy)</td><td>❌ (có thể trống)</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm phân cách tham số với biểu thức</td><td>✅</td></tr>
+          <tr><td><code>x * 2</code></td><td>biểu thức — kết quả tự động được trả về</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Đất diễn của lambda là khi ta cần "đưa một hàm nhỏ" làm đối số cho hàm khác — ví dụ thần tượng
+        <code>sorted()</code> của bạn. Bạn đã biết <code>sorted(ds)</code>, nhưng nếu muốn sắp xếp danh sách
+        theo <em>một tiêu chí tự chọn</em> thì dùng <code>key=</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">sap-xep-diem.py</span>
+        </div>
+        <pre><code class="language-python">ds = [("An", 8), ("Bình", 9), ("Cường", 7)]
+ds_sap_xep = sorted(ds, key=lambda x: x[1])
+print(ds_sap_xep)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[('Cường', 7), ('An', 8), ('Bình', 9)]</pre>
+        </div>
+      </div>
+
+      <p>
+        Giải thích nhanh: mỗi phần tử là một tuple <code>(tên, điểm)</code>. Lambda <code>lambda x: x[1]</code>
+        bảo <code>sorted</code> rằng "hãy sắp xếp theo phần tử thứ hai — tức điểm số". Vậy là xong bảng xếp hạng!
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Lambda chỉ viết được <strong>một biểu thức duy nhất</strong>, không có nhiều dòng lệnh.
+          Khi logic bắt đầu phức tạp — rẽ nhánh, vòng lặp — hãy quay về <code>def</code> cho lành: rõ ràng và dễ đọc hơn hẳn.
+        </p>
+      </div>
+
+      <p>Thực hành lambda của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="py-15-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-15-ex2"></div>
+
+      <p>Ôn tập tổng hợp: quay lại người quen cũ <code>def</code> một chút nhé.</p>
+
+      <div class="exercise-box" data-ex="py-15-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-15" data-topic="Lambda" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — LAMBDA</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 15</h2>
+      <ul>
+        <li>Biến tạo trong hàm là <strong>local</strong> — chỉ sống trong lúc hàm chạy; biến ngoài hàm là <strong>global</strong>.</li>
+        <li>Hàm <em>đọc</em> được biến global, nhưng muốn <em>sửa</em> phải khai báo <code>global</code> — và nên hạn chế.</li>
+        <li>Cách sạch sẽ: truyền dữ liệu qua tham số, nhận kết quả qua <code>return</code>.</li>
+        <li><code>lambda x: biểu_thức</code> tạo hàm một dòng không cần <code>def</code> lẫn <code>return</code>.</li>
+        <li>Lambda toả sáng khi làm đối số, ví dụ <code>sorted(ds, key=lambda x: x[1])</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-15" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 15</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-15"] = [
+      /* --- Phạm vi biến --- */
+      { topic: "Phạm vi biến", type: "choice", question: "Biến được tạo bên trong một hàm gọi là gì?", options: ["Biến cục bộ (local)", "Biến toàn cục (global)", "Hằng số", "Tham số"], answer: "Biến cục bộ (local)", explain: "Biến local chỉ sống bên trong hàm, hết hàm là biến mất." },
+      { topic: "Phạm vi biến", type: "choice", code: "x = 5\n\ndef ham():\n    x = 10\n\nham()\nprint(x)", question: "Đoạn code trên in ra gì?", options: ["5", "10", "15", "Lỗi"], answer: "5", explain: "x trong hàm là biến local mới, không hề đụng tới x bên ngoài — nên x ngoài vẫn là 5." },
+      { topic: "Phạm vi biến", type: "choice", code: "diem = 8\n\ndef xem():\n    print(diem)\n\nxem()", question: "Đoạn code trên in ra gì?", options: ["8", "Lỗi vì diem không tồn tại trong hàm", "diem", "None"], answer: "8", explain: "Đọc biến global từ trong hàm hoàn toàn được — không cần global." },
+      { topic: "Phạm vi biến", type: "fill", question: "Muốn SỬA biến global bên trong hàm, phải khai báo từ khóa nào trước tên biến?", answer: ["global"], explain: "global dem — xin quyền sửa biến dem ở phạm vi ngoài hàm." },
+      { topic: "Phạm vi biến", type: "choice", question: "Khi hàm kết thúc, biến local của nó sẽ ra sao?", options: ["Biến mất — không dùng được ở ngoài hàm", "Trở thành biến global", "Vẫn dùng được nếu trùng tên", "Tự động được in ra màn hình"], answer: "Biến mất — không dùng được ở ngoài hàm", explain: "Biến local chỉ sống trong \"căn phòng\" của hàm; hết hàm là hết vòng đời." },
+      { topic: "Phạm vi biến", type: "choice", question: "Vì sao nên HẠN CHẾ dùng từ khóa global?", options: ["Vì hàm phụ thuộc vào biến bên ngoài, code khó theo dõi và dễ phát sinh lỗi", "Vì global chạy chậm hơn biến thường", "Vì Python cấm dùng global trong hàm", "Vì global chỉ dùng được với chuỗi"], answer: "Vì hàm phụ thuộc vào biến bên ngoài, code khó theo dõi và dễ phát sinh lỗi", explain: "Truyền tham số và return sạch sẽ hơn nhiều — hàm trở thành cỗ máy độc lập." },
+      /* --- Lambda --- */
+      { topic: "Lambda", type: "choice", question: "lambda trong Python là gì?", options: ["Hàm ẩn danh viết gọn trên một dòng", "Một loại biến đặc biệt", "Vòng lặp rút gọn", "Từ khóa báo lỗi"], answer: "Hàm ẩn danh viết gọn trên một dòng", explain: "lambda tạo hàm không tên — cú pháp lambda tham_số: biểu_thức." },
+      { topic: "Lambda", type: "choice", code: "nhan_doi = lambda x: x * 2\nprint(nhan_doi(5))", question: "Đoạn code trên in ra gì?", options: ["10", "5", "25", "Lỗi"], answer: "10", explain: "nhan_doi(5) trả về 5 * 2 = 10." },
+      { topic: "Lambda", type: "choice", code: "cong = lambda a, b: a + b\nprint(cong(3, 4))", question: "Đoạn code trên in ra gì?", options: ["7", "34", "12", "Lỗi vì lambda chỉ nhận 1 tham số"], answer: "7", explain: "Lambda nhận hai tham số a, b và trả về a + b = 7." },
+      { topic: "Lambda", type: "fill", question: "Hoàn thành lambda nhân đôi x (điền phần biểu thức sau dấu hai chấm):  nhan_doi = lambda x: ___", answer: ["x * 2", "2 * x", "x*2", "2*x"], explain: "lambda x: x * 2 — kết quả của biểu thức tự động được trả về, không cần return." },
+      { topic: "Lambda", type: "choice", question: "Lambda có cần viết từ khóa return không?", options: ["Không — giá trị của biểu thức tự động được trả về", "Có — luôn phải viết return", "Chỉ khi có từ 2 tham số", "Chỉ khi trả về chuỗi"], answer: "Không — giá trị của biểu thức tự động được trả về", explain: "Đó là lý do lambda chỉ viết được một biểu thức duy nhất." },
+      { topic: "Lambda", type: "choice", code: "ds = [(\"An\", 8), (\"Bình\", 9), (\"Cường\", 7)]\nds_sap_xep = sorted(ds, key=lambda x: x[1])\nprint(ds_sap_xep)", question: "Đoạn code trên in ra gì?", options: ["[('Cường', 7), ('An', 8), ('Bình', 9)]", "[('An', 8), ('Bình', 9), ('Cường', 7)]", "[7, 8, 9]", "Lỗi vì sorted không nhận key"], answer: "[('Cường', 7), ('An', 8), ('Bình', 9)]", explain: "key=lambda x: x[1] sắp xếp theo điểm số tăng dần: 7 → 8 → 9." },
+      { topic: "Lambda", type: "choice", question: "Khi nào NÊN dùng def thay vì lambda?", options: ["Khi logic của hàm có nhiều dòng, cần rẽ nhánh hoặc vòng lặp", "Khi hàm chỉ có một biểu thức ngắn", "Khi truyền hàm làm key= cho sorted", "Không bao giờ — lambda thay thế được mọi hàm"], answer: "Khi logic của hàm có nhiều dòng, cần rẽ nhánh hoặc vòng lặp", explain: "Lambda chỉ chứa một biểu thức; hàm phức tạp cứ dùng def cho rõ ràng." }
+    ];
+
+    EXERCISES["py-15-ex1"] = {
+      topic: "Lambda nhân đôi",
+      prompt: "Dùng lambda tạo hàm nhan_doi(x) trả về gấp đôi x (gán cho biến nhan_doi), rồi in kết quả khi gọi với số 6.",
+      checks: [
+        { regex: "\\bnhan_doi\\s*=\\s*lambda\\s+x\\s*:", desc: "Gán lambda cho biến nhan_doi", hint: "Bắt đầu bằng: nhan_doi = lambda x:" },
+        { regex: "lambda\\s+x\\s*:\\s*\\(?\\s*(x\\s*\\*\\s*2|2\\s*\\*\\s*x)", desc: "Biểu thức nhân đôi x * 2", hint: "Sau dấu hai chấm viết: x * 2" },
+        { regex: "print\\s*\\(\\s*nhan_doi\\s*\\(", desc: "In kết quả bằng print(nhan_doi(...))", hint: "Ví dụ: print(nhan_doi(6))" }
+      ],
+      sample: "nhan_doi = lambda x: x * 2\nprint(nhan_doi(6))"
+    };
+
+    EXERCISES["py-15-ex2"] = {
+      topic: "Lambda cộng hai số",
+      prompt: "Dùng lambda tạo hàm cong(a, b) trả về tổng a + b (gán cho biến cong), rồi in kết quả khi gọi với 4 và 5.",
+      checks: [
+        { regex: "\\bcong\\s*=\\s*lambda\\s+a\\s*,\\s*b\\s*:", desc: "Gán lambda hai tham số a, b cho biến cong", hint: "cong = lambda a, b:" },
+        { regex: "lambda\\s+a\\s*,\\s*b\\s*:\\s*\\(?\\s*a\\s*\\+\\s*b\\b", desc: "Biểu thức trả về a + b", hint: "Sau dấu hai chấm viết: a + b" },
+        { regex: "print\\s*\\(\\s*cong\\s*\\(\\s*4\\s*,\\s*5\\s*\\)", desc: "In kết quả bằng print(cong(4, 5))", hint: "Gọi hàm với đúng hai số 4 và 5" }
+      ],
+      sample: "cong = lambda a, b: a + b\nprint(cong(4, 5))"
+    };
+
+    EXERCISES["py-15-ex3"] = {
+      topic: "Ôn tập: hàm bình phương",
+      prompt: "Ôn tập kiến thức bài 14: viết hàm binh_phuong(x) bằng def, trả về x ** 2, rồi in kết quả khi gọi với số 5.",
+      checks: [
+        { regex: "\\bdef\\s+binh_phuong\\s*\\(", desc: "Định nghĩa hàm binh_phuong(x) bằng def", hint: "def binh_phuong(x):" },
+        { regex: "\\breturn\\s+x\\s*\\*\\*\\s*2\\b", desc: "Trả về x ** 2", hint: "return x ** 2 — hai dấu ** là luỹ thừa" },
+        { regex: "print\\s*\\(\\s*binh_phuong\\s*\\(", desc: "In kết quả bằng print(binh_phuong(...))", hint: "Ví dụ: print(binh_phuong(5))" }
+      ],
+      sample: "def binh_phuong(x):\n    return x ** 2\n\nprint(binh_phuong(5))"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

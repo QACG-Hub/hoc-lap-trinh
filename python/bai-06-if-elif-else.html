@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 6 Python: rẽ nhánh với if, else, elif — cú pháp thụt lề, xếp loại điểm ba mức, điều kiện nâng cao với and/or và if lồng nhau, kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 6: Rẽ nhánh if / elif / else | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-06">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-06</span></div>
+      <h1 class="lesson-title">Rẽ nhánh if / elif / else</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #06 ]</span>
+        <span class="pill">Chương 2 — Cấu trúc điều khiển</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Từ hôm nay chương trình của bạn biết <strong>suy nghĩ</strong>: đủ điểm thì báo "Đậu", trời mưa thì nhắc mang áo,
+        số âm thì xử lý khác số dương. Công cụ để ra quyết định là <code>if</code> (nếu), <code>elif</code> (ngược lại nếu)
+        và <code>else</code> (còn lại). Chương 2 chính thức bắt đầu — vào việc thôi! ⚡
+      </p>
+
+      <h2>if — ra quyết định</h2>
+      <p>
+        <code>if</code> kiểm tra một điều kiện: nếu điều kiện <strong>đúng (<code>True</code>)</strong> thì chạy khối lệnh bên trong,
+        nếu <strong>sai (<code>False</code>)</strong> thì bỏ qua toàn bộ khối lệnh đó.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dau-hay-rot.py</span>
+        </div>
+        <pre><code class="language-python">diem = 6
+if diem &gt;= 5:
+    print("Đậu rồi!")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Đậu rồi!</pre>
+        </div>
+      </div>
+
+      <p>Còn khi điều kiện sai, khối lệnh bên trong bị bỏ qua "không thương tiếc":</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">rot.py</span>
+        </div>
+        <pre><code class="language-python">diem = 4
+if diem &gt;= 5:
+    print("Đậu rồi!")
+print("Chương trình kết thúc")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Chương trình kết thúc</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu câu lệnh <code>if</code> đầu tiên của bạn:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">if</span> <span class="vr">diem</span> <span class="op">&gt;=</span> <span class="st">5</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>if</code></td><td>từ khoá mở đầu — "nếu…"</td><td>✅</td></tr>
+          <tr><td><code>diem &gt;= 5</code></td><td>điều kiện cần kiểm tra (biểu thức trả về True/False)</td><td>✅</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm chốt cuối dòng if — <strong>quên là lỗi ngay</strong></td><td>✅</td></tr>
+          <tr><td>khối lệnh</td><td>các dòng <strong>thụt lề 4 dấu cách</strong> nằm dưới if — chỉ chạy khi điều kiện đúng</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Hai lỗi "cửa miệng" của người mới học: quên dấu <code>:</code> → <code>SyntaxError</code>;
+          thụt lề lệch cột (khi 2 dấu cách, khi 4 dấu cách) → <code>IndentationError</code>.
+          Python cực kỳ khắt khe chuyện thụt lề — hãy luôn dùng <strong>4 dấu cách</strong> cho mỗi tầng.
+        </p>
+      </div>
+
+      <p>Viết thử chương trình phân loại số đầu tiên của bạn:</p>
+
+      <div class="exercise-box" data-ex="py-06-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-06" data-topic="if" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — IF</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>else &amp; elif</h2>
+      <p>
+        <code>if</code> chỉ lo một trường hợp. Muốn xử lý <strong>nhiều mức</strong>, ta thêm
+        <code>elif</code> ("ngược lại nếu") cho các mức giữa, và <code>else</code> ("còn lại") để hứng mọi trường hợp chưa khớp.
+        Python kiểm tra từ trên xuống và <strong>chỉ chạy nhánh đúng đầu tiên</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xep-loai.py</span>
+        </div>
+        <pre><code class="language-python">diem = 7.5
+if diem &gt;= 8:
+    print("Giỏi")
+elif diem &gt;= 6.5:
+    print("Khá")
+else:
+    print("Cần cố gắng")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Khá</pre>
+        </div>
+      </div>
+
+      <p>
+        Với <code>diem = 7.5</code>: điều kiện đầu <code>diem &gt;= 8</code> sai, Python nhảy xuống <code>elif diem &gt;= 6.5</code> thấy đúng
+        → chạy <code>print("Khá")</code> rồi <strong>thoát khỏi cả chuỗi</strong>, không xét tới <code>else</code> nữa.
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Trong một chuỗi <code>if/elif/else</code>, <strong>chỉ duy nhất một nhánh được chạy</strong>.
+          <code>else</code> là nhánh "hứng hết" — không kèm điều kiện, và nếu có thì nó luôn đứng cuối cùng.
+        </p>
+      </div>
+
+      <p>Xếp loại ba mức theo đúng chuẩn:</p>
+
+      <div class="exercise-box" data-ex="py-06-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-06" data-topic="else &amp; elif" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ELSE &amp; ELIF</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Điều kiện nâng cao</h2>
+      <p>
+        Điều kiện trong <code>if</code> có thể là <strong>biểu thức logic</strong> ghép từ nhiều vế bằng <code>and</code>/<code>or</code> —
+        sức mạnh của bài 05 phát huy tác dụng! Ví dụ kinh điển: kiểm tra tuổi thiếu niên (13–19).
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thieu-nien.py</span>
+        </div>
+        <pre><code class="language-python">tuoi = 16
+if tuoi &gt;= 13 and tuoi &lt;= 19:
+    print("Bạn là thiếu niên")
+else:
+    print("Không phải thiếu niên")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Bạn là thiếu niên</pre>
+        </div>
+      </div>
+
+      <p>Một <code>if</code> còn có thể chứa <code>if</code> khác ở bên trong (<strong>if lồng nhau</strong>) để kiểm tra từng tầng điều kiện:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">long-if.py</span>
+        </div>
+        <pre><code class="language-python">diem = 9
+if diem &gt;= 5:
+    if diem &gt;= 8:
+        print("Giỏi")
+    else:
+        print("Đạt")
+else:
+    print("Chưa đạt")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Giỏi</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Mỗi tầng lồng nhau thêm <strong>4 dấu cách</strong> thụt lề. If lồng nhau rất mạnh nhưng dễ rối —
+          nếu lồng quá 3 tầng, hãy nghĩ cách viết lại bằng <code>and</code>/<code>or</code> cho gọn.
+        </p>
+      </div>
+
+      <p>Bài tập vận dụng điều kiện kết hợp:</p>
+
+      <div class="exercise-box" data-ex="py-06-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-06" data-topic="Điều kiện nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐIỀU KIỆN NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 06</h2>
+      <ul>
+        <li><code>if điều_kiện:</code> chạy khối lệnh thụt lề <strong>4 dấu cách</strong> khi điều kiện đúng.</li>
+        <li><code>elif</code> = "ngược lại nếu", <code>else</code> = "còn lại"; cả chuỗi chỉ chạy <strong>một nhánh duy nhất</strong>.</li>
+        <li>Thứ tự xét là từ trên xuống, nhánh đúng đầu tiên thắng — nên đặt điều kiện hẹp nhất lên trước.</li>
+        <li>Điều kiện có thể kết hợp bằng <code>and</code>/<code>or</code>: <code>tuoi &gt;= 13 and tuoi &lt;= 19</code>.</li>
+        <li>Quên <code>:</code> → <code>SyntaxError</code>; thụt lề lệch cột → <code>IndentationError</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-06" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 06</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-06"] = [
+      /* --- if --- */
+      { topic: "if", type: "choice", question: "Câu lệnh if kết thúc bằng ký tự nào?", options: [":", ";", "{}", "then"], answer: ":", explain: "Dấu hai chấm : chốt cuối dòng if, thiếu nó là SyntaxError ngay." },
+      { topic: "if", type: "choice", code: "diem = 4\nif diem >= 5:\n    print(\"Đậu\")\nprint(\"Xong\")", question: "Đoạn code trên in ra gì?", options: ["Xong", "Đậu", "Đậu rồi Xong", "Lỗi"], answer: "Xong", explain: "4 >= 5 sai nên khối lệnh trong if bị bỏ qua; lệnh print ngoài if vẫn chạy." },
+      { topic: "if", type: "choice", question: "Thụt lề chuẩn cho khối lệnh Python là bao nhiêu dấu cách?", options: ["4 dấu cách", "2 dấu cách", "8 dấu cách", "1 dấu cách"], answer: "4 dấu cách", explain: "PEP 8 quy định 4 dấu cách mỗi tầng thụt lề — hãy theo chuẩn này từ đầu." },
+      { topic: "if", type: "choice", question: "Nếu quên dấu hai chấm sau điều kiện if, Python báo lỗi gì?", options: ["SyntaxError", "IndentationError", "NameError", "ValueError"], answer: "SyntaxError", explain: "Thiếu : là lỗi cú pháp — Python không hiểu câu lệnh." },
+      { topic: "if", type: "choice", question: "Khối lệnh của if được xác định bằng cách nào?", options: ["Các dòng thụt lề sâu hơn dòng if", "Cặp dấu ngoặc nhọn { }", "Từ khoá end", "Dấu chấm phẩy cuối dòng"], answer: "Các dòng thụt lề sâu hơn dòng if", explain: "Python dùng thụt lề thay cho ngoặc nhọn — cùng mức thụt lề là cùng một khối." },
+      { topic: "if", type: "fill", question: "Điền từ khoá mở đầu một nhánh rẽ trong Python:", answer: ["if"], explain: "if nghĩa là \"nếu\" — mở đầu mọi câu lệnh rẽ nhánh." },
+      /* --- else & elif --- */
+      { topic: "else & elif", type: "choice", question: "Nhánh else chạy khi nào?", options: ["Khi mọi điều kiện if/elif phía trên đều sai", "Luôn luôn chạy", "Khi điều kiện if đầu tiên đúng", "Chỉ khi chương trình có elif"], answer: "Khi mọi điều kiện if/elif phía trên đều sai", explain: "else là nhánh hứng các trường hợp còn lại." },
+      { topic: "else & elif", type: "choice", code: "diem = 5\nif diem >= 8:\n    print(\"Giỏi\")\nelif diem >= 6.5:\n    print(\"Khá\")\nelse:\n    print(\"Cần cố gắng\")", question: "Đoạn code trên in ra gì?", options: ["Cần cố gắng", "Giỏi", "Khá", "Không in gì"], answer: "Cần cố gắng", explain: "5 < 8 và 5 < 6.5 nên rơi vào else — nhánh cuối cùng." },
+      { topic: "else & elif", type: "choice", question: "elif là viết tắt của gì?", options: ["else if", "end if", "else loop", "electric if"], answer: "else if", explain: "elif = \"ngược lại nếu\": chỉ được xét khi các điều kiện phía trên sai." },
+      { topic: "else & elif", type: "choice", question: "else có kèm điều kiện không?", options: ["Không — else không có điều kiện", "Có — else bắt buộc kèm điều kiện", "Có — else dùng lại điều kiện của if", "Tuỳ từng chương trình"], answer: "Không — else không có điều kiện", explain: "else viết trần, kết thúc bằng : và luôn đứng cuối chuỗi." },
+      { topic: "else & elif", type: "choice", code: "diem = 9\nif diem >= 8:\n    print(\"Giỏi\")\nelif diem >= 6.5:\n    print(\"Khá\")\nelse:\n    print(\"Cần cố gắng\")", question: "Đoạn code trên in ra gì?", options: ["Giỏi", "Khá", "Cần cố gắng", "Giỏi Khá"], answer: "Giỏi", explain: "Điều kiện đầu tiên 9 >= 8 đúng → chạy nhánh đó rồi thoát, không xét elif/else nữa." },
+      { topic: "else & elif", type: "fill", question: "Điền từ khoá cho nhánh cuối cùng, hứng mọi trường hợp còn lại:", answer: ["else"], explain: "else nghĩa là \"còn lại\" — không kèm điều kiện." },
+      /* --- Điều kiện nâng cao --- */
+      { topic: "Điều kiện nâng cao", type: "choice", code: "diem = 9\nif diem >= 5:\n    if diem >= 8:\n        print(\"Giỏi\")\n    else:\n        print(\"Đạt\")\nelse:\n    print(\"Chưa đạt\")", question: "Đoạn code trên in ra gì?", options: ["Giỏi", "Đạt", "Chưa đạt", "Giỏi Đạt"], answer: "Giỏi", explain: "Điều kiện ngoài đúng (9 >= 5), vào trong kiểm tra tiếp 9 >= 8 → in Giỏi." },
+      { topic: "Điều kiện nâng cao", type: "choice", question: "if lồng nhau là gì?", options: ["Câu lệnh if đặt bên trong một if khác", "Hai if viết liền nhau cùng cấp", "if viết trên hai dòng", "if không có else"], answer: "Câu lệnh if đặt bên trong một if khác", explain: "If lồng nhau kiểm tra điều kiện theo từng tầng, mỗi tầng thêm 4 dấu cách." },
+      { topic: "Điều kiện nâng cao", type: "choice", question: "Điều kiện if a > 0 and a < 10 kiểm tra điều gì?", options: ["a lớn hơn 0 VÀ nhỏ hơn 10", "a lớn hơn 0 HOẶC nhỏ hơn 10", "a bằng 0 hoặc bằng 10", "a khác 0"], answer: "a lớn hơn 0 VÀ nhỏ hơn 10", explain: "and đòi hỏi cả hai vế cùng đúng — tức a nằm trong khoảng (0, 10)." },
+      { topic: "Điều kiện nâng cao", type: "choice", code: "tuoi = 20\nif tuoi >= 13 or tuoi <= 19:\n    print(\"Thiếu niên\")\nelse:\n    print(\"Không phải thiếu niên\")", question: "Đoạn code trên in ra gì?", options: ["Thiếu niên — vì điều kiện or luôn đúng với mọi số", "Không phải thiếu niên — vì 20 > 19", "Không in gì", "Lỗi cú pháp"], answer: "Thiếu niên — vì điều kiện or luôn đúng với mọi số", explain: "Mọi số đều hoặc >= 13 hoặc <= 19, nên or luôn True. Muốn kiểm tra khoảng 13–19 phải dùng and!" },
+      { topic: "Điều kiện nâng cao", type: "choice", question: "Muốn if chạy khi điểm nằm trong khoảng từ 5 đến 10, viết điều kiện nào?", options: ["diem >= 5 and diem <= 10", "diem >= 5 or diem <= 10", "diem >= 5, diem <= 10", "diem = 5 and 10"], answer: "diem >= 5 and diem <= 10", explain: "Cần cả hai vế đúng nên dùng and; dấu phẩy không nối được hai điều kiện." },
+      { topic: "Điều kiện nâng cao", type: "fill", question: "Điền toán tử logic: nối hai điều kiện mà CẢ HAI phải đúng (viết chữ thường):", answer: ["and"], explain: "and = cả hai vế đúng; or = chỉ cần một vế đúng." }
+    ];
+
+    EXERCISES["py-06-ex1"] = {
+      topic: "Số dương, số âm hay số 0",
+      prompt: "Nhập số nguyên n bằng int(input(...)), rồi dùng if/elif/else: in 'Số dương' nếu n > 0, 'Số âm' nếu n < 0, còn lại in 'Số 0'.",
+      checks: [
+        { regex: "int\\s*\\(\\s*input\\s*\\(", desc: "Nhập n bằng int(input(...))", hint: "n = int(input(\"Nhập n: \"))" },
+        { regex: "\\bif\\s+\\w+\\s*>\\s*0\\s*:", desc: "Có nhánh if kiểm tra n > 0", hint: "if n > 0:" },
+        { regex: "\\belif\\b[^\\n]*<\\s*0", desc: "Có nhánh elif kiểm tra n < 0", hint: "elif n < 0:" },
+        { regex: "\\belse\\s*:", desc: "Có nhánh else cho trường hợp còn lại", hint: "else:" }
+      ],
+      sample: "n = int(input(\"Nhập n: \"))\nif n > 0:\n    print(\"Số dương\")\nelif n < 0:\n    print(\"Số âm\")\nelse:\n    print(\"Số 0\")"
+    };
+
+    EXERCISES["py-06-ex2"] = {
+      topic: "Xếp loại ba mức",
+      prompt: "Tạo biến diem gán một giá trị bất kỳ (ví dụ 7.5), dùng if/elif/else in ra xếp loại: 'Giỏi' nếu diem >= 8, 'Khá' nếu diem >= 6.5, còn lại in 'Cần cố gắng'.",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*[0-9.]+", desc: "Gán một giá trị cho biến diem", hint: "Ví dụ: diem = 7.5" },
+        { regex: "\\bif\\s+diem\\s*>=\\s*8\\s*:", desc: "Có nhánh if diem >= 8", hint: "if diem >= 8:" },
+        { regex: "\\belif\\b[^\\n]*6\\.5", desc: "Có nhánh elif kiểm tra mốc 6.5", hint: "elif diem >= 6.5:" },
+        { regex: "\\belse\\s*:", desc: "Có nhánh else hứng trường hợp còn lại", hint: "else:" }
+      ],
+      sample: "diem = 7.5\nif diem >= 8:\n    print(\"Giỏi\")\nelif diem >= 6.5:\n    print(\"Khá\")\nelse:\n    print(\"Cần cố gắng\")"
+    };
+
+    EXERCISES["py-06-ex3"] = {
+      topic: "Điều kiện kết hợp kiểm tra tuổi",
+      prompt: "Nhập tuổi bằng int(input(...)), dùng if kết hợp and để kiểm tra tuổi từ 13 đến 19: nếu đúng in 'Thiếu niên', ngược lại in 'Không phải thiếu niên'.",
+      checks: [
+        { regex: "int\\s*\\(\\s*input\\s*\\(", desc: "Nhập tuổi bằng int(input(...))", hint: "tuoi = int(input(\"Tuổi: \"))" },
+        { regex: "\\band\\b", desc: "Nối hai điều kiện bằng and", hint: "if tuoi >= 13 and tuoi <= 19:" },
+        { regex: ">=\\s*13", desc: "Có điều kiện tuổi >= 13", hint: "Vế thứ nhất: tuoi >= 13" },
+        { regex: "<\\s*=\\s*19", desc: "Có điều kiện tuổi <= 19", hint: "Vế thứ hai: tuoi <= 19" }
+      ],
+      sample: "tuoi = int(input(\"Tuổi: \"))\nif tuoi >= 13 and tuoi <= 19:\n    print(\"Thiếu niên\")\nelse:\n    print(\"Không phải thiếu niên\")"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

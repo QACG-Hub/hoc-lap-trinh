@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 6 C++: hàm (function) — khai báo, tham số, return, hàm void và truyền tham chiếu & — kèm quiz và bài tập tự viết code.">
+  <title>Bài 6: Hàm (function) | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-06">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-06</span></div>
+      <h1 class="lesson-title">Hàm (function)</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #06 ]</span>
+        <span class="pill">Chương 3 — Hàm &amp; mảng</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Khi chương trình lớn dần, viết tất cả vào <code>main()</code> sẽ thành "mì gói" — rối và khó sửa.
+        <strong>Hàm</strong> cho bạn đóng gói từng đoạn code thành một "cỗ máy" nhỏ: đặt tên, cho nó nhận đầu vào và trả về kết quả.
+        Viết một lần, gọi dùng mãi. Bắt đầu chương 3 thôi! ⚙️
+      </p>
+
+      <h2>Hàm là gì?</h2>
+      <p>
+        Hàm giống như một công thức nấu ăn được cất riêng trong tủ: bạn đặt tên cho nó, và mỗi lần gọi tên là máy sẽ
+        chạy đúng các bước trong công thức. Hàm <strong>nhận tham số</strong> (nguyên liệu) và <strong>trả về</strong> kết quả (món ăn):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ham-cong.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int cong(int a, int b) {
+    return a + b;
+}
+
+int main() {
+    int kq = cong(3, 5);
+    cout &lt;&lt; "3 + 5 = " &lt;&lt; kq &lt;&lt; endl;
+    cout &lt;&lt; "10 + 20 = " &lt;&lt; cong(10, 20) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3 + 5 = 8
+10 + 20 = 30</pre>
+        </div>
+      </div>
+
+      <p>Một hàm không bắt buộc phải trả về gì cả — khi đó dùng kiểu <code>void</code>. Nó chỉ "làm việc" rồi kết thúc, ví dụ in ra màn hình:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ham-void.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+void inChao() {
+    cout &lt;&lt; "Xin chào, chiến binh!" &lt;&lt; endl;
+}
+
+int binhPhuong(int x) {
+    return x * x;
+}
+
+int main() {
+    inChao();
+    cout &lt;&lt; "4^2 = " &lt;&lt; binhPhuong(4) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào, chiến binh!
+4^2 = 16</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu một hàm hoàn chỉnh — nhìn kỹ vì mọi hàm trong C++ đều theo khuôn này:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="fn">cong</span><span class="op">(</span><span class="kw">int</span> <span class="vr">a</span><span class="op">,</span> <span class="kw">int</span> <span class="vr">b</span><span class="op">)</span> <span class="op">{</span> <span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span><span class="op">;</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int</code></td><td>kiểu giá trị hàm TRẢ VỀ — ở đây là số nguyên</td><td>✅</td></tr>
+          <tr><td><code>cong</code></td><td>tên hàm do bạn đặt (viết liền, không dấu)</td><td>✅</td></tr>
+          <tr><td><code>(int a, int b)</code></td><td>danh sách THAM SỐ nhận đầu vào — hàm không có tham số vẫn giữ cặp ngoặc <code>()</code></td><td>✅ (có thể rỗng)</td></tr>
+          <tr><td><code>{ ... }</code></td><td>thân hàm — các lệnh sẽ chạy khi hàm được gọi</td><td>✅</td></tr>
+          <tr><td><code>return a + b;</code></td><td>trả kết quả về nơi gọi — hàm kiểu <code>void</code> thì không cần</td><td>✅ nếu kiểu trả về khác <code>void</code></td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Hàm phải được viết <strong>trước</strong> nơi gọi nó. Trong các ví dụ, hàm luôn đặt phía trên <code>main()</code> —
+          gọi hàm chưa biết mặt sẽ bị compiler phàn nàn ngay. Hàm <code>main()</code> mà bạn dùng từ bài 2 cũng chính là
+          một hàm đặc biệt: máy tự gọi nó khi chương trình khởi động.
+        </p>
+      </div>
+
+      <p>Thực hành tạo hàm đầu tiên — viết hàm <code>nhanDoi</code> rồi gọi nó:</p>
+
+      <div class="exercise-box" data-ex="cpp-06-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-06" data-topic="Hàm cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — HÀM CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Tham số &amp; return</h2>
+      <p>
+        Một hàm có thể nhận <strong>nhiều tham số</strong> và trả về một giá trị. Kết quả trả về có thể dùng ngay
+        như một giá trị bình thường: gán vào biến, in ra, hoặc đưa vào hàm khác. Xem hai "cỗ máy" tính toán:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tham-so-return.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int binhPhuong(int x) {
+    return x * x;
+}
+
+int giaiThua(int n) {
+    int kq = 1;
+    for (int i = 1; i &lt;= n; i++) {
+        kq *= i;
+    }
+    return kq;
+}
+
+int main() {
+    cout &lt;&lt; "5^2 = " &lt;&lt; binhPhuong(5) &lt;&lt; endl;
+    cout &lt;&lt; "5! = " &lt;&lt; giaiThua(5) &lt;&lt; endl;
+    cout &lt;&lt; "3! = " &lt;&lt; giaiThua(3) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5^2 = 25
+5! = 120
+3! = 6</pre>
+        </div>
+      </div>
+
+      <p>
+        Hàm <code>giaiThua</code> kết hợp cả vòng lặp <code>for</code> lẫn biến tích luỹ — gọi <code>giaiThua(5)</code> là máy tự tính
+        <code>1 × 2 × 3 × 4 × 5</code>. Giải phẫu lệnh <code>return</code> — "cửa ra" của hàm:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">return</span> <span class="vr">x</span> <span class="op">*</span> <span class="vr">x</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>return</code></td><td>từ khoá trả kết quả về nơi gọi hàm</td><td>✅ (hàm khác void)</td></tr>
+          <tr><td><code>x * x</code></td><td>biểu thức được tính rồi trả về — có thể là biến, phép tính, hay giá trị</td><td>✅</td></tr>
+          <tr><td><code>;</code></td><td>kết thúc câu lệnh</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>return</code> kết thúc hàm <strong>ngay lập tức</strong> — mọi câu lệnh nằm sau nó trong cùng hàm sẽ
+          không bao giờ chạy. Hàm <code>void</code> cũng có thể dùng <code>return;</code> (không kèm giá trị) để thoát sớm nếu cần.
+        </p>
+      </div>
+
+      <p>Luyện tập hàm có tham số và return — tính tổng hai số rồi in ra:</p>
+
+      <div class="exercise-box" data-ex="cpp-06-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-06" data-topic="Tham số &amp; return" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THAM SỐ &amp; RETURN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Truyền tham chiếu (&amp;)</h2>
+      <p>
+        Mặc định, C++ truyền <strong>bản sao</strong> của tham số vào hàm (truyền giá trị). Hàm sửa bản sao thoải mái mà biến gốc
+        vẫn nguyên vẹn. Muốn hàm sửa được <strong>chính biến gốc</strong>, ta thêm dấu <code>&amp;</code> trước tên tham số — gọi là
+        <strong>truyền tham chiếu</strong>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tham-chieu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+void tang(int x) {          // truyền giá trị — chỉ sửa bản sao
+    x = x + 1;
+}
+
+void tangThat(int &amp;x) {     // truyền tham chiếu — sửa bản gốc
+    x = x + 1;
+}
+
+int main() {
+    int a = 5;
+    tang(a);
+    cout &lt;&lt; "Sau tang(a): " &lt;&lt; a &lt;&lt; endl;
+    tangThat(a);
+    cout &lt;&lt; "Sau tangThat(a): " &lt;&lt; a &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Sau tang(a): 5
+Sau tangThat(a): 6</pre>
+        </div>
+      </div>
+
+      <p><code>tang(a)</code> nhận bản sao nên <code>a</code> vẫn là 5. <code>tangThat(a)</code> dùng chung với biến gốc nên <code>a</code> thành 6. Giải phẫu dấu <code>&amp;</code> quyền lực này:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">void</span> <span class="fn">doiGiaTri</span><span class="op">(</span><span class="kw">int</span> <span class="op">&amp;</span><span class="vr">x</span><span class="op">)</span> <span class="op">{</span> <span class="vr">x</span> <span class="op">=</span> 10<span class="op">;</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>void</code></td><td>hàm không trả về giá trị — chỉ thay đổi dữ liệu nhận vào</td><td>✅</td></tr>
+          <tr><td><code>int x</code></td><td>truyền giá trị — hàm làm việc trên bản sao</td><td>một trong hai cách</td></tr>
+          <tr><td><code>int &amp;x</code></td><td>truyền tham chiếu — dấu <code>&amp;</code> nghĩa là "dùng chung" với biến gốc</td><td>một trong hai cách</td></tr>
+          <tr><td><code>x = 10;</code></td><td>gán trong thân hàm — với tham chiếu, biến gốc đổi theo thành 10</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên dấu <code>&amp;</code> là lỗi "thầm lặng" hay gặp nhất khi viết hàm thay đổi giá trị: chương trình vẫn biên dịch,
+          vẫn chạy, nhưng biến gốc <strong>không hề đổi</strong> vì hàm chỉ sửa bản sao. Nếu hàm của bạn "không có tác dụng kỳ lạ",
+          hãy kiểm tra ngay dấu <code>&amp;</code> trong danh sách tham số. Ngược lại, khi chỉ cần đọc dữ liệu, cứ truyền giá trị
+          bình thường để an toàn.
+        </p>
+      </div>
+
+      <p>Thử thách cuối — hàm void nhận chuỗi và in lời chào:</p>
+
+      <div class="exercise-box" data-ex="cpp-06-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-06" data-topic="Tham chiếu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THAM CHIẾU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 06</h2>
+      <ul>
+        <li>Hàm đóng gói code thành khối tái sử dụng: <code>kiểu_trả_về tên_hàm(danh_sách_tham_số) { ... }</code>.</li>
+        <li>Hàm phải được viết trước nơi gọi; <code>main()</code> cũng là một hàm đặc biệt.</li>
+        <li><code>return</code> trả giá trị về nơi gọi và kết thúc hàm ngay lập tức; hàm không trả về dùng kiểu <code>void</code>.</li>
+        <li>Tham số là "nguyên liệu" đầu vào, đặt trong ngoặc đơn; nhiều tham số ngăn cách bởi dấu phẩy.</li>
+        <li>Truyền giá trị: hàm sửa bản sao, biến gốc không đổi. Truyền tham chiếu <code>int &amp;x</code>: hàm sửa được biến gốc.</li>
+        <li>Quên dấu <code>&amp;</code> là nguyên nhân số một khiến hàm "sửa mãi mà biến không đổi".</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-06" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 06</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài 06 (JS inline) */
+    QUIZZES["cpp-06"] = [
+      /* --- Hàm cơ bản (7) --- */
+      { topic: "Hàm cơ bản", type: "choice", question: "Vì sao nên chia chương trình thành nhiều hàm?", options: ["Chia nhỏ chương trình và tái sử dụng code", "Để chương trình chạy chậm hơn", "Để không cần hàm main nữa", "Để tránh phải dùng biến"], answer: "Chia nhỏ chương trình và tái sử dụng code", explain: "Hàm giúp code gọn, dễ đọc, viết một lần dùng nhiều nơi." },
+      { topic: "Hàm cơ bản", type: "choice", question: "Chữ int đứng trước tên hàm công có ý nghĩa gì?", options: ["Kiểu giá trị hàm trả về", "Tên của tham số", "Số lượng tham số", "Kiểu của hàm main"], answer: "Kiểu giá trị hàm trả về", explain: "int cong(...) nghĩa là hàm trả về một số nguyên — muốn không trả về gì thì dùng void." },
+      { topic: "Hàm cơ bản", type: "choice", code: "int nhanDoi(int x) {\n    return x * 2;\n}\n\ncout << nhanDoi(5);", question: "Đoạn code trên in ra gì?", options: ["10", "5", "25", "Lỗi"], answer: "10", explain: "Gọi nhanDoi(5): trong hàm x nhận 5, trả về 5 * 2 = 10." },
+      { topic: "Hàm cơ bản", type: "fill", question: "Điền từ khoá dùng để trả kết quả về nơi gọi hàm:", answer: ["return"], explain: "return a + b; — trả giá trị rồi kết thúc hàm ngay." },
+      { topic: "Hàm cơ bản", type: "choice", question: "Hàm không trả về giá trị nào dùng kiểu gì?", options: ["void", "int", "empty", "null"], answer: "void", explain: "void nghĩa là 'rỗng' — hàm chỉ làm việc, ví dụ in ra màn hình, rồi kết thúc." },
+      { topic: "Hàm cơ bản", type: "choice", question: "Cú pháp nào GỌI hàm cong với hai tham số 3 và 5?", options: ["cong(3, 5)", "call cong(3, 5)", "cong[3, 5]", "int cong(3, 5)"], answer: "cong(3, 5)", explain: "Gọi hàm: tên hàm kèm đối số trong ngoặc đơn; chữ int chỉ dùng khi khai báo." },
+      { topic: "Hàm cơ bản", type: "choice", question: "Có thể viết cout << inChao(); khi inChao là hàm void không?", options: ["Không — void không trả về giá trị nào để in", "Được, sẽ in ra chữ void", "Được, sẽ in ra 0", "Chỉ được khi hàm có tham số"], answer: "Không — void không trả về giá trị nào để in", explain: "Toán tử << cần một giá trị; hàm void không có giá trị để đưa vào." },
+      /* --- Tham số & return (7) --- */
+      { topic: "Tham số & return", type: "choice", code: "int tich(int a, int b) {\n    return a * b;\n}\n\ncout << tich(4, 5);", question: "Đoạn code trên in ra gì?", options: ["20", "45", "9", "Lỗi"], answer: "20", explain: "a = 4, b = 5, trả về 4 * 5 = 20 — tham số nhận giá trị theo đúng thứ tự truyền vào." },
+      { topic: "Tham số & return", type: "choice", question: "Tham số của hàm là gì?", options: ["Biến nhận giá trị đầu vào, khai báo trong ngoặc đơn của hàm", "Giá trị hàm trả về", "Tên của chương trình", "Lệnh in ra màn hình"], answer: "Biến nhận giá trị đầu vào, khai báo trong ngoặc đơn của hàm", explain: "int cong(int a, int b) — a và b là tham số, nhận giá trị từ nơi gọi hàm." },
+      { topic: "Tham số & return", type: "fill", question: "Điền kiểu dữ liệu cho hàm chỉ in lời chào, không trả về gì:", answer: ["void"], explain: "void inChao() { cout << \"Xin chào\"; }" },
+      { topic: "Tham số & return", type: "choice", question: "Khi hàm gặp lệnh return, điều gì xảy ra?", options: ["Trả giá trị về nơi gọi và kết thúc hàm ngay", "In giá trị ra màn hình", "Khởi động lại hàm từ đầu", "Bỏ qua lệnh tiếp theo rồi chạy tiếp"], answer: "Trả giá trị về nơi gọi và kết thúc hàm ngay", explain: "Mọi lệnh sau return trong cùng hàm đều không bao giờ chạy." },
+      { topic: "Tham số & return", type: "choice", code: "int f(int x) {\n    return x + 1;\n    cout << \"Dòng này...\";\n}", question: "Dòng cout trong hàm f có bao giờ chạy không?", options: ["Không — nằm sau return nên không bao giờ chạy", "Có, chạy sau khi return", "Có, chạy 2 lần", "Chương trình báo lỗi cú pháp ngay"], answer: "Không — nằm sau return nên không bao giờ chạy", explain: "return kết thúc hàm lập tức; code phía sau là 'code chết'." },
+      { topic: "Tham số & return", type: "choice", question: "Trong lời gọi cong(3, 5), hai giá trị 3 và 5 được gọi là gì?", options: ["Đối số (argument)", "Hằng số", "Từ khoá", "Tên hàm"], answer: "Đối số (argument)", explain: "Giá trị truyền vào khi gọi là đối số; biến nhận chúng trong hàm là tham số." },
+      { topic: "Tham số & return", type: "choice", code: "void inSo(int x) {\n    cout << \"So: \" << x;\n}", question: "Gọi inSo(7) thì in ra gì?", options: ["So: 7", "7", "So: x", "Không in gì"], answer: "So: 7", explain: "Tham số x nhận 7, hàm void in ra ngay trong thân hàm." },
+      /* --- Tham chiếu (6) --- */
+      { topic: "Tham chiếu", type: "choice", question: "Dấu & trong void f(int &x) có ý nghĩa gì?", options: ["Truyền tham chiếu — hàm làm việc với chính biến gốc", "Lấy địa chỉ của biến", "Phép chia lấy dư", "Phép so sánh VÀ"], answer: "Truyền tham chiếu — hàm làm việc với chính biến gốc", explain: "int &x nghĩa là x 'dùng chung' với biến được truyền vào, sửa x là sửa biến gốc." },
+      { topic: "Tham chiếu", type: "choice", code: "void doiGiaTri(int &x) {\n    x = 10;\n}\n\nint main() {\n    int a = 3;\n    doiGiaTri(a);\n    cout << a;\n}", question: "Đoạn code trên in ra gì?", options: ["10", "3", "13", "Lỗi"], answer: "10", explain: "a được truyền theo tham chiếu nên hàm gán x = 10 chính là gán a = 10." },
+      { topic: "Tham chiếu", type: "choice", code: "void doiGiaTri(int x) {\n    x = 10;\n}\n\nint main() {\n    int a = 3;\n    doiGiaTri(a);\n    cout << a;\n}", question: "Đoạn code trên in ra gì?", options: ["3", "10", "13", "Lỗi"], answer: "3", explain: "Thiếu dấu & nên hàm chỉ sửa bản sao; biến gốc a giữ nguyên giá trị 3 — lỗi thầm lặng kinh điển!" },
+      { topic: "Tham chiếu", type: "fill", question: "Điền ký hiệu cần thêm trước tên tham số để truyền theo tham chiếu (ví dụ int ___x):", answer: ["&", "&x", "tham chieu"], explain: "int &x — dấu & biến tham số thành tham chiếu tới biến gốc." },
+      { topic: "Tham chiếu", type: "choice", question: "Khi nào NÊN truyền tham chiếu?", options: ["Khi muốn hàm thay đổi biến gốc hoặc tránh copy dữ liệu lớn", "Khi hàm chỉ đọc dữ liệu và không được phép sửa", "Khi muốn hàm nhanh hơn một cách thần kỳ", "Không bao giờ nên dùng"], answer: "Khi muốn hàm thay đổi biến gốc hoặc tránh copy dữ liệu lớn", explain: "Tham chiếu cho phép sửa bản gốc; với dữ liệu lớn còn tránh việc copy tốn kém." },
+      { topic: "Tham chiếu", type: "choice", code: "void tang(int &x) {\n    x += 5;\n}\n\nint main() {\n    int a = 2;\n    tang(a);\n    tang(a);\n    cout << a;\n}", question: "Đoạn code trên in ra gì?", options: ["12", "7", "2", "5"], answer: "12", explain: "Mỗi lần gọi tang(a) cộng thêm 5 vào chính a: 2 + 5 + 5 = 12." }
+    ];
+
+    EXERCISES["cpp-06-ex1"] = {
+      topic: "Hàm nhân đôi",
+      prompt: "Viết hàm int nhanDoi(int x) trả về x * 2, rồi trong main gọi hàm với một số bất kỳ và in kết quả bằng cout.",
+      checks: [
+        { regex: "\\bint\\s+nhanDoi\\s*\\(\\s*int\\s+\\w+\\s*\\)", desc: "Định nghĩa hàm int nhanDoi(int ...)", hint: "int nhanDoi(int x) { ... }" },
+        { regex: "return\\s+\\w+\\s*\\*\\s*2|return\\s+2\\s*\\*\\s*\\w+", desc: "Trả về tham số nhân 2", hint: "return x * 2;" },
+        { regex: "\\bnhanDoi\\s*\\(\\s*\\d+\\s*\\)", desc: "Gọi hàm nhanDoi(...) với một số cụ thể", hint: "Trong main: cout << nhanDoi(7) << endl;" },
+        { regex: "cout\\s*<<", desc: "In kết quả bằng cout", hint: "cout << nhanDoi(7) << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint nhanDoi(int x) {\n    return x * 2;\n}\n\nint main() {\n    cout << nhanDoi(7) << endl;\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-06-ex2"] = {
+      topic: "Hàm tính tổng hai số",
+      prompt: "Viết hàm có hai tham số int trả về tổng của chúng, rồi trong main gọi hàm và in kết quả bằng cout.",
+      checks: [
+        { regex: "\\bint\\s+\\w+\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)", desc: "Hàm có đúng hai tham số kiểu int", hint: "int tong(int a, int b) { ... }" },
+        { regex: "return\\s+\\w+\\s*\\+\\s*\\w+", desc: "Trả về tổng hai tham số", hint: "return a + b;" },
+        { regex: "cout\\s*<<\\s*\\w+\\s*\\(", desc: "Gọi hàm ngay trong cout để in kết quả", hint: "cout << tong(4, 6) << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint tong(int a, int b) {\n    return a + b;\n}\n\nint main() {\n    cout << tong(4, 6) << endl;\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-06-ex3"] = {
+      topic: "Hàm void in lời chào",
+      prompt: "Viết hàm void inChao(string ten) nhận một chuỗi tên và in ra lời chào (ví dụ: Xin chao, An!), rồi gọi hàm trong main. Nhớ #include <string>.",
+      checks: [
+        { regex: "\\bvoid\\s+inChao\\s*\\(", desc: "Định nghĩa hàm void inChao(...)", hint: "void inChao(string ten) { ... }" },
+        { regex: "\\bstring\\s+\\w+", desc: "Tham số có kiểu string", hint: "inChao(string ten) — nhớ #include <string>" },
+        { regex: "cout\\s*<<", desc: "In lời chào bằng cout trong thân hàm", hint: "cout << \"Xin chao, \" << ten << \"!\" << endl;" },
+        { regex: "\\binChao\\s*\\(", minCount: 2, desc: "Vừa định nghĩa vừa gọi hàm inChao", hint: "Trong main: inChao(\"An\");" }
+      ],
+      sample: "#include <iostream>\n#include <string>\nusing namespace std;\n\nvoid inChao(string ten) {\n    cout << \"Xin chao, \" << ten << \"!\" << endl;\n}\n\nint main() {\n    inChao(\"An\");\n    return 0;\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

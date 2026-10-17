@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 5 C++: vòng lặp for, while và do-while; break & continue với ví dụ chạy được, quiz và bài tập tự viết code.">
+  <title>Bài 5: Vòng lặp for, while, do-while | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-05">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-05</span></div>
+      <h1 class="lesson-title">Vòng lặp for, while, do-while</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #05 ]</span>
+        <span class="pill">Chương 2 — Cấu trúc điều khiển</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Máy tính sinh ra để làm việc lặp đi lặp lại mà không biết mệt. Trong nhiệm vụ này bạn sẽ điều khiển
+        <strong>vòng lặp</strong>: <code>for</code> khi biết trước số lần, <code>while</code> khi lặp theo điều kiện,
+        <code>do-while</code> khi muốn chạy ít nhất một lần — kèm hai "phanh khẩn cấp" <code>break</code> và
+        <code>continue</code>. 🔁
+      </p>
+
+      <h2>Vòng lặp for</h2>
+      <p>
+        Khi biết chính xác cần lặp bao nhiêu lần, <code>for</code> là lựa chọn số một. Nó gom cả ba việc —
+        khởi tạo biến đếm, kiểm tra điều kiện, tăng biến đếm — vào một dòng duy nhất:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">for-co-ban.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 1; i &lt;= 5; i++) {
+        cout &lt;&lt; i &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+3
+4
+5</pre>
+        </div>
+      </div>
+
+      <p><code>i++</code> là cách viết ngắn của <code>i = i + 1</code> — tăng lên 1 sau mỗi vòng. Muốn đếm ngược thì giảm bằng <code>i--</code>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dem-nguoc.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 5; i &gt;= 1; i--) {
+        cout &lt;&lt; i &lt;&lt; endl;
+    }
+    cout &lt;&lt; "Phóng!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+4
+3
+2
+1
+Phóng!</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "cỗ máy đếm" này — ba phần ngăn cách bởi dấu <code>;</code>:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">for</span> <span class="op">(</span><span class="kw">int</span> <span class="vr">i</span> <span class="op">=</span> 1<span class="op">;</span> <span class="vr">i</span> <span class="op">&lt;=</span> 5<span class="op">;</span> <span class="vr">i</span><span class="op">++</span><span class="op">)</span> <span class="op">{</span> <span class="cm">...</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>for</code></td><td>từ khoá mở đầu vòng lặp đếm</td><td>✅</td></tr>
+          <tr><td><code>int i = 1</code></td><td>khởi tạo biến đếm — chạy đúng MỘT lần trước vòng đầu</td><td>✅ (phần 1)</td></tr>
+          <tr><td><code>i &lt;= 5</code></td><td>điều kiện — kiểm tra TRƯỚC mỗi vòng; sai thì dừng</td><td>✅ (phần 2)</td></tr>
+          <tr><td><code>i++</code></td><td>cập nhật — chạy SAU mỗi vòng, ở đây là tăng i thêm 1</td><td>✅ (phần 3)</td></tr>
+          <tr><td><code>{ ... }</code></td><td>thân vòng lặp — khối lệnh được lặp lại</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Khai báo <code>int i</code> ngay trong <code>for</code> thì biến <code>i</code> chỉ "sống" bên trong vòng lặp — ra ngoài
+          là hết dùng được. Điều kiện <code>i &lt;= 5</code> (có dấu bằng) mới cho vòng chạy tới 5; viết nhầm thành <code>i &lt; 5</code>
+          là chỉ chạy tới 4 đấy.
+        </p>
+      </div>
+
+      <p>Thực hành vòng lặp for — in 1 đến 10:</p>
+
+      <div class="exercise-box" data-ex="cpp-05-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-05" data-topic="for" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — FOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Vòng lặp while</h2>
+      <p>
+        <code>while</code> chỉ quan tâm <strong>một điều kiện</strong>: chừng nào điều kiện còn đúng thì cứ lặp.
+        Bạn tự viết phần khởi tạo trước vòng lặp và tự tăng biến đếm bên trong:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">while-co-ban.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int i = 1;              // khởi tạo trước
+    while (i &lt;= 5) {
+        cout &lt;&lt; i &lt;&lt; endl;
+        i++;                // nhớ tăng, nếu không sẽ lặp mãi!
+    }
+    cout &lt;&lt; "Kết thúc, i = " &lt;&lt; i &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+3
+4
+5
+Kết thúc, i = 6</pre>
+        </div>
+      </div>
+
+      <p>Để ý dòng cuối: khi vòng lặp dừng, <code>i</code> đã là <strong>6</strong> — điều kiện <code>i &lt;= 5</code> chỉ sai khi i vượt quá 5. Giải phẫu cú pháp:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">while</span> <span class="op">(</span><span class="vr">i</span> <span class="op">&lt;=</span> 5<span class="op">)</span> <span class="op">{</span> <span class="cm">...</span> <span class="vr">i</span><span class="op">++</span><span class="op">;</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>while</code></td><td>từ khoá mở đầu vòng lặp theo điều kiện</td><td>✅</td></tr>
+          <tr><td><code>(i &lt;= 5)</code></td><td>điều kiện — kiểm tra TRƯỚC mỗi vòng; sai ngay từ đầu thì thân vòng lặp không chạy lần nào</td><td>✅</td></tr>
+          <tr><td><code>{ ... }</code></td><td>thân vòng lặp — lệnh tăng biến đếm phải nằm trong đây</td><td>✅</td></tr>
+          <tr><td><code>i++</code></td><td>thay đổi giá trị để điều kiện sớm muộn cũng sai — thiếu là lặp vô hạn</td><td>✅ (về logic)</td></tr>
+        </table>
+      </div>
+
+      <p>So sánh nhanh <code>for</code> và <code>while</code> — về bản chất chúng làm được y hệt nhau, chỉ khác cách viết:</p>
+
+      <table>
+        <tr><th>Tiêu chí</th><th><code>for</code></th><th><code>while</code></th></tr>
+        <tr><td>Khi nào dùng</td><td>biết trước số lần lặp</td><td>lặp theo điều kiện, số lần chưa biết trước</td></tr>
+        <tr><td>Cách viết</td><td>gom khởi tạo / điều kiện / cập nhật trong một dòng</td><td>khởi tạo trước, cập nhật nằm trong thân vòng lặp</td></tr>
+        <tr><td>Kiểm tra điều kiện</td><td>trước mỗi vòng</td><td>trước mỗi vòng</td></tr>
+        <tr><td>Ví dụ điển hình</td><td>in 1..100, duyệt mảng theo chỉ số</td><td>chạy tới khi người dùng nhập 0</td></tr>
+      </table>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên <code>i++</code> trong <code>while</code> là "tai nạn" đầu tiên của mọi người mới học: điều kiện <code>i &lt;= 5</code>
+          mãi mãi đúng, chương trình in số 1 không ngừng và bạn phải bấm <code>Ctrl + C</code> để thoát. Mẹo phòng thân:
+          viết <code>i++</code> ngay khi gõ điều kiện, trước cả khi viết phần thân.
+        </p>
+      </div>
+
+      <p>Tính tổng bằng vòng lặp — bài toán "cộng dồn" kinh điển:</p>
+
+      <div class="exercise-box" data-ex="cpp-05-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-05" data-topic="while" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — WHILE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>do-while &amp; break/continue</h2>
+      <p>
+        <code>do-while</code> là người anh em "chắc chắn chạy" của <code>while</code>: nó thực hiện thân vòng lặp
+        <strong>trước</strong>, rồi mới kiểm tra điều kiện. Nghĩa là thân vòng lặp luôn chạy <strong>ít nhất một lần</strong>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">do-while.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int dem = 10;
+    do {
+        cout &lt;&lt; "Chạy một lần" &lt;&lt; endl;
+        dem++;
+    } while (dem &lt; 5);
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Chạy một lần</pre>
+        </div>
+      </div>
+
+      <p>Điều kiện <code>dem &lt; 5</code> sai ngay từ đầu (10 không nhỏ hơn 5), vậy mà khối lệnh vẫn chạy một lần — đó là "chữ ký" của do-while. Giải phẫu:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">do</span> <span class="op">{</span> <span class="cm">...</span> <span class="op">}</span> <span class="kw">while</span> <span class="op">(</span><span class="vr">dem</span> <span class="op">&lt;</span> 5<span class="op">)</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>do</code></td><td>mở đầu — thân vòng lặp chạy trước, không cần điều kiện</td><td>✅</td></tr>
+          <tr><td><code>{ ... }</code></td><td>thân vòng lặp — LUÔN chạy ít nhất một lần</td><td>✅</td></tr>
+          <tr><td><code>while (dem &lt; 5)</code></td><td>điều kiện — kiểm tra SAU mỗi vòng; đúng thì quay lại chạy tiếp</td><td>✅</td></tr>
+          <tr><td><code>;</code> cuối cùng</td><td>dấu chấm phẩy sau while là BẮT BUỘC — khác hẳn while thường</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Vì kiểm tra điều kiện sau khi chạy, <code>do-while</code> <strong>luôn chạy ít nhất 1 lần</strong> — kể cả khi điều kiện
+          sai ngay từ đầu. Đừng dùng nó khi muốn "điều kiện sai thì không chạy gì cả" (lúc đó dùng <code>while</code>); ngược lại,
+          nó cực hợp cho menu nhập lựa chọn — luôn phải hiện menu ít nhất một lần. Và đừng quên dấu <code>;</code> sau
+          <code>while (...)</code> của do-while nhé!
+        </p>
+      </div>
+
+      <p>
+        Hai "phanh" giúp bạn kiểm soát vòng lặp: <code>break</code> thoát khỏi vòng lặp ngay lập tức,
+        còn <code>continue</code> bỏ qua phần còn lại của vòng hiện tại để sang vòng kế tiếp:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">break-continue.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 1; i &lt;= 10; i++) {
+        if (i == 3) continue;   // bỏ qua số 3
+        if (i == 6) break;      // dừng hẳn khi gặp 6
+        cout &lt;&lt; i &lt;&lt; endl;
+    }
+    cout &lt;&lt; "Hết vòng lặp" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>1
+2
+4
+5
+Hết vòng lặp</pre>
+        </div>
+      </div>
+
+      <p>Ôn lại <code>while</code> một nhịp trước khi chốt bài:</p>
+
+      <div class="exercise-box" data-ex="cpp-05-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-05" data-topic="do-while &amp; break/continue" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DO-WHILE &amp; BREAK/CONTINUE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 05</h2>
+      <ul>
+        <li><code>for (khởi_tạo; điều_kiện; cập_nhật) { ... }</code> — dùng khi biết trước số lần lặp; <code>i++</code> tăng, <code>i--</code> giảm.</li>
+        <li><code>while (điều_kiện) { ... }</code> — kiểm tra điều kiện trước mỗi vòng; điều kiện sai ngay từ đầu thì không chạy lần nào.</li>
+        <li>Trong <code>while</code> phải tự thay đổi giá trị trong thân vòng lặp (nhớ <code>i++</code>), nếu không sẽ lặp vô hạn.</li>
+        <li><code>do { ... } while (điều_kiện);</code> — chạy ít nhất 1 lần, kiểm tra điều kiện sau; đừng quên dấu <code>;</code> cuối.</li>
+        <li><code>break</code> thoát vòng lặp ngay; <code>continue</code> bỏ qua phần còn lại của vòng hiện tại.</li>
+        <li>Mọi vòng <code>for</code> đều viết lại được bằng <code>while</code> — chọn cái nào dễ đọc hơn.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-05" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 05</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài 05 (JS inline) */
+    QUIZZES["cpp-05"] = [
+      /* --- for (6) --- */
+      { topic: "for", type: "choice", code: "for (int i = 1; i <= 3; i++) {\n    cout << i;\n}", question: "Đoạn code trên in ra gì?", options: ["123", "1 2 3", "12", "Lỗi"], answer: "123", explain: "Vòng lặp chạy với i = 1, 2, 3 và không có dấu cách hay xuống dòng nên in liền thành 123." },
+      { topic: "for", type: "choice", question: "Ba phần trong ngoặc của for theo thứ tự nào?", options: ["Khởi tạo ; điều kiện ; cập nhật", "Điều kiện ; khởi tạo ; cập nhật", "Cập nhật ; điều kiện ; khởi tạo", "Điều kiện ; cập nhật ; khởi tạo"], answer: "Khởi tạo ; điều kiện ; cập nhật", explain: "for (int i = 1; i <= 5; i++) — khởi tạo trước, kiểm tra điều kiện, cuối vòng mới cập nhật." },
+      { topic: "for", type: "choice", question: "Vòng lặp for (int i = 0; i < 3; i++) chạy bao nhiêu lần?", options: ["3 lần", "2 lần", "4 lần", "Không chạy lần nào"], answer: "3 lần", explain: "i nhận các giá trị 0, 1, 2 — khi i = 3 thì điều kiện i < 3 sai nên dừng." },
+      { topic: "for", type: "fill", question: "Điền phần còn thiếu để vòng lặp chạy i = 1, 2, 3, 4, 5: for (int i = 1; i <= 5; ___ )", answer: ["i++", "++i", "i = i + 1", "i += 1", "i=i+1"], explain: "Phần thứ ba là cập nhật biến đếm: i++ tăng i thêm 1 sau mỗi vòng." },
+      { topic: "for", type: "choice", code: "int s = 0;\nfor (int i = 1; i <= 4; i++) {\n    s += i;\n}\ncout << s;", question: "Đoạn code trên in ra gì?", options: ["10", "9", "4", "1234"], answer: "10", explain: "s cộng dồn 1 + 2 + 3 + 4 = 10 — mẫu 'biến tích luỹ' rất hay gặp." },
+      { topic: "for", type: "choice", question: "Khai báo int i ngay trong for thì biến i dùng được ở đâu?", options: ["Chỉ bên trong vòng lặp for đó", "Dùng ở mọi nơi trong main", "Không dùng được ở đâu cả", "Chỉ sau vòng lặp"], answer: "Chỉ bên trong vòng lặp for đó", explain: "i chỉ tồn tại trong phạm vi vòng lặp — ra ngoài sẽ báo lỗi chưa khai báo." },
+      /* --- while (6) --- */
+      { topic: "while", type: "choice", code: "int i = 1;\nwhile (i <= 3) {\n    cout << i;\n    i++;\n}", question: "Đoạn code trên in ra gì?", options: ["123", "1234", "12", "Lỗi"], answer: "123", explain: "i chạy 1, 2, 3; khi i = 4 điều kiện sai nên dừng — i++ nằm trong thân vòng lặp." },
+      { topic: "while", type: "choice", question: "while kiểm tra điều kiện vào lúc nào?", options: ["Trước mỗi lần lặp — điều kiện sai ngay từ đầu thì không chạy lần nào", "Sau mỗi lần lặp", "Chỉ kiểm tra một lần duy nhất", "Chỉ kiểm tra khi gặp break"], answer: "Trước mỗi lần lặp — điều kiện sai ngay từ đầu thì không chạy lần nào", explain: "while kiểm tra trước; đây là điểm khác biệt gốc rễ với do-while." },
+      { topic: "while", type: "choice", code: "int i = 1;\nwhile (i <= 3) {\n    cout << i;\n}", question: "Đoạn code trên có vấn đề gì?", options: ["Lặp vô hạn vì i không bao giờ tăng", "In ra 123", "Lỗi biên dịch", "Không chạy lần nào"], answer: "Lặp vô hạn vì i không bao giờ tăng", explain: "Điều kiện i <= 3 mãi đúng nên chương trình in số 1 không ngừng — phải có i++ trong thân vòng lặp." },
+      { topic: "while", type: "fill", question: "Thêm lệnh còn thiếu để vòng while đếm 1..5 rồi dừng: while (i <= 5) { cout << i; ___ }", answer: ["i++", "i = i + 1", "i += 1", "++i", "i=i+1"], explain: "Cần thay đổi i để điều kiện i <= 5 sớm thành sai — thường là i++." },
+      { topic: "while", type: "choice", question: "Khi nào nên chọn while thay vì for?", options: ["Khi số lần lặp chưa biết trước, lặp theo điều kiện", "Khi biết trước lặp đúng 10 lần", "Khi duyệt mảng theo chỉ số", "while không dùng được trong C++"], answer: "Khi số lần lặp chưa biết trước, lặp theo điều kiện", explain: "Ví dụ: cứ lặp tới khi người dùng nhập số 0 — chưa biết trước cần bao nhiêu lần." },
+      { topic: "while", type: "choice", code: "int n = 3;\nint dem = 0;\nwhile (n > 0) {\n    dem++;\n    n--;\n}\ncout << dem;", question: "Đoạn code trên in ra gì?", options: ["3", "2", "4", "0"], answer: "3", explain: "n giảm dần 3 → 2 → 1, mỗi lần dem tăng 1, nên dem = 3 khi n về 0." },
+      /* --- do-while & break/continue (7) --- */
+      { topic: "do-while & break/continue", type: "choice", question: "do-while khác while ở điểm nào?", options: ["Thân vòng lặp chạy ít nhất 1 lần vì kiểm tra điều kiện SAU", "Kiểm tra điều kiện trước nhưng nhanh hơn", "Không cần điều kiện", "Chạy đúng 2 lần rồi dừng"], answer: "Thân vòng lặp chạy ít nhất 1 lần vì kiểm tra điều kiện SAU", explain: "do { ... } while (...); — chạy thân trước, hỏi điều kiện sau." },
+      { topic: "do-while & break/continue", type: "choice", code: "int x = 10;\ndo {\n    cout << \"A\";\n    x++;\n} while (x < 5);", question: "Đoạn code trên in ra gì?", options: ["A", "Không in gì", "AA", "Lỗi"], answer: "A", explain: "Điều kiện x < 5 sai ngay từ đầu (10 < 5 sai) nhưng do-while vẫn chạy một lần — in A." },
+      { topic: "do-while & break/continue", type: "choice", code: "for (int i = 1; i <= 5; i++) {\n    if (i == 3) continue;\n    cout << i;\n}", question: "Đoạn code trên in ra gì?", options: ["1245", "12345", "123", "125"], answer: "1245", explain: "continue bỏ qua phần còn lại của vòng khi i == 3 nên số 3 không được in." },
+      { topic: "do-while & break/continue", type: "choice", question: "Lệnh break trong vòng lặp có tác dụng gì?", options: ["Thoát khỏi vòng lặp ngay lập tức", "Bỏ qua vòng hiện tại, sang vòng kế tiếp", "Tạm dừng 1 giây rồi lặp tiếp", "Khởi động lại vòng lặp từ đầu"], answer: "Thoát khỏi vòng lặp ngay lập tức", explain: "break là 'phanh khẩn cấp' — thoát hẳn khỏi vòng lặp hoặc switch." },
+      { topic: "do-while & break/continue", type: "choice", code: "for (int i = 1; i <= 10; i++) {\n    if (i == 4) break;\n    cout << i;\n}", question: "Đoạn code trên in ra gì?", options: ["123", "1234", "12345678910", "4"], answer: "123", explain: "Khi i = 4 thì break thoát ngay trước khi in, nên chỉ có 1, 2, 3 xuất hiện." },
+      { topic: "do-while & break/continue", type: "fill", question: "Điền từ khoá để thoát ngay khỏi vòng lặp:", answer: ["break"], explain: "break thoát khỏi vòng lặp (hoặc switch) ngay lập tức." },
+      { topic: "do-while & break/continue", type: "fill", question: "Điền từ khoá để bỏ qua phần còn lại của vòng hiện tại và sang vòng kế tiếp:", answer: ["continue"], explain: "continue nhảy sang vòng lặp kế tiếp — hay dùng để bỏ qua giá trị không cần xử lý." }
+    ];
+
+    EXERCISES["cpp-05-ex1"] = {
+      topic: "Đếm 1 đến 10",
+      prompt: "Dùng vòng lặp for in ra các số từ 1 đến 10, mỗi số trên một dòng.",
+      checks: [
+        { regex: "\\bfor\\s*\\(", desc: "Dùng vòng lặp for", hint: "for (int i = 1; i <= 10; i++) { ... }" },
+        { regex: "i\\s*<=\\s*10|i\\s*<\\s*11", desc: "Điều kiện lặp chạy tới 10", hint: "Điều kiện: i <= 10" },
+        { regex: "i\\+\\+|i\\s*\\+=|i\\s*=\\s*i\\s*\\+\\s*1", desc: "Tăng biến đếm sau mỗi vòng", hint: "Phần thứ ba của for: i++" },
+        { regex: "cout\\s*<<", desc: "In giá trị i ra màn hình", hint: "cout << i << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    for (int i = 1; i <= 10; i++) {\n        cout << i << endl;\n    }\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-05-ex2"] = {
+      topic: "Tổng 1 đến 100",
+      prompt: "Dùng vòng lặp (for hoặc while) và một biến tổng để tính 1 + 2 + ... + 100, rồi in tổng ra màn hình. Kết quả đúng là 5050.",
+      checks: [
+        { regex: "\\bfor\\s*\\(|\\bwhile\\s*\\(", desc: "Dùng vòng lặp for hoặc while", hint: "for (int i = 1; i <= 100; i++) { ... }" },
+        { regex: "i\\s*<=\\s*100|i\\s*<\\s*101", desc: "Cho vòng lặp chạy tới 100", hint: "Điều kiện: i <= 100" },
+        { regex: "\\+=\\s*i|tong\\s*=\\s*tong\\s*\\+\\s*i|sum\\s*=\\s*sum\\s*\\+\\s*i", desc: "Cộng dồn i vào biến tổng", hint: "tong += i; (hoặc tong = tong + i;)" },
+        { regex: "cout\\s*<<", desc: "In tổng ra màn hình", hint: "cout << \"Tong = \" << tong << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int tong = 0;\n    for (int i = 1; i <= 100; i++) {\n        tong += i;\n    }\n    cout << \"Tong = \" << tong << endl;\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-05-ex3"] = {
+      topic: "While đếm 1 đến 5",
+      prompt: "Dùng vòng lặp while đếm từ 1 đến 5, mỗi số một dòng. Nhớ tăng biến đếm trong thân vòng lặp để không lặp vô hạn.",
+      checks: [
+        { regex: "\\bwhile\\s*\\(", desc: "Dùng vòng lặp while", hint: "int i = 1; while (i <= 5) { ... }" },
+        { regex: "\\bint\\s+\\w+\\s*=\\s*1\\s*;", desc: "Khởi tạo biến đếm bằng 1", hint: "int i = 1; đặt trước vòng while" },
+        { regex: "\\w+\\+\\+|\\w+\\s*\\+=\\s*1|\\w+\\s*=\\s*\\w+\\s*\\+\\s*1", desc: "Tăng biến đếm trong vòng lặp", hint: "i++; nằm trong thân vòng while" },
+        { regex: "cout\\s*<<", desc: "In giá trị đếm ra màn hình", hint: "cout << i << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int i = 1;\n    while (i <= 5) {\n        cout << i << endl;\n        i++;\n    }\n    return 0;\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

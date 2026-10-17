@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 9 C++: chuỗi string — khai báo, nối chuỗi bằng +, so sánh ==, phân biệt char 'A' và string \"A\", nhập bằng getline và các thao tác length, substr, find.">
+  <title>Bài 9: Chuỗi string | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-09">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-09</span></div>
+      <h1 class="lesson-title">Chuỗi: string &amp; char</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #09 ]</span>
+        <span class="pill">Chương 3 — Hàm &amp; mảng</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Chương trình đẹp là chương trình <em>biết nói</em> — và để nói, nó cần <strong>chuỗi</strong>. Trong C++ có hai "sinh vật"
+        hay bị nhầm lẫn: <code>char</code> (một ký tự) và <code>string</code> (cả đoạn văn). Nhiệm vụ hôm nay: thuần phục cả hai,
+        nối chuỗi, so sánh chuỗi, đọc cả dòng có dấu cách và nghịch với <code>length()</code>, <code>substr()</code>, <code>find()</code>. ⚡
+      </p>
+
+      <h2>string &amp; char</h2>
+      <p>
+        Để dùng <code>string</code>, bạn cần nạp thêm thư viện <code>#include &lt;string&gt;</code> (ngoài <code>iostream</code>).
+        Chuỗi trong C++ <strong>nối bằng dấu +</strong> và <strong>so sánh bằng ==</strong> — giống hệt Python, chỉ khác là
+        không quên dấu chấm phẩy:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chuoi.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string ten = "Neo";
+    string ho = "Tran";
+    string full = ho + " " + ten;    // nối chuỗi bằng +
+    cout &lt;&lt; full &lt;&lt; endl;
+    cout &lt;&lt; (ten == "Neo") &lt;&lt; endl;  // so sánh bằng == (1 = đúng)
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tran Neo
+1</pre>
+        </div>
+      </div>
+
+      <p>
+        Còn đây là cặp đôi dễ gây nhầm nhất trong C++: <code>char</code> và <code>string</code>. Nhìn thì giống nhau khi in,
+        nhưng bản chất khác hẳn:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">char-vs-string.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    char kyTu = 'A';          // nháy ĐƠN: đúng 1 ký tự
+    string chuoi = "A";       // nháy KÉP: chuỗi (có thể dài bao nhiêu cũng được)
+    cout &lt;&lt; kyTu &lt;&lt; endl;
+    cout &lt;&lt; chuoi &lt;&lt; endl;
+    cout &lt;&lt; chuoi.length() &lt;&lt; endl;  // chuỗi "A" có 1 ký tự
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>A
+A
+1</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">char</span> <span class="vr">c</span> = <span class="st">'A'</span><span class="op">;</span><br><span class="kw">string</span> <span class="vr">s</span> = <span class="st">"A"</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>char</code></td><td>kiểu <strong>một ký tự</strong> — giá trị phải nằm trong nháy ĐƠN <code>'A'</code></td><td>✅</td></tr>
+          <tr><td><code>string</code></td><td>kiểu <strong>chuỗi</strong> — giá trị nằm trong nháy KÉP <code>"A"</code>, cần <code>#include &lt;string&gt;</code></td><td>✅</td></tr>
+          <tr><td><code>c</code> / <code>s</code></td><td>tên biến — bạn tự đặt</td><td>✅</td></tr>
+          <tr><td><code>+</code></td><td>nối hai chuỗi lại (chỉ dùng với <code>string</code>)</td><td>❌ (khi cần)</td></tr>
+          <tr><td><code>==</code></td><td>so sánh hai chuỗi bằng nhau hay không (không phải <code>=</code> nhé!)</td><td>❌ (khi cần)</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Đừng tráo dấu nháy! <code>char c = "A";</code> là <strong>lỗi biên dịch</strong> (chuỗi nháy kép không nhét vừa một char),
+          còn <code>string s = 'A';</code> cũng lỗi (nháy đơn là ký tự, không phải chuỗi). Quy tắc nhớ nhanh:
+          <strong>ĐƠN = 1 ký tự (char), KÉP = chuỗi (string)</strong>.
+        </p>
+      </div>
+
+      <p>Thử sức với 2 bài tập về khai báo và nối chuỗi:</p>
+
+      <div class="exercise-box" data-ex="cpp-09-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-09-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-09" data-topic="String cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — STRING CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Nhập chuỗi &amp; thao tác</h2>
+      <p>
+        Muốn người dùng nhập cả câu <em>"Neo Tran"</em> (có dấu cách), đừng dùng <code>cin &gt;&gt;</code> — hãy dùng
+        <code>getline(cin, ten)</code>. Nó đọc trọn một dòng cho tới khi gặp phím Enter:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">getline.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string ten;
+    cout &lt;&lt; "Nhap ten: ";
+    getline(cin, ten);          // đọc CẢ dòng, kể cả dấu cách
+    cout &lt;&lt; "Chao " &lt;&lt; ten &lt;&lt; "!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nhap ten: Neo Tran
+Chao Neo Tran!</pre>
+        </div>
+      </div>
+
+      <p>
+        <em>Chú thích nhỏ:</em> đoạn <code>Neo Tran</code> là bạn gõ vào; phần chữ còn lại là chương trình in ra.
+        Nếu dùng <code>cin &gt;&gt; ten</code>, biến <code>ten</code> chỉ nhận được mỗi chữ <code>Neo</code> — phần sau dấu cách bị bỏ rơi.
+      </p>
+
+      <h3>Ba "vũ khí" của string</h3>
+      <p>
+        Chuỗi trong C++ là một đối tượng có sẵn nhiều hàm hữu ích. Ba hàm dùng nhiều nhất:
+        <code>length()</code> (đếm ký tự), <code>substr(vị_trí, số_ký_tự)</code> (cắt chuỗi con),
+        <code>find("...")</code> (tìm vị trí xuất hiện). Và tất nhiên, bạn có thể duyệt từng ký tự bằng vòng for:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thao-tac.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string s = "Hoc C++";
+    cout &lt;&lt; s.length() &lt;&lt; endl;     // 7 ký tự
+    cout &lt;&lt; s.substr(0, 3) &lt;&lt; endl; // lấy 3 ký tự từ vị trí 0
+    cout &lt;&lt; s.find("C++") &lt;&lt; endl;  // vị trí đầu tiên tìm thấy
+
+    int dem = 0;
+    for (int i = 0; i &lt; s.length(); i++)
+        if (s[i] == '+') dem++;     // duyệt từng ký tự
+    cout &lt;&lt; "So dau +: " &lt;&lt; dem &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>7
+Hoc
+4
+So dau +: 2</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <code>cin &gt;&gt; ten</code> <strong>dừng ngay ở dấu cách</strong> đầu tiên — gõ "Neo Tran" thì chỉ nhận "Neo",
+          phần "Tran" còn nằm chờ trong bộ đệm và làm rối các lần nhập sau. Muốn đọc cả dòng có dấu cách, luôn dùng
+          <code>getline(cin, ten)</code>.
+        </p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>find()</code> khi <em>không tìm thấy</em> sẽ trả về một giá trị đặc biệt tên là <code>string::npos</code>
+          (một số khổng lồ, không phải <code>-1</code>). Muốn kiểm tra có tìm thấy hay không, so sánh:
+          <code>if (s.find("x") != string::npos) …</code>
+        </p>
+      </div>
+
+      <p>Bài tập nhỏ: in độ dài chuỗi bằng <code>length()</code>:</p>
+
+      <div class="exercise-box" data-ex="cpp-09-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-09" data-topic="Thao tác chuỗi" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THAO TÁC CHUỖI</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 09</h2>
+      <ul>
+        <li><code>char</code> là MỘT ký tự, giá trị trong nháy ĐƠN: <code>'A'</code>; <code>string</code> là chuỗi, giá trị trong nháy KÉP: <code>"A"</code>.</li>
+        <li>Dùng <code>string</code> cần <code>#include &lt;string&gt;</code> (ngoài <code>iostream</code>).</li>
+        <li>Nối chuỗi bằng <code>+</code>: <code>"Tran" + " " + "Neo"</code>; so sánh bằng <code>==</code> (không phải <code>=</code>).</li>
+        <li><code>cin &gt;&gt; ten</code> chỉ đọc tới dấu cách; muốn đọc cả dòng dùng <code>getline(cin, ten)</code>.</li>
+        <li>Thao tác quen dùng: <code>s.length()</code>, <code>s.substr(vị_trí, số_ký_tự)</code>, <code>s.find("...")</code>.</li>
+        <li>Có thể duyệt từng ký tự bằng vòng for: <code>s[i]</code> là ký tự thứ i, và so sánh với <code>char</code> như <code>s[i] == '+'</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-09" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 09</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-09"] = [
+      /* --- String cơ bản (6) --- */
+      { topic: "String cơ bản", type: "choice", question: "Muốn dùng kiểu string trong C++, cần thêm dòng nào?", options: ["#include <string>", "#include <text>", "#include <string.h>", "Không cần thêm gì"], answer: "#include <string>", explain: "iostream lo phần nhập/xuất, còn string nằm trong thư viện <string>." },
+      { topic: "String cơ bản", type: "choice", question: "'A' (nháy đơn) và \"A\" (nháy kép) khác nhau thế nào?", options: ["'A' là char (một ký tự), \"A\" là string (chuỗi)", "Giống hệt nhau, dùng cái nào cũng được", "'A' là string, \"A\" là char", "Cả hai đều là số"], answer: "'A' là char (một ký tự), \"A\" là string (chuỗi)", explain: "Nháy ĐƠN = char, nháy KÉP = string — quy tắc vàng của bài này." },
+      { topic: "String cơ bản", type: "choice", code: "char c = 'A';\ncout << c;", question: "Đoạn code trên in ra gì?", options: ["A", "'A'", "65", "Lỗi"], answer: "A", explain: "cout in NỘI DUNG của ký tự, không in dấu nháy." },
+      { topic: "String cơ bản", type: "choice", code: "string a = \"Hoc\";\nstring b = \" vui\";\ncout << a + b;", question: "Đoạn code trên in ra gì?", options: ["Hoc vui", "Hocvui", "Hoc + vui", "Lỗi vì không cộng được chuỗi"], answer: "Hoc vui", explain: "Dấu + nối hai chuỗi; vì b bắt đầu bằng dấu cách nên có khoảng trắng giữa." },
+      { topic: "String cơ bản", type: "fill", question: "Khai báo biến chuỗi ten với giá trị Neo (đúng cú pháp, kết thúc bằng dấu ;):", answer: ["string ten = \"Neo\";", "string ten=\"Neo\";", "string ten = \"neo\";"], explain: "string ten = \"Neo\"; — kiểu string, tên ten, giá trị trong nháy kép." },
+      { topic: "String cơ bản", type: "choice", question: "Dòng nào sẽ LỖI khi biên dịch?", options: ["char c = \"A\";", "char c = 'A';", "string s = \"A\";", "string s = \"Neo\";"], answer: "char c = \"A\";", explain: "char chỉ chứa MỘT ký tự trong nháy đơn — nhét chuỗi nháy kép vào là lỗi ngay." },
+      /* --- Thao tác chuỗi (6) --- */
+      { topic: "Thao tác chuỗi", type: "choice", question: "Hàm nào trả về độ dài (số ký tự) của chuỗi?", options: ["length()", "len()", "count()", "size"], answer: "length()", explain: "Ví dụ: s.length() — cũng có thể dùng s.size(), nhưng trong bài này ta dùng length()." },
+      { topic: "Thao tác chuỗi", type: "choice", code: "string s = \"Hoc C++\";\ncout << s.length();", question: "Đoạn code trên in ra gì?", options: ["7", "6", "8", "5"], answer: "7", explain: "\"Hoc C++\" gồm: H, o, c, dấu cách, C, +, + → 7 ký tự." },
+      { topic: "Thao tác chuỗi", type: "choice", code: "string s = \"Hoc C++\";\ncout << s.substr(0, 3);", question: "Đoạn code trên in ra gì?", options: ["Hoc", "Hoc C++", "C++", "oc "], answer: "Hoc", explain: "substr(0, 3) lấy 3 ký tự bắt đầu từ vị trí 0 → \"Hoc\"." },
+      { topic: "Thao tác chuỗi", type: "choice", question: "cin >> ten khác getline(cin, ten) ở điểm nào?", options: ["cin >> chỉ đọc tới dấu cách, getline đọc cả dòng", "Giống hệt nhau", "getline chỉ đọc được 1 ký tự", "cin >> đọc cả dòng có dấu cách"], answer: "cin >> chỉ đọc tới dấu cách, getline đọc cả dòng", explain: "Gõ \"Neo Tran\": cin >> ten chỉ nhận \"Neo\"; getline(cin, ten) nhận cả \"Neo Tran\"." },
+      { topic: "Thao tác chuỗi", type: "fill", question: "Viết lệnh nhập cả một dòng (kể cả dấu cách) vào biến ten:", answer: ["getline(cin, ten)", "getline(cin,ten)", "getline(cin, ten);"], explain: "getline(cin, ten); — đọc trọn một dòng cho tới phím Enter." },
+      { topic: "Thao tác chuỗi", type: "choice", code: "string s = \"Hoc C++\";\ncout << s.find(\"C++\");", question: "Đoạn code trên in ra gì?", options: ["4", "5", "3", "-1"], answer: "4", explain: "Đếm từ 0: H(0) o(1) c(2) cách(3) C(4) → \"C++\" bắt đầu ở vị trí 4." }
+    ];
+    EXERCISES["cpp-09-ex1"] = {
+      topic: "Khai báo & in chuỗi",
+      prompt: "Khai báo biến string tên ten với một giá trị bất kỳ (ví dụ tên bạn), rồi in biến đó ra màn hình bằng cout.",
+      checks: [
+        { regex: "string\\s+ten\\s*=\\s*[\"'][^\"']+[\"']", desc: "Khai báo biến string ten và gán một giá trị trong dấu nháy", hint: "string ten = \"Neo\";" },
+        { regex: "cout\\s*<<\\s*ten\\b", desc: "In biến ten ra màn hình bằng cout", hint: "cout << ten << endl;" }
+      ],
+      sample: "string ten = \"Neo\";\ncout << ten << endl;"
+    };
+    EXERCISES["cpp-09-ex2"] = {
+      topic: "Nối chuỗi bằng +",
+      prompt: "Khai báo HAI biến string, nối chúng bằng dấu + (thêm dấu cách cho đẹp) rồi in kết quả ra màn hình.",
+      checks: [
+        { regex: "string\\s+\\w+\\s*=", minCount: 2, desc: "Khai báo ít nhất 2 biến string", hint: "Ví dụ: string a = \"Hoc\"; và string b = \"C++\";" },
+        { regex: "\\w+\\s*\\+\\s*[\"']", desc: "Dùng dấu + để nối chuỗi", hint: "Nối như sau: a + \" \" + b" },
+        { regex: "cout\\s*<<", desc: "In kết quả nối ra màn hình", hint: "cout << a + \" \" + b << endl;" }
+      ],
+      sample: "string a = \"Hoc\";\nstring b = \"C++\";\ncout << a + \" \" + b << endl;"
+    };
+    EXERCISES["cpp-09-ex3"] = {
+      topic: "Độ dài chuỗi với length()",
+      prompt: "Tạo một biến string có nội dung bất kỳ, rồi in ra ĐỘ DÀI của chuỗi đó bằng hàm length().",
+      checks: [
+        { regex: "\\.\\s*length\\s*\\(\\s*\\)", desc: "Gọi .length() để lấy độ dài chuỗi", hint: "Ví dụ: s.length()" },
+        { regex: "cout\\s*<<", desc: "In độ dài ra màn hình bằng cout", hint: "cout << s.length() << endl;" }
+      ],
+      sample: "string s = \"Hoc C++\";\ncout << s.length() << endl;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 3 Python: biến, quy tắc đặt tên, các kiểu dữ liệu int/float/str/bool và ép kiểu int()/float()/str() — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 3: Biến &amp; kiểu dữ liệu | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-03">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-03</span></div>
+      <h1 class="lesson-title">Biến &amp; kiểu dữ liệu</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #03 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Máy tính giỏi ghi nhớ và tính toán hơn con người — nhưng nó cần biết <em>cất dữ liệu vào đâu</em>.
+        Nhiệm vụ này trang bị cho bạn hai vũ khí nền tảng: <strong>biến</strong> (nơi cất dữ liệu) và
+        <strong>kiểu dữ liệu</strong> (dữ liệu đó thuộc loại gì). Đi kèm là 3 bài tập chấm điểm và 4 đề quiz! ⚡
+      </p>
+
+      <h2>Biến là gì?</h2>
+      <p>
+        <strong>Biến</strong> (variable) là một chiếc <em>hộp có dán nhãn</em> để đựng giá trị.
+        Bạn đặt tên cho hộp, bỏ giá trị vào, rồi gọi tên ra là dùng lại được — không phải gõ lại giá trị đó mỗi lần.
+        Trong Python, thao tác bỏ giá trị vào hộp gọi là <strong>gán</strong> (assignment) và được viết bằng dấu <code>=</code>.
+      </p>
+
+      <p>Hãy <strong>giải phẫu</strong> một lệnh gán quen thuộc:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">diem</span> <span class="op">=</span> <span class="st">10</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>diem</code></td><td><strong>tên biến</strong> — cái nhãn dán lên chiếc hộp</td><td>✅</td></tr>
+          <tr><td><code>=</code></td><td><strong>dấu gán</strong> — lấy giá trị bên phải bỏ vào biến bên trái</td><td>✅</td></tr>
+          <tr><td><code>10</code></td><td><strong>giá trị</strong> được cất vào hộp (ở đây là số nguyên 10)</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <h3>Quy tắc đặt tên biến</h3>
+      <ul>
+        <li>Chỉ dùng <strong>chữ cái, chữ số và dấu gạch dưới</strong> <code>_</code> — không khoảng trắng, không dấu tiếng Việt.</li>
+        <li><strong>Không bắt đầu bằng chữ số</strong>: <code>ten1</code> ✅, <code>1ten</code> ❌.</li>
+        <li>Không trùng các <strong>từ khóa</strong> của Python như <code>if</code>, <code>for</code>, <code>while</code>.</li>
+        <li>Nên viết <strong>snake_case</strong>: chữ thường, các từ nối bằng <code>_</code> — ví dụ <code>diem_toan</code>, <code>ten_sinh_vien</code>.</li>
+      </ul>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p><code>2ban</code> <strong>không hợp lệ</strong> vì bắt đầu bằng chữ số — Python sẽ báo <code>SyntaxError</code> ngay. Hãy viết <code>ban_2</code> hoặc <code>hai_ban</code>.</p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Python <strong>phân biệt chữ hoa chữ thường</strong>: <code>diem</code>, <code>Diem</code> và <code>DIEM</code> là ba biến hoàn toàn khác nhau.</p>
+      </div>
+
+      <p>Một biến có thể <strong>gán lại</strong> giá trị mới bất cứ lúc nào — và giá trị mới có thể tính từ chính giá trị cũ:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">gan-lai.py</span>
+        </div>
+        <pre><code class="language-python">x = 5        # gán 5 cho x
+print(x)     # in ra 5
+x = x + 3    # lấy x hiện tại (5) cộng 3 rồi gán lại cho x
+print(x)     # in ra 8</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+8</pre>
+        </div>
+      </div>
+
+      <p>Tạo biến đầu tiên của riêng bạn:</p>
+
+      <div class="exercise-box" data-ex="py-03-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-03" data-topic="Biến" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — BIẾN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Các kiểu dữ liệu cơ bản</h2>
+      <p>
+        Mỗi giá trị trong Python đều thuộc một <strong>kiểu dữ liệu</strong> (data type).
+        Bốn kiểu bạn dùng nhiều nhất ở chặng đầu:
+      </p>
+
+      <table>
+        <tr><th>Kiểu</th><th>Ví dụ</th><th>Ý nghĩa</th></tr>
+        <tr><td><code>int</code></td><td><code>12</code>, <code>-3</code>, <code>2026</code></td><td>số nguyên — không có phần thập phân</td></tr>
+        <tr><td><code>float</code></td><td><code>3.14</code>, <code>-0.5</code>, <code>2.0</code></td><td>số thực — có phần thập phân, viết bằng dấu chấm</td></tr>
+        <tr><td><code>str</code></td><td><code>"Xin chào"</code>, <code>"5"</code></td><td>chuỗi ký tự — luôn nằm trong dấu nháy</td></tr>
+        <tr><td><code>bool</code></td><td><code>True</code>, <code>False</code></td><td>đúng / sai — chỉ có đúng hai giá trị</td></tr>
+      </table>
+
+      <p>Muốn biết một giá trị thuộc kiểu nào, dùng hàm <code>type()</code>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">kiem-tra-kieu.py</span>
+        </div>
+        <pre><code class="language-python">print(type(7))
+print(type(3.14))
+print(type("5"))
+print(type(True))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>&lt;class 'int'&gt;
+&lt;class 'float'&gt;
+&lt;class 'str'&gt;
+&lt;class 'bool'&gt;</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p><code>"5"</code> (có dấu nháy) là <strong>chuỗi (str)</strong>, còn <code>5</code> (không nháy) mới là <strong>số (int)</strong>. Nhìn giống nhau nhưng là hai thứ khác hẳn — đừng nhầm nhé!</p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p><code>True</code> và <code>False</code> phải viết <strong>hoa chữ cái đầu</strong>. Viết <code>true</code> hay <code>false</code> kiểu chữ thường sẽ bị báo lỗi.</p>
+      </div>
+
+      <h3>Chia số và cộng chuỗi: hai cái bẫy nho nhỏ</h3>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">phep-tinh.py</span>
+        </div>
+        <pre><code class="language-python">print(7 / 2)      # chia thường → luôn ra số thực
+print(7 // 2)     # chia lấy phần nguyên
+print("5" + "3")  # dấu + với hai chuỗi là NỐI chuỗi</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3.5
+3
+53</pre>
+        </div>
+      </div>
+
+      <p>Thử sức với biến kiểu chuỗi và hàm <code>print()</code>:</p>
+
+      <div class="exercise-box" data-ex="py-03-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-03" data-topic="Kiểu dữ liệu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — KIỂU DỮ LIỆU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ép kiểu</h2>
+      <p>
+        Đôi khi dữ liệu sinh ra ở kiểu này nhưng bạn cần ở kiểu khác — ví dụ người dùng nhập vào chuỗi, nhưng bạn cần con số.
+        <strong>Ép kiểu</strong> (type conversion) là việc chuyển giá trị từ kiểu này sang kiểu khác, thực hiện bằng ba hàm quen thuộc:
+        <code>int()</code>, <code>float()</code> và <code>str()</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ep-kieu.py</span>
+        </div>
+        <pre><code class="language-python">print(int("123"))    # chuỗi → số nguyên
+print(float("2.5"))  # chuỗi → số thực
+print(str(10))       # số → chuỗi
+print(int(3.9))      # số thực → số nguyên (cắt phần thập phân)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>123
+2.5
+10
+3</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p><code>int(3.9)</code> cho ra <code>3</code>: ép số thực về số nguyên là <strong>CẮT</strong> phần thập phân, <strong>không làm tròn</strong>. Muốn làm tròn thì dùng <code>round(3.9)</code> — học ở bài sau.</p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Không thể nối số với chuỗi bằng dấu <code>+</code>. Cần <code>str()</code> trước: <code>print("Năm " + str(2026))</code> in ra <code>Năm 2026</code>.</p>
+      </div>
+
+      <p>Nhưng cẩn thận — không phải chuỗi nào cũng ép được thành số:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">loi-ep-kieu.py</span>
+        </div>
+        <pre><code class="language-python">print(int("abc"))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Traceback (most recent call last):
+  File "loi-ep-kieu.py", line 1, in &lt;module&gt;
+    print(int("abc"))
+ValueError: invalid literal for int() with base 10: 'abc'</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p><code>int("abc")</code> làm chương trình dừng ngay với lỗi <code>ValueError</code>: chuỗi đưa vào <code>int()</code> bắt buộc phải là chữ số hợp lệ, ví dụ <code>"123"</code>.</p>
+      </div>
+
+      <p>Bài tập tổng hợp của nhiệm vụ — ép kiểu và tính toán cùng lúc:</p>
+
+      <div class="exercise-box" data-ex="py-03-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-03" data-topic="Ép kiểu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ÉP KIỂU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 03</h2>
+      <ul>
+        <li>Biến là chiếc hộp có tên đựng giá trị; gán bằng <code>=</code> và có thể gán lại bất cứ lúc nào.</li>
+        <li>Tên biến không bắt đầu bằng chữ số, không chứa khoảng trắng; nên viết snake_case như <code>diem_toan</code>.</li>
+        <li>Bốn kiểu cơ bản: <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code> — kiểm tra bằng <code>type()</code>.</li>
+        <li><code>"5"</code> là chuỗi còn <code>5</code> là số; <code>7 / 2</code> ra <code>3.5</code>, còn <code>7 // 2</code> ra <code>3</code>.</li>
+        <li>Ép kiểu bằng <code>int()</code>, <code>float()</code>, <code>str()</code>; <code>int(3.9)</code> cắt thành <code>3</code>, <code>int("abc")</code> báo <code>ValueError</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-03" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 03</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

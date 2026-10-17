@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 1 C++: C++ là gì, vì sao nhanh, cài trình biên dịch g++ trên Windows/Ubuntu/macOS và biên dịch chương trình C++ đầu tiên.">
+  <title>Bài 1: Giới thiệu C++ &amp; cài đặt | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-01">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-01</span></div>
+      <h1 class="lesson-title">Giới thiệu C++ &amp; cài đặt</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #01 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Python đã dạy bạn tư duy lập trình; giờ là lúc bước vào thế giới của <strong>tốc độ</strong>.
+        C++ là ngôn ngữ <strong>biên dịch</strong> đứng sau game (Unreal Engine), hệ điều hành và các kỳ thi thuật toán.
+        Trong bài này bạn sẽ hiểu C++ là gì và cài đặt trình biên dịch để sẵn sàng gõ dòng code đầu tiên. ⚙️
+      </p>
+
+      <h2>C++ là gì?</h2>
+      <p>
+        C++ do <strong>Bjarne Stroustrup</strong> tạo ra năm <strong>1985</strong> tại Bell Labs, ban đầu là bản "nâng cấp" của ngôn ngữ C.
+        Khác với Python — ngôn ngữ <strong>thông dịch</strong> (chạy từng dòng nhờ trình thông dịch) — C++ là ngôn ngữ <strong>biên dịch</strong>:
+        bạn viết code, rồi <strong>compiler</strong> dịch toàn bộ chương trình thành <strong>mã máy</strong> trước khi nó chạy.
+      </p>
+      <p>
+        Chính vì được dịch thẳng sang mã máy, C++ <strong>chạy rất nhanh</strong> — đó là lý do nó được dùng cho
+        <strong>game</strong> (Unreal Engine), <strong>hệ điều hành</strong>, trình duyệt và các kỳ <strong>thi đấu thuật toán</strong>.
+      </p>
+
+      <table>
+        <tr><th>Tiêu chí</th><th>Python 🐍</th><th>C++ ⚙️</th></tr>
+        <tr><td>Cách chạy</td><td>Thông dịch — chạy trực tiếp từng dòng</td><td>Biên dịch — dịch toàn bộ thành mã máy trước</td></tr>
+        <tr><td>Cú pháp</td><td>Dễ đọc, gần tiếng Anh</td><td>Nghiêm ngặt, nhiều quy tắc hơn</td></tr>
+        <tr><td>Tốc độ</td><td>Chậm hơn</td><td>Rất nhanh, sát phần cứng</td></tr>
+        <tr><td>Kiểu dữ liệu</td><td>Động — gán là tự hiểu kiểu</td><td>Tĩnh — phải ghi rõ kiểu</td></tr>
+        <tr><td>Dùng cho</td><td>Web, AI, tự động hoá…</td><td>Game, hệ điều hành, thi đấu thuật toán…</td></tr>
+      </table>
+
+      <p>Đây là file code C++ đầu tiên của bạn — để ý đuôi file <code>.cpp</code>:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hello.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello from C++!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      </div>
+
+      <p>
+        Vì là ngôn ngữ biên dịch, file này <strong>chưa chạy được ngay</strong> — nó phải đi qua compiler trước.
+        Lệnh biên dịch không in gì ra màn hình nghĩa là thành công, và một file chạy mới đã ra đời:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <pre><code class="language-bash">g++ hello.cpp -o hello
+ls</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>hello
+hello.cpp</pre>
+        </div>
+      </div>
+
+      <p>
+        File <code>hello</code> chính là chương trình đã được dịch sang mã máy — sang §3 bạn sẽ chạy nó.
+        Trước hết, cùng kiểm tra lại kiến thức vừa học:
+      </p>
+
+      <div class="quiz-console" data-lesson="cpp-01" data-topic="Tổng quan" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TỔNG QUAN C++</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Cài đặt trình biên dịch</h2>
+      <p>
+        Viết C++ cần một <strong>trình biên dịch</strong> (compiler) — bộ công cụ phổ biến nhất là <strong>GCC</strong>,
+        với lệnh <code>g++</code>. Cách cài tuỳ hệ điều hành:
+      </p>
+      <ul>
+        <li><strong>Windows:</strong> cài <strong>MinGW-w64</strong> (bộ GCC dành cho Windows) — cách gọn nhất là qua <strong>MSYS2</strong>;
+        hoặc dùng <strong>Visual Studio Build Tools</strong> với gói "Desktop development with C++" nếu bạn thích bộ công cụ của Microsoft.</li>
+        <li><strong>Ubuntu / Debian:</strong> mở terminal và chạy lệnh bên dưới.</li>
+        <li><strong>macOS:</strong> chạy <code>xcode-select --install</code> để cài Xcode Command Line Tools (compiler trên macOS là <code>clang++</code>, nhưng gõ <code>g++</code> vẫn hoạt động).</li>
+      </ul>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal — Ubuntu</span>
+        </div>
+        <pre><code class="language-bash">sudo apt install g++</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Reading package lists... Done
+Setting up g++ (4:13.2.0-7ubuntu1) ...</pre>
+        </div>
+      </div>
+
+      <p>Cài xong, kiểm tra compiler bằng lệnh sau (số phiên bản trên máy bạn có thể khác):</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <pre><code class="language-bash">g++ --version</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>g++ (Ubuntu 13.2.0-23ubuntu4) 13.2.0
+Copyright (C) 2023 Free Software Foundation, Inc.</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Trên Windows, cài xong bạn còn phải <strong>thêm thư mục <code>bin</code> của compiler vào PATH</strong> rồi mở lại terminal. Nếu gõ <code>g++ --version</code> mà nhận thông báo kiểu <code>'g++' is not recognized...</code> — gần như chắc chắn là compiler chưa nằm trong PATH.</p>
+      </div>
+
+      <p>
+        Cuối cùng, cài <strong>VS Code</strong> và extension <strong>C/C++</strong> (của Microsoft) để có gợi ý code, báo lỗi và format —
+        đúng chuẩn dân lập trình. Gõ thử vài câu quiz để nhớ kỹ phần cài đặt nhé:
+      </p>
+
+      <div class="quiz-console" data-lesson="cpp-01" data-topic="Cài đặt & biên dịch" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CÀI ĐẶT &amp; BIÊN DỊCH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Biên dịch &amp; chạy chương trình đầu tiên</h2>
+      <p>
+        Tạo file <code>hello.cpp</code> (trong VS Code: File ▸ New File rồi lưu với đuôi <code>.cpp</code>) và dán nội dung quen thuộc ở §1:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">hello.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello from C++!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      </div>
+
+      <p>Giờ là nghi thức quan trọng nhất của mọi chương trình C++: <strong>biên dịch rồi chạy</strong> — hai bước tách biệt.</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">terminal</span>
+        </div>
+        <pre><code class="language-bash">g++ hello.cpp -o hello
+./hello</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hello from C++!</pre>
+        </div>
+      </div>
+
+      <p>Trước khi gõ, hãy <strong>giải phẫu</strong> lệnh biên dịch để hiểu mình đang làm gì:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">g++</span> <span class="vr">hello.cpp</span> <span class="op">-o</span> <span class="vr">hello</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>g++</code></td><td>gọi trình biên dịch GNU cho C++</td><td>✅</td></tr>
+          <tr><td><code>hello.cpp</code></td><td>file nguồn cần biên dịch</td><td>✅</td></tr>
+          <tr><td><code>-o</code></td><td>tùy chọn đặt tên file đầu ra (output)</td><td>❌</td></tr>
+          <tr><td><code>hello</code></td><td>tên chương trình được tạo ra — chạy bằng <code>./hello</code></td><td>✅ nếu dùng <code>-o</code></td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Quên tùy chọn <code>-o</code>, compiler vẫn biên dịch nhưng đặt tên mặc định: <code>a.out</code> trên Linux/macOS (trên Windows là <code>a.exe</code>) — muốn chạy phải gõ <code>./a.out</code>. Cứ dùng <code>-o</code> để đặt tên cho dễ nhớ!</p>
+      </div>
+
+      <p>Thực hành ngay — gõ lệnh biên dịch vào ô rồi bấm <strong>[ KIỂM TRA ]</strong> để chấm điểm:</p>
+
+      <div class="exercise-box" data-ex="cpp-01-ex1"></div>
+
+      <h2>TỔNG KẾT BÀI 01</h2>
+      <ul>
+        <li>C++ do <strong>Bjarne Stroustrup</strong> tạo ra năm 1985; là ngôn ngữ <strong>biên dịch</strong> — phải qua compiler thành mã máy trước khi chạy.</li>
+        <li>Nhanh là "vũ khí" chính: game (Unreal), hệ điều hành và thi đấu thuật toán đều dùng C++.</li>
+        <li>Cài compiler: Windows dùng MinGW-w64 (qua MSYS2) hoặc VS Build Tools; Ubuntu: <code>sudo apt install g++</code>; macOS: <code>xcode-select --install</code>.</li>
+        <li>Kiểm tra bằng <code>g++ --version</code>; trên Windows nhớ thêm compiler vào <strong>PATH</strong> và cài extension C/C++ cho VS Code.</li>
+        <li>Quy trình 2 bước: <code>g++ hello.cpp -o hello</code> (biên dịch) rồi <code>./hello</code> (chạy). Quên <code>-o</code> → file mặc định <code>a.out</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-01" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 01</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

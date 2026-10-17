@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 12 Python: Set — tập hợp không trùng. Tạo set, tự loại trùng, add/remove, phép hợp/giao/hiệu với | & - và union/intersection/difference — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 12: Set — tập hợp | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-12">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-12</span></div>
+      <h1 class="lesson-title">Set — tập hợp</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #12 ]</span>
+        <span class="pill">Chương 3 — Cấu trúc dữ liệu</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Bạn có bao giờ nhập một danh sách mà một giá trị bị lặp 3 lần không? <strong>Set</strong> sinh ra để dẹp chuyện đó:
+        mỗi giá trị chỉ được xuất hiện <em>đúng một lần</em>. Giống như danh sách khách mời của một bữa tiệc —
+        ghi tên hai lần thì vẫn chỉ là một người! ⚡
+      </p>
+
+      <h2>Set — tập hợp không trùng</h2>
+      <p>
+        <strong>Set</strong> (tập hợp) là một nhóm giá trị <strong>không trùng nhau</strong>, viết trong cặp
+        <strong>ngoặc nhọn</strong> <code>{ }</code> — ví dụ <code>{1, 2, 3}</code>.
+        Đặc điểm "ăn tiền": nếu bạn đưa vào dữ liệu có giá trị lặp, set <strong>tự động loại trùng</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">loc-trung.py</span>
+        </div>
+        <pre><code class="language-python">ds = [1, 2, 2, 3, 3, 3]
+st = set(ds)         # tự loại trùng ngay lập tức
+print(st)
+
+st.add(4)            # thêm phần tử
+st.remove(1)         # xóa phần tử
+print(st)
+print(len(st))       # đếm số phần tử</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>{1, 2, 3}
+{2, 3, 4}
+3</pre>
+        </div>
+      </div>
+
+      <p>Hãy <strong>giải phẫu</strong> lệnh tạo set:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">st</span> <span class="op">=</span> <span class="op">{</span><span class="st">1</span><span class="op">,</span> <span class="st">2</span><span class="op">,</span> <span class="st">3</span><span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>st</code></td><td>tên biến giữ set</td><td>✅</td></tr>
+          <tr><td><code>=</code></td><td>dấu gán</td><td>✅</td></tr>
+          <tr><td><code>{ }</code></td><td>cặp ngoặc NHỌN bao quanh tập hợp</td><td>✅</td></tr>
+          <tr><td><code>1, 2, 3</code></td><td>các phần tử, cách nhau dấu phẩy (không cần cặp key: value như dict)</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Set <strong>không đánh index</strong> — viết <code>st[0]</code> sẽ báo lỗi <code>TypeError: 'set' object is not subscriptable</code>.
+        Muốn kiểm tra một giá trị có trong set không, dùng <code>2 in st</code> (trả về <code>True</code>/<code>False</code>).</p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Set <strong>không có thứ tự cố định</strong> — đừng bao giờ tin vào thứ tự hiển thị của nó. Muốn xem gọn theo thứ tự tăng dần, dùng <code>sorted(st)</code>.</p>
+      </div>
+
+      <p>Luyện chiêu lọc trùng — kỹ năng dùng hoài trong đời thực:</p>
+
+      <div class="exercise-box" data-ex="py-12-ex1"></div>
+
+      <div class="exercise-box" data-ex="py-12-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-12" data-topic="Set cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SET CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Phép toán tập hợp</h2>
+      <p>
+        Set hỗ trợ đúng các phép toán bạn từng học ở môn Toán: <strong>hợp</strong> (<code>|</code> hoặc <code>union()</code>),
+        <strong>giao</strong> (<code>&amp;</code> hoặc <code>intersection()</code>), <strong>hiệu</strong> (<code>-</code> hoặc <code>difference()</code>).
+        Cực hợp khi bạn phải so sánh hai nhóm dữ liệu.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">phep-toan-set.py</span>
+        </div>
+        <pre><code class="language-python">a = {1, 2, 3, 4}
+b = {3, 4, 5}
+
+print(a | b)                # hợp — có trong a HOẶC b
+print(a &amp; b)                # giao — có trong CẢ HAI
+print(a - b)                # hiệu — có trong a nhưng KHÔNG có trong b
+
+print(a.union(b))           # tên đầy đủ của |
+print(a.intersection(b))    # tên đầy đủ của &amp;
+print(a.difference(b))      # tên đầy đủ của -</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>{1, 2, 3, 4, 5}
+{3, 4}
+{1, 2}
+{1, 2, 3, 4, 5}
+{3, 4}
+{1, 2}</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Ba phép tốc ký và ba phương thức là <strong>một cặp bài trùng</strong>: <code>a | b</code> = <code>a.union(b)</code>, <code>a &amp; b</code> = <code>a.intersection(b)</code>, <code>a - b</code> = <code>a.difference(b)</code>.</p>
+      </div>
+
+      <p>So tài với hai tập hợp của bạn:</p>
+
+      <div class="exercise-box" data-ex="py-12-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-12" data-topic="Phép toán set" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — PHÉP TOÁN SET</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 12</h2>
+      <ul>
+        <li>Set viết trong ngoặc nhọn <code>{1, 2, 3}</code> — các phần tử <strong>không trùng nhau</strong>.</li>
+        <li>Lọc trùng từ list cực nhanh: <code>set(ds)</code>.</li>
+        <li>Thêm/xóa: <code>st.add(4)</code>, <code>st.remove(1)</code>; kiểm tra thành viên: <code>2 in st</code>.</li>
+        <li>Set không đánh index, không có thứ tự cố định.</li>
+        <li>Phép toán: <code>|</code> hợp, <code>&amp;</code> giao, <code>-</code> hiệu (hoặc <code>union</code>/<code>intersection</code>/<code>difference</code>).</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-12" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 12</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-12"] = [
+      /* --- Set cơ bản (7) --- */
+      { topic: "Set cơ bản", type: "choice", question: "Set được tạo bằng cặp dấu nào?", options: ["{ }", "[ ]", "( )", "Không cần dấu gì"], answer: "{ }", explain: "Set dùng ngoặc nhọn — giống dict nhưng không có cặp key: value." },
+      { topic: "Set cơ bản", type: "choice", code: "print(len(set([1, 1, 2, 3, 3])))", question: "Đoạn code trên in ra gì?", options: ["3", "5", "2", "[1, 2, 3]"], answer: "3", explain: "set() loại trùng còn {1, 2, 3} — len bằng 3." },
+      { topic: "Set cơ bản", type: "choice", question: "Điều gì đặc biệt nhất của set?", options: ["Các phần tử tự động loại trùng, không có thứ tự cố định", "Các phần tử luôn được sắp xếp tăng dần", "Chỉ chứa được số nguyên", "Mỗi phần tử phải có một key"], answer: "Các phần tử tự động loại trùng, không có thứ tự cố định", explain: "Đưa vào bao nhiêu giá trị trùng cũng được — set chỉ giữ một bản." },
+      { topic: "Set cơ bản", type: "fill", question: "Điền tên hàm chuyển list thành set để loại trùng (chỉ tên, không ngoặc): ___(ds)", answer: ["set"], explain: "set(ds) tạo set mới từ ds, loại bỏ mọi giá trị lặp." },
+      { topic: "Set cơ bản", type: "choice", code: "st = {1, 2, 3}\nprint(st[0])", question: "Đoạn code trên sẽ ra sao?", options: ["Báo lỗi TypeError vì set không đánh index", "In ra 1", "In ra 3", "In ra None"], answer: "Báo lỗi TypeError vì set không đánh index", explain: "Set không có vị trí — muốn kiểm tra thành viên dùng phép in." },
+      { topic: "Set cơ bản", type: "choice", code: "st = {1, 2}\nst.add(3)\nprint(len(st))", question: "Đoạn code trên in ra gì?", options: ["3", "2", "4", "1"], answer: "3", explain: "add(3) thêm phần tử mới — set có {1, 2, 3}." },
+      { topic: "Set cơ bản", type: "choice", question: "Set khác dict ở điểm nào?", options: ["Set chỉ chứa giá trị, không có cặp key: value", "Set không dùng ngoặc nhọn", "Set sắp xếp tự động", "Set sửa được mọi lúc"], answer: "Set chỉ chứa giá trị, không có cặp key: value", explain: "Chung ngoặc nhọn nhưng dict có key: value, set thì không." },
+      { topic: "Set cơ bản", type: "choice", code: "st = {2, 4, 6}\nprint(4 in st)", question: "Đoạn code trên in ra gì?", options: ["True", "False", "4", "Lỗi TypeError"], answer: "True", explain: "Phép in kiểm tra thành viên — 4 có trong set nên trả True." },
+
+      /* --- Phép toán set (7) --- */
+      { topic: "Phép toán set", type: "choice", code: "print({1, 3} & {3, 5})", question: "Đoạn code trên in ra gì?", options: ["{3}", "{1, 5}", "{1, 3, 5}", "3"], answer: "{3}", explain: "& lấy GIAO — chỉ giữ phần tử có mặt trong cả hai set." },
+      { topic: "Phép toán set", type: "choice", question: "Phép | giữa hai set có nghĩa là gì?", options: ["Hợp — phần tử có trong set này HOẶC set kia", "Giao — phần tử có trong cả hai", "Hiệu — phần tử chỉ có trong set trái", "Chia hai set"], answer: "Hợp — phần tử có trong set này HOẶC set kia", explain: "a | b gom tất cả phần tử của cả hai, tự loại trùng." },
+      { topic: "Phép toán set", type: "choice", code: "print(len({1, 2, 3} - {2}))", question: "Đoạn code trên in ra gì?", options: ["2", "1", "3", "{1, 3}"], answer: "2", explain: "Hiệu bỏ phần tử 2, còn {1, 3} → len bằng 2." },
+      { topic: "Phép toán set", type: "fill", question: "Điền tên phương thức lấy GIAO của a và b (chỉ tên, không ngoặc): a.___(b)", answer: ["intersection"], explain: "a.intersection(b) tương đương a & b." },
+      { topic: "Phép toán set", type: "choice", code: "a = {1, 2}\nb = {2, 3}\nprint(a | b)", question: "Đoạn code trên in ra gì?", options: ["{1, 2, 3}", "{2}", "{3}", "{1, 3}"], answer: "{1, 2, 3}", explain: "Hợp gom 1, 2, 3 — phần tử 2 trùng chỉ xuất hiện một lần." },
+      { topic: "Phép toán set", type: "choice", question: "a - b lấy ra những phần tử nào?", options: ["Có trong a nhưng KHÔNG có trong b", "Có trong b nhưng không có trong a", "Có trong cả a và b", "Không có trong cả hai"], answer: "Có trong a nhưng KHÔNG có trong b", explain: "Hiệu a - b = phần tử của a sau khi loại bỏ những gì thuộc b." },
+      { topic: "Phép toán set", type: "choice", question: "a.union(b) tương đương với phép viết tắt nào?", options: ["a | b", "a & b", "a - b", "a + b"], answer: "a | b", explain: "union = hợp; viết tắt là |. Còn & là intersection, - là difference." }
+    ];
+
+    EXERCISES["py-12-ex1"] = {
+      topic: "Set đầu tiên",
+      prompt: "Tạo set tên st gồm 3 số bất kỳ, in set đó ra và in thêm số phần tử bằng len(st).",
+      checks: [
+        { regex: "\\bst\\s*=\\s*\\{", desc: "Tạo set st bằng ngoặc nhọn", hint: "Ví dụ: st = {1, 2, 3}" },
+        { regex: "print\\s*\\(\\s*st\\s*\\)", desc: "In set bằng print(st)", hint: "print(st)" },
+        { regex: "print\\s*\\(\\s*len\\s*\\(\\s*st\\s*\\)\\s*\\)", desc: "In số phần tử bằng print(len(st))", hint: "print(len(st))" }
+      ],
+      sample: "st = {1, 2, 3}\nprint(st)\nprint(len(st))"
+    };
+
+    EXERCISES["py-12-ex2"] = {
+      topic: "Lọc trùng bằng set()",
+      prompt: "Cho list ds = [1, 2, 2, 3, 3, 3]. Dùng set() để loại trùng, rồi in ra SỐ phần tử khác nhau trong list.",
+      checks: [
+        { regex: "\\bds\\s*=\\s*\\[\\s*1\\s*,\\s*2\\s*,\\s*2\\s*,\\s*3\\s*,\\s*3\\s*,\\s*3\\s*\\]", desc: "Tạo đúng list ds = [1, 2, 2, 3, 3, 3]", hint: "Viết: ds = [1, 2, 2, 3, 3, 3]" },
+        { regex: "set\\s*\\(\\s*ds\\s*\\)", desc: "Dùng set(ds) để loại giá trị trùng", hint: "Ví dụ: st = set(ds) hoặc in thẳng len(set(ds))" },
+        { regex: "len\\s*\\(", desc: "Dùng len() để đếm số phần tử khác nhau", hint: "len(set(ds)) — kết quả là 3" },
+        { regex: "print\\s*\\(", desc: "In kết quả ra màn hình", hint: "Ví dụ: print(len(set(ds)))" }
+      ],
+      sample: "ds = [1, 2, 2, 3, 3, 3]\nprint(len(set(ds)))"
+    };
+
+    EXERCISES["py-12-ex3"] = {
+      topic: "Giao của hai set",
+      prompt: "Tạo hai set a = {1, 2, 3, 4} và b = {3, 4, 5}. In phần GIAO của hai set bằng a & b hoặc a.intersection(b).",
+      checks: [
+        { regex: "\\ba\\s*=\\s*\\{\\s*1\\s*,\\s*2\\s*,\\s*3\\s*,\\s*4\\s*\\}", desc: "Tạo set a = {1, 2, 3, 4}", hint: "Viết: a = {1, 2, 3, 4}" },
+        { regex: "\\bb\\s*=\\s*\\{\\s*3\\s*,\\s*4\\s*,\\s*5\\s*\\}", desc: "Tạo set b = {3, 4, 5}", hint: "Viết: b = {3, 4, 5}" },
+        { regex: "print\\s*\\(\\s*(a\\s*&\\s*b|a\\.intersection\\s*\\(\\s*b\\s*\\))\\s*\\)", desc: "In phần giao bằng print(a & b) hoặc print(a.intersection(b))", hint: "Kết quả đúng là {3, 4}" }
+      ],
+      sample: "a = {1, 2, 3, 4}\nb = {3, 4, 5}\nprint(a & b)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

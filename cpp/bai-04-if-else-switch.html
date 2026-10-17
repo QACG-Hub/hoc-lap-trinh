@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 4 C++: rẽ nhánh với if / else, else if và điều kiện kết hợp &amp;&amp; || !, cùng switch...case có break — kèm quiz và bài tập tự viết code.">
+  <title>Bài 4: Rẽ nhánh if / else &amp; switch | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-04">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-04</span></div>
+      <h1 class="lesson-title">Rẽ nhánh if / else &amp; switch</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #04 ]</span>
+        <span class="pill">Chương 2 — Cấu trúc điều khiển</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Từ bài này, chương trình không còn chạy "thẳng một đường" nữa — nó biết <strong>ra quyết định</strong>.
+        Bạn sẽ học cách cho máy chọn một trong hai hướng đi với <code>if / else</code>, xét nhiều mức với
+        <code>else if</code>, kết hợp điều kiện bằng <code>&amp;&amp;</code>, <code>||</code>, <code>!</code>,
+        và dùng <code>switch...case</code> khi cần so sánh với nhiều giá trị cụ thể. ⚡
+      </p>
+
+      <h2>Rẽ nhánh với if / else</h2>
+      <p>
+        <code>if / else</code> giống như ngã rẽ trên đường đua: nếu điều kiện <strong>đúng</strong> thì rẽ nhánh này,
+        sai thì đi nhánh kia. Hãy xem chương trình kiểm tra điểm đậu/rớt:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">if-else.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int diem = 7;
+    if (diem &gt;= 5) {
+        cout &lt;&lt; "Đậu rồi! Chúc mừng!" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Rớt rồi, cố lên nhé!" &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Đậu rồi! Chúc mừng!</pre>
+        </div>
+      </div>
+
+      <p>
+        Vì <code>diem = 7</code> thỏa điều kiện <code>diem &gt;= 5</code> nên chỉ khối lệnh sau <code>if</code> chạy,
+        khối <code>else</code> bị bỏ qua. Một điều thú vị: <code>if</code> <strong>không bắt buộc</strong> có <code>else</code>,
+        và các lệnh nằm ngoài khối <code>if</code> thì luôn chạy:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">if-don-gian.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int nhietDo = 38;
+    if (nhietDo &gt; 37) {
+        cout &lt;&lt; "Sốt rồi!" &lt;&lt; endl;
+        cout &lt;&lt; "Uống nhiều nước nhé." &lt;&lt; endl;
+    }
+    cout &lt;&lt; "Kiểm tra xong." &lt;&lt; endl;   // luôn chạy
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Sốt rồi!
+Uống nhiều nước nhé.
+Kiểm tra xong.</pre>
+        </div>
+      </div>
+
+      <p>Giờ <strong>giải phẫu</strong> "ngã rẽ" này để nhớ từng mảnh ghép:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">if</span> <span class="op">(</span><span class="vr">diem</span> <span class="op">&gt;=</span> 5<span class="op">)</span> <span class="op">{</span> <span class="cm">...</span> <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span> <span class="cm">...</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>if</code></td><td>từ khoá mở đầu rẽ nhánh</td><td>✅</td></tr>
+          <tr><td><code>(diem &gt;= 5)</code></td><td>điều kiện — BẮT BUỘC nằm trong cặp ngoặc tròn</td><td>✅</td></tr>
+          <tr><td><code>&gt;=</code></td><td>toán tử so sánh "lớn hơn hoặc bằng"</td><td>✅ (mỗi if cần một điều kiện)</td></tr>
+          <tr><td><code>{ ... }</code></td><td>khối lệnh chạy khi điều kiện ĐÚNG</td><td>✅</td></tr>
+          <tr><td><code>else</code></td><td>nhánh chạy khi điều kiện SAI — có thể bỏ qua nếu không cần</td><td>❌</td></tr>
+          <tr><td><code>{ ... }</code> sau else</td><td>khối lệnh của nhánh SAI</td><td>✅ nếu có <code>else</code></td></tr>
+        </table>
+      </div>
+
+      <table>
+        <tr><th>Toán tử</th><th>Nghĩa</th><th>Ví dụ</th></tr>
+        <tr><td><code>&gt;</code></td><td>lớn hơn</td><td><code>diem &gt; 5</code></td></tr>
+        <tr><td><code>&lt;</code></td><td>nhỏ hơn</td><td><code>diem &lt; 5</code></td></tr>
+        <tr><td><code>&gt;=</code></td><td>lớn hơn hoặc bằng</td><td><code>diem &gt;= 5</code></td></tr>
+        <tr><td><code>&lt;=</code></td><td>nhỏ hơn hoặc bằng</td><td><code>diem &lt;= 9</code></td></tr>
+        <tr><td><code>==</code></td><td>bằng nhau</td><td><code>diem == 10</code></td></tr>
+        <tr><td><code>!=</code></td><td>khác nhau</td><td><code>diem != 0</code></td></tr>
+      </table>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Đừng nhầm <code>=</code> (gán giá trị) với <code>==</code> (so sánh). Viết <code>if (diem = 5)</code> là
+          <strong>gán 5 cho diem</strong> rồi coi giá trị đó là điều kiện — điều kiện "5" luôn được xem là ĐÚNG, nên nhánh
+          <code>if</code> chạy bất chấp điểm thật. Compiler thường chỉ <em>cảnh báo</em> chứ không báo lỗi, nên lỗi này rất khó thấy.
+          Hãy đọc lại: so sánh thì luôn dùng <code>==</code>.
+        </p>
+      </div>
+
+      <p>Thực hành ngay với if / else — viết code vào ô rồi bấm <strong>[ KIỂM TRA ]</strong>:</p>
+
+      <div class="exercise-box" data-ex="cpp-04-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-04" data-topic="if &amp; else" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — IF / ELSE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>else if &amp; điều kiện kết hợp</h2>
+      <p>
+        Đời không chỉ có hai lựa chọn. Muốn xếp loại Giỏi / Khá / Trung bình / Yếu, ta nối nhiều <code>else if</code> thành
+        một <strong>thang điều kiện</strong>. Máy sẽ xét từ trên xuống, gặp điều kiện đúng đầu tiên thì chạy nhánh đó rồi
+        thoát khỏi cả thang:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">xep-loai.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    double diem = 7.5;
+    if (diem &gt;= 8) {
+        cout &lt;&lt; "Xếp loại: Giỏi" &lt;&lt; endl;
+    } else if (diem &gt;= 6.5) {
+        cout &lt;&lt; "Xếp loại: Khá" &lt;&lt; endl;
+    } else if (diem &gt;= 5) {
+        cout &lt;&lt; "Xếp loại: Trung bình" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Xếp loại: Yếu" &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xếp loại: Khá</pre>
+        </div>
+      </div>
+
+      <p>
+        Điểm 7.5 không đạt <code>&gt;= 8</code> nhưng đạt <code>&gt;= 6.5</code> — nên dừng ở nhánh "Khá".
+        Đôi khi một điều kiện là chưa đủ: vé vào rạp có thể do đủ tuổi <strong>hoặc</strong> có vé mời,
+        còn điểm khá thì phải nằm trong khoảng 5–8 — ta kết hợp bằng <code>&amp;&amp;</code> (VÀ), <code>||</code> (HOẶC), <code>!</code> (phủ định):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ket-hop.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int tuoi = 17;
+    bool coVe = true;
+    if (tuoi &gt;= 18 || coVe) {          // đủ tuổi HOẶC có vé
+        cout &lt;&lt; "Được vào rạp!" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "Không được vào." &lt;&lt; endl;
+    }
+
+    int diem = 7;
+    if (diem &gt;= 5 &amp;&amp; diem &lt;= 8) {      // VÀ: phải nằm trong khoảng
+        cout &lt;&lt; "Điểm khá!" &lt;&lt; endl;
+    }
+
+    bool troiMua = false;
+    if (!troiMua) {                     // phủ định: trời KHÔNG mưa
+        cout &lt;&lt; "Đi chơi thôi!" &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Được vào rạp!
+Điểm khá!
+Đi chơi thôi!</pre>
+        </div>
+      </div>
+
+      <p>Ba toán tử logic này là "bộ não" của mọi điều kiện phức tạp — giải phẫu chúng:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="op">(</span><span class="vr">diem</span> <span class="op">&gt;=</span> 5<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">(</span><span class="vr">diem</span> <span class="op">&lt;=</span> 8<span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>( )</code></td><td>gom từng điều kiện riêng — giúp câu lệnh rõ ràng, dễ đọc</td><td>❌ (nhưng rất nên có)</td></tr>
+          <tr><td><code>&amp;&amp;</code></td><td>VÀ — cả hai điều kiện đều phải ĐÚNG</td><td>tuỳ nhu cầu</td></tr>
+          <tr><td><code>||</code></td><td>HOẶC — chỉ cần MỘT điều kiện đúng</td><td>tuỳ nhu cầu</td></tr>
+          <tr><td><code>!</code></td><td>PHỦ ĐỊNH — đảo ngược đúng thành sai: <code>!(3 &gt; 5)</code> là ĐÚNG</td><td>tuỳ nhu cầu</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Thang <code>else if</code> được xét <strong>từ trên xuống</strong>. Nếu đặt điều kiện rộng lên trước, các nhánh bên dưới
+          sẽ không bao giờ chạy: <code>if (diem &gt;= 5)</code> rồi <code>else if (diem &gt;= 8)</code> thì mọi điểm từ 5 trở lên đều
+          dính nhánh đầu. Hãy xếp <strong>từ khắt khe đến lỏng dần</strong> (Giỏi → Khá → Trung bình → Yếu).
+        </p>
+      </div>
+
+      <p>Luyện tập thang điều kiện — xếp loại điểm bằng if / else if / else:</p>
+
+      <div class="exercise-box" data-ex="cpp-04-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-04" data-topic="Điều kiện kết hợp" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐIỀU KIỆN KẾT HỢP</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>switch...case</h2>
+      <p>
+        Khi cần so sánh <strong>một biến với nhiều giá trị cụ thể</strong> (chọn menu 1–2–3, in tên thứ trong tuần),
+        viết chuỗi <code>if / else if</code> dài sẽ rối. <code>switch...case</code> là "bảng chọn" gọn gàng hơn:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">menu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int chon = 2;
+    switch (chon) {
+        case 1:
+            cout &lt;&lt; "Xem điểm" &lt;&lt; endl;
+            break;
+        case 2:
+            cout &lt;&lt; "Nộp bài" &lt;&lt; endl;
+            break;
+        case 3:
+            cout &lt;&lt; "Thoát" &lt;&lt; endl;
+            break;
+        default:
+            cout &lt;&lt; "Lựa chọn không hợp lệ" &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nộp bài</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu "bảng chọn" này — đặc biệt để ý chữ <code>break</code>:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">switch</span> <span class="op">(</span><span class="vr">chon</span><span class="op">)</span> <span class="op">{</span> <span class="kw">case</span> 2<span class="op">:</span> <span class="cm">...</span> <span class="kw">break</span><span class="op">;</span> <span class="kw">default</span><span class="op">:</span> <span class="cm">...</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>switch (chon)</code></td><td>biến/biểu thức cần so sánh (thường là <code>int</code> hoặc <code>char</code>)</td><td>✅</td></tr>
+          <tr><td><code>case 2:</code></td><td>nhãn giá trị — nếu <code>chon == 2</code> thì chạy từ đây; kết thúc bằng dấu <code>:</code></td><td>✅ (ít nhất 1 case)</td></tr>
+          <tr><td><code>break;</code></td><td>thoát khỏi switch — nếu thiếu sẽ "rơi" xuống case dưới</td><td>❌ về cú pháp, ✅ về logic</td></tr>
+          <tr><td><code>default:</code></td><td>chạy khi không case nào khớp — như nhánh <code>else</code> của switch</td><td>❌ (nhưng nên có)</td></tr>
+        </table>
+      </div>
+
+      <p>Hãy xem điều gì xảy ra khi quên <code>break</code> — lần này case 2 cố tình thiếu:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">quen-break.cpp</span>
+        </div>
+        <pre><code class="language-cpp">int x = 2;
+switch (x) {
+    case 1: cout &lt;&lt; "Một" &lt;&lt; endl;   break;
+    case 2: cout &lt;&lt; "Hai" &lt;&lt; endl;   // thiếu break!
+    case 3: cout &lt;&lt; "Ba" &lt;&lt; endl;    break;
+    default: cout &lt;&lt; "Khác" &lt;&lt; endl;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Hai
+Ba</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên <code>break</code> là "cú ngã" kinh điển của <code>switch</code>. Với <code>x = 2</code>, máy bắt đầu ở case 2, in
+          "Hai" rồi vì thiếu <code>break</code> nên <strong>rơi</strong> tuột xuống case 3 in tiếp "Ba", gặp <code>break</code> mới dừng.
+          Hãy coi mỗi case như một toa tàu: không có <code>break</code> thì tàu chạy sang toa kế tiếp. Trừ khi bạn cố ý gom nhiều case
+          chung một xử lý, hãy kết thúc mỗi case bằng <code>break;</code>.
+        </p>
+      </div>
+
+      <p>Thử thách cuối cùng — dùng switch in tên thứ trong tuần:</p>
+
+      <div class="exercise-box" data-ex="cpp-04-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-04" data-topic="switch" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SWITCH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 04</h2>
+      <ul>
+        <li>Rẽ nhánh hai hướng: <code>if (điều_kiện) { ... } else { ... }</code>; điều kiện BẮT BUỘC nằm trong ngoặc tròn.</li>
+        <li>So sánh dùng <code>==</code>, <code>!=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> — tuyệt đối không dùng <code>=</code> (phép gán) trong điều kiện.</li>
+        <li>Nhiều mức lựa chọn: nối <code>else if</code> thành thang, xét từ trên xuống — xếp điều kiện khắt khe trước để không "che" nhánh dưới.</li>
+        <li>Kết hợp điều kiện: <code>&amp;&amp;</code> (VÀ), <code>||</code> (HOẶC), <code>!</code> (phủ định).</li>
+        <li><code>switch (biến) { case giá_trị: ... break; default: ... }</code> — gọn khi so sánh với nhiều giá trị cụ thể.</li>
+        <li>Quên <code>break</code> trong switch sẽ "rơi" xuống các case bên dưới — luôn kiểm tra lại!</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-04" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 04</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài 04 (JS inline) */
+    QUIZZES["cpp-04"] = [
+      /* --- if & else (6) --- */
+      { topic: "if & else", type: "choice", code: "int diem = 7;\nif (diem >= 5) {\n    cout << \"Đậu\";\n} else {\n    cout << \"Rớt\";\n}", question: "Đoạn code trên in ra gì?", options: ["Đậu", "Rớt", "7", "Lỗi"], answer: "Đậu", explain: "diem = 7 thỏa điều kiện diem >= 5 nên chỉ khối if chạy, khối else bị bỏ qua." },
+      { topic: "if & else", type: "choice", question: "Điều kiện của câu lệnh if bắt buộc nằm trong cặp dấu nào?", options: ["Ngoặc tròn ( )", "Ngoặc nhọn { }", "Ngoặc vuông [ ]", "Dấu nháy kép \" \""], answer: "Ngoặc tròn ( )", explain: "if (diem >= 5) — điều kiện luôn đặt trong ngoặc tròn, còn khối lệnh nằm trong ngoặc nhọn." },
+      { topic: "if & else", type: "choice", question: "else có bắt buộc phải có sau if không?", options: ["Có, luôn luôn phải có", "Không — if có thể đứng một mình", "Chỉ bắt buộc khi so sánh số", "Chỉ bắt buộc trong hàm main"], answer: "Không — if có thể đứng một mình", explain: "if đứng một mình nghĩa là: điều kiện sai thì bỏ qua khối lệnh và chạy tiếp phần sau." },
+      { topic: "if & else", type: "fill", question: "Viết toán tử so sánh BẰNG NHAU trong C++ (hai ký tự):", answer: ["=="], explain: "Dấu = là phép GÁN, == mới là phép so sánh — nhầm lẫn hai thứ này là lỗi kinh điển." },
+      { topic: "if & else", type: "choice", code: "int x = 5;\nif (x = 0) {\n    cout << \"A\";\n} else {\n    cout << \"B\";\n}", question: "Đoạn code trên in ra gì?", options: ["A", "B", "Lỗi biên dịch", "0"], answer: "B", explain: "x = 0 là phép GÁN — biểu thức nhận giá trị 0 nên điều kiện bị coi là SAI, chạy nhánh else. Phải viết x == 0 mới đúng ý!" },
+      { topic: "if & else", type: "choice", question: "Nếu điều kiện if SAI và không có else, chương trình làm gì?", options: ["Bỏ qua khối lệnh rồi chạy tiếp phần sau", "Dừng chương trình ngay", "Chạy khối lệnh một lần nữa", "In ra dòng trống"], answer: "Bỏ qua khối lệnh rồi chạy tiếp phần sau", explain: "Nhánh if chỉ chạy khi điều kiện ĐÚNG; sai thì bỏ qua toàn bộ khối lệnh trong if." },
+      /* --- Điều kiện kết hợp (7) --- */
+      { topic: "Điều kiện kết hợp", type: "choice", question: "Toán tử && (VÀ) nghĩa là gì?", options: ["Cả hai điều kiện đều phải đúng", "Chỉ cần một trong hai điều kiện đúng", "Đảo ngược điều kiện", "Gán giá trị"], answer: "Cả hai điều kiện đều phải đúng", explain: "a && b chỉ đúng khi CẢ a và b cùng đúng — giống hai cánh cửa phải mở cả hai." },
+      { topic: "Điều kiện kết hợp", type: "choice", question: "Toán tử || (HOẶC) nghĩa là gì?", options: ["Chỉ cần một trong hai điều kiện đúng", "Cả hai điều kiện đều phải đúng", "So sánh bằng nhau", "Kết thúc câu lệnh"], answer: "Chỉ cần một trong hai điều kiện đúng", explain: "a || b đúng khi a đúng HOẶC b đúng — chỉ sai khi cả hai cùng sai." },
+      { topic: "Điều kiện kết hợp", type: "choice", question: "Toán tử ! làm gì với biểu thức đúng/sai?", options: ["Đảo ngược lại: !true thành false", "Nhân đôi giá trị", "So sánh khác nhau", "Bắt đầu comment"], answer: "Đảo ngược lại: !true thành false", explain: "! là phủ định: !(3 > 5) vì 3 > 5 sai nên cả biểu thức thành ĐÚNG." },
+      { topic: "Điều kiện kết hợp", type: "choice", code: "int diem = 7;\nif (diem >= 5 && diem <= 8) {\n    cout << \"Khá\";\n} else {\n    cout << \"Khác\";\n}", question: "Đoạn code trên in ra gì?", options: ["Khá", "Khác", "7", "Lỗi"], answer: "Khá", explain: "7 >= 5 đúng VÀ 7 <= 8 đúng → cả hai điều kiện đều đúng, in ra Khá." },
+      { topic: "Điều kiện kết hợp", type: "choice", code: "int x = 3;\nif (x > 5 || x % 2 == 1) {\n    cout << \"A\";\n} else {\n    cout << \"B\";\n}", question: "Đoạn code trên in ra gì?", options: ["A", "B", "AB", "Lỗi"], answer: "A", explain: "x > 5 sai nhưng x % 2 == 1 đúng (3 chia 2 dư 1) — với || chỉ cần một điều kiện đúng là đủ." },
+      { topic: "Điều kiện kết hợp", type: "choice", code: "if (!(3 > 5)) {\n    cout << \"A\";\n} else {\n    cout << \"B\";\n}", question: "Đoạn code trên in ra gì?", options: ["A", "B", "3", "Lỗi"], answer: "A", explain: "3 > 5 sai, dấu ! đảo thành ĐÚNG nên chạy nhánh if — một câu hỏi bẫy nhẹ về phủ định." },
+      { topic: "Điều kiện kết hợp", type: "fill", question: "Điền toán tử thể hiện phép VÀ (hai điều kiện cùng đúng) trong C++:", answer: ["&&"], explain: "&& là VÀ, || là HOẶC — viết hai lần ký tự & để không nhầm với phép lấy địa chỉ." },
+      /* --- switch (7) --- */
+      { topic: "switch", type: "choice", question: "switch phù hợp nhất khi nào?", options: ["So sánh một biến với nhiều giá trị cụ thể", "Tính toán số học phức tạp", "Lặp lại một khối lệnh nhiều lần", "Khai báo nhiều biến cùng lúc"], answer: "So sánh một biến với nhiều giá trị cụ thể", explain: "Kiểu chọn menu 1–2–3 hay in tên thứ trong tuần là đất diễn của switch." },
+      { topic: "switch", type: "choice", code: "int x = 2;\nswitch (x) {\n    case 1: cout << \"Một\"; break;\n    case 2: cout << \"Hai\"; break;\n    default: cout << \"Khác\";\n}", question: "Đoạn code trên in ra gì?", options: ["Hai", "Một", "Khác", "MộtHai"], answer: "Hai", explain: "x = 2 khớp case 2, gặp break nên thoát ngay — không chạy tiếp case nào khác." },
+      { topic: "switch", type: "choice", question: "Điều gì xảy ra nếu quên break sau một case?", options: ["Chương trình chạy 'rơi' tiếp xuống các case bên dưới", "Compiler báo lỗi và không cho chạy", "Case đó tự động bị bỏ qua", "switch tự thêm break giúp bạn"], answer: "Chương trình chạy 'rơi' tiếp xuống các case bên dưới", explain: "Hiện tượng fall-through: từ case khớp, máy chạy liền mạch cho tới khi gặp break hoặc hết switch." },
+      { topic: "switch", type: "choice", code: "int x = 1;\nswitch (x) {\n    case 1: cout << \"A\";\n    case 2: cout << \"B\"; break;\n    case 3: cout << \"C\";\n}", question: "Đoạn code trên in ra gì?", options: ["AB", "A", "ABC", "B"], answer: "AB", explain: "case 1 khớp nhưng thiếu break nên rơi xuống case 2 in tiếp B; gặp break thì dừng, không tới case 3." },
+      { topic: "switch", type: "choice", question: "default: trong switch có ý nghĩa gì?", options: ["Chạy khi không case nào khớp", "Case luôn chạy đầu tiên", "Bắt buộc phải có trong mọi switch", "Xoá các case phía trên"], answer: "Chạy khi không case nào khớp", explain: "default giống nhánh else của if — bắt lỗi khi người dùng nhập giá trị lạ." },
+      { topic: "switch", type: "fill", question: "Điền từ khoá dùng để kết thúc một case trong switch:", answer: ["break"], explain: "break làm chương trình thoát khỏi switch ngay — thiếu nó là 'rơi' case." },
+      { topic: "switch", type: "choice", question: "Biến đặt trong switch (biến) thường có kiểu nào?", options: ["int hoặc char", "double", "string tuỳ ý", "bool bắt buộc"], answer: "int hoặc char", explain: "switch so khớp giá trị nguyên/ký tự; muốn so chuỗi hay số thực thì dùng if / else if." }
+    ];
+
+    EXERCISES["cpp-04-ex1"] = {
+      topic: "Chẵn hay lẻ",
+      prompt: "Đọc một số nguyên n từ bàn phím (dùng cin), rồi dùng if / else kiểm tra chẵn lẻ: in ra Chan nếu n chẵn, Le nếu n lẻ. Gợi ý: n % 2 == 0 là số chẵn.",
+      checks: [
+        { regex: "#include\\s*<iostream>", desc: "Nạp thư viện iostream", hint: "Dòng đầu tiên: #include <iostream>" },
+        { regex: "\\bif\\s*\\([^)]*%\\s*2\\s*==\\s*0", desc: "Dùng điều kiện n % 2 == 0 để nhận diện số chẵn", hint: "if (n % 2 == 0) { ... }" },
+        { regex: "\\belse\\b", desc: "Có nhánh else cho trường hợp số lẻ", hint: "else { cout << \"Le\"; }" },
+        { regex: "cout\\s*<<", desc: "In kết quả bằng cout", hint: "cout << \"Chan\" << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    if (n % 2 == 0) {\n        cout << \"Chan\" << endl;\n    } else {\n        cout << \"Le\" << endl;\n    }\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-04-ex2"] = {
+      topic: "Xếp loại điểm",
+      prompt: "Viết chương trình cho biến diem (ví dụ double diem = 8.5) rồi xếp loại bằng if / else if / else: in Gioi khi diem >= 8, Kha khi diem >= 6.5, Trung binh khi diem >= 5, còn lại Yeu.",
+      checks: [
+        { regex: "\\bif\\s*\\(\\s*diem\\s*>=", desc: "Mở đầu bằng if kiểm tra diem >= ...", hint: "if (diem >= 8) { ... }" },
+        { regex: "else\\s+if", minCount: 2, desc: "Có ít nhất 2 nhánh else if cho các mức tiếp theo", hint: "else if (diem >= 6.5) { ... } và else if (diem >= 5) { ... }" },
+        { regex: "\\belse\\b", desc: "Có nhánh else cuối cùng", hint: "else { cout << \"Yeu\"; }" },
+        { regex: "cout\\s*<<", desc: "In kết quả xếp loại bằng cout", hint: "cout << \"Kha\" << endl;" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    double diem = 8.5;\n    if (diem >= 8) {\n        cout << \"Gioi\" << endl;\n    } else if (diem >= 6.5) {\n        cout << \"Kha\" << endl;\n    } else if (diem >= 5) {\n        cout << \"Trung binh\" << endl;\n    } else {\n        cout << \"Yeu\" << endl;\n    }\n    return 0;\n}"
+    };
+
+    EXERCISES["cpp-04-ex3"] = {
+      topic: "switch tên thứ",
+      prompt: "Dùng switch với biến n (ví dụ n = 3) để in tên thứ trong tuần: case 1 → Thu Hai, case 2 → Thu Ba, case 3 → Thu Tu; mọi giá trị khác in ra Khong hop le qua default. Nhớ break sau mỗi case!",
+      checks: [
+        { regex: "\\bswitch\\s*\\(", desc: "Có câu lệnh switch", hint: "switch (n) { ... }" },
+        { regex: "\\bcase\\s+\\d+\\s*:", minCount: 3, desc: "Có ít nhất 3 nhãn case", hint: "case 1: ... case 2: ... case 3: ..." },
+        { regex: "\\bbreak\\s*;", desc: "Dùng break để không rơi xuống case dưới", hint: "Kết thúc mỗi case bằng break;" },
+        { regex: "\\bdefault\\s*:", desc: "Có default cho giá trị không hợp lệ", hint: "default: cout << \"Khong hop le\";" }
+      ],
+      sample: "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n = 3;\n    switch (n) {\n        case 1: cout << \"Thu Hai\" << endl; break;\n        case 2: cout << \"Thu Ba\" << endl; break;\n        case 3: cout << \"Thu Tu\" << endl; break;\n        default: cout << \"Khong hop le\" << endl;\n    }\n    return 0;\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

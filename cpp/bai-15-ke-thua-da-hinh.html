@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 15 C++: kế thừa (class Dog : public Animal), ghi đè với virtual/override và đa hình qua con trỏ lớp cha (Animal* a = new Dog()).">
+  <title>Bài 15: Kế thừa &amp; đa hình | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-15">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-15</span></div>
+      <h1 class="lesson-title">Kế thừa &amp; đa hình</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #15 ]</span>
+        <span class="pill">Chương 5 — Lập trình hướng đối tượng</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Tưởng tượng bạn viết 10 class động vật — chó, mèo, vịt... — class nào cũng lặp lại <code>ten</code>, <code>tuoi</code>,
+        cách ăn uống y hệt nhau. Lãng phí quá! <strong>Kế thừa</strong> cho phép lớp con "thừa hưởng" toàn bộ đồ nghề của lớp cha
+        và chỉ thêm phần riêng. Còn <strong>đa hình</strong> là phép thuật khiến mỗi con vật kêu đúng tiếng của nó — dù lời gọi
+        giống hệt nhau. Đây là nhiệm vụ đỉnh cao của chương OOP! ⚡
+      </p>
+
+      <h2>Kế thừa public</h2>
+      <p>
+        Lớp <code>Dog</code> kế thừa lớp <code>Animal</code> chỉ bằng một dòng khai báo có dấu <code>:</code>.
+        Chó vẫn ăn như động vật (thừa hưởng), nhưng biết sủa riêng (tính năng của lớp con):
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">kethua.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Animal {
+public:
+    string ten;
+    void an() { cout &lt;&lt; ten &lt;&lt; " dang an" &lt;&lt; endl; }
+};
+class Dog : public Animal {
+public:
+    void sua() { cout &lt;&lt; ten &lt;&lt; " go: Gau gau!" &lt;&lt; endl; }
+};
+
+int main() {
+    Dog d;
+    d.ten = "Milu";   // thuộc tính thừa hưởng từ Animal
+    d.an();           // phương thức thừa hưởng từ Animal
+    d.sua();          // phương thức riêng của Dog
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Milu dang an
+Milu go: Gau gau!</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu dòng khai báo kế thừa — mọi phép thuật nằm sau dấu hai chấm:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">class</span> <span class="fn">Dog</span> <span class="op">:</span> <span class="kw">public</span> <span class="fn">Animal</span> <span class="op">{</span> <span class="cm">// phần riêng của Dog</span> <span class="op">};</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>class Dog</code></td><td>lớp con (lớp dẫn xuất) — lớp "sinh sau đẻ muộn"</td><td>✅</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm mở đầu phần khai báo kế thừa</td><td>✅</td></tr>
+          <tr><td><code>public</code></td><td>kiểu kế thừa công khai — giữ nguyên mức truy cập của lớp cha</td><td>✅ (bài này luôn dùng)</td></tr>
+          <tr><td><code>Animal</code></td><td>lớp cha (lớp cơ sở) — nguồn đồ nghề được thừa hưởng</td><td>✅</td></tr>
+          <tr><td><code>{ … }</code></td><td>thân lớp con — nơi thêm thuộc tính/phương thức riêng, có thể để rỗng</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Lớp con dùng được các thành viên <code>public</code> của lớp cha như của chính mình — nhưng <code>private</code>
+          thì không. Hãy hình dung <code>private</code> là căn hầm có khóa riêng của lớp cha: con cái trong nhà cũng không mở được.
+        </p>
+      </div>
+
+      <p>Thử dựng "gia đình" class đầu tiên của bạn:</p>
+
+      <div class="exercise-box" data-ex="cpp-15-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-15" data-topic="Kế thừa" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — KẾ THỪA</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>virtual &amp; ghi đè</h2>
+      <p>
+        Chuyện gì xảy ra khi lớp con viết lại <em>cùng tên, cùng tham số</em> một phương thức của lớp cha? Đó là
+        <strong>ghi đè</strong> (override). Để phép thuật đa hình hoạt động, phương thức ở lớp cha phải được đánh dấu
+        <code>virtual</code>, còn lớp con thêm nhãn <code>override</code> để compiler kiểm tra giúp:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">virtual.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Animal {
+public:
+    string ten;
+    virtual void speak() { cout &lt;&lt; ten &lt;&lt; " phat ra am thanh..." &lt;&lt; endl; }
+};
+class Dog : public Animal {
+public:
+    void speak() override { cout &lt;&lt; ten &lt;&lt; " sua: Gau gau!" &lt;&lt; endl; }
+};
+void choNoi(Animal&amp; a) { a.speak(); }   // một hàm, nhận mọi lớp con
+
+int main() {
+    Animal a;
+    a.ten = "Bo";
+    Dog d;
+    d.ten = "Milu";
+    choNoi(a);   // chạy phiên bản Animal
+    choNoi(d);   // chạy phiên bản Dog — đa hình!
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Bo phat ra am thanh...
+Milu sua: Gau gau!</pre>
+        </div>
+      </div>
+
+      <p>
+        Ngược lại, nếu <strong>quên</strong> <code>virtual</code> ở lớp cha, chương trình vẫn biên dịch trôi chảy —
+        nhưng chạy sai ý bạn. Xem "tai nạn" kinh điển này:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">khong-virtual.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Animal {
+public:
+    void speak() { cout &lt;&lt; "Am thanh dong vat" &lt;&lt; endl; }   // THIẾU virtual!
+};
+class Dog : public Animal {
+public:
+    void speak() { cout &lt;&lt; "Gau gau!" &lt;&lt; endl; }
+};
+
+int main() {
+    Animal* a = new Dog();
+    a->speak();   // gọi theo kiểu con trỏ Animal → không đa hình
+    delete a;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Am thanh dong vat</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Khi gọi phương thức qua con trỏ (hoặc tham chiếu) lớp cha, nếu phương thức <strong>thiếu</strong> <code>virtual</code>,
+          C++ quyết định gọi phiên bản nào theo <em>kiểu của con trỏ</em> (<code>Animal</code>) — nên chú chó Milu lại
+          "kêu" bằng âm thanh chung chung. Thêm <code>virtual</code> ở lớp cha và <code>override</code> ở lớp con thì
+          C++ mới quyết định theo <em>kiểu thật của object</em> (<code>Dog</code>). Đây là cái bẫy im lặng nhất của OOP!
+        </p>
+      </div>
+
+      <p>Giải phẫu cặp đôi <code>virtual</code> + <code>override</code> — vũ khí của đa hình:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="cm">// lớp cha</span> <span class="kw">virtual</span> <span class="kw">void</span> <span class="fn">speak</span><span class="op">()</span> <span class="op">{</span> <span class="op">}</span> &nbsp;→&nbsp; <span class="cm">// lớp con</span> <span class="kw">void</span> <span class="fn">speak</span><span class="op">()</span> <span class="kw">override</span> <span class="op">{</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>virtual</code></td><td>đặt ở lớp cha — "mở khóa" để lời gọi quyết định theo object thật</td><td>✅ (nếu muốn đa hình)</td></tr>
+          <tr><td>tên + tham số</td><td>lớp con phải trùng <strong>đúng</strong> tên và danh sách tham số của lớp cha</td><td>✅</td></tr>
+          <tr><td><code>override</code></td><td>đặt ở lớp con — compiler kiểm tra giúp bạn ghi đè có hợp lệ không</td><td>❌ (nhưng rất nên viết)</td></tr>
+          <tr><td><code>{ … }</code></td><td>hành vi riêng của từng lớp — mỗi con vật kêu một kiểu</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>Thử tự tay ghi đè tiếng kêu của chú chó:</p>
+
+      <div class="exercise-box" data-ex="cpp-15-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-15" data-topic="virtual &amp; override" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — VIRTUAL &amp; OVERRIDE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Đa hình với con trỏ</h2>
+      <p>
+        Sức mạnh thật sự của đa hình lộ ra khi bạn dùng <strong>con trỏ lớp cha</strong> để trỏ tới object lớp con.
+        Một biến <code>Animal*</code> có thể "cầm" bất kỳ con vật nào, và lời gọi <code>a-&gt;speak()</code> luôn chạy
+        đúng phiên bản của object thật:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dahinh.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Animal {
+public:
+    virtual void speak() { cout &lt;&lt; "Am thanh dong vat" &lt;&lt; endl; }
+    virtual ~Animal() {}                       // để delete gọi đúng destructor
+};
+class Dog : public Animal {
+public:
+    void speak() override { cout &lt;&lt; "Gau gau!" &lt;&lt; endl; }
+};
+
+int main() {
+    Animal* a = new Dog();   // con trỏ lớp cha → object lớp con
+    a-&gt;speak();              // dấu -> thay cho dấu chấm khi dùng con trỏ
+    delete a;                // dọn bộ nhớ, destructor của Dog được gọi
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Gau gau!</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Với con trỏ, thành viên truy cập bằng <code>-&gt;</code> thay vì dấu chấm: <code>a-&gt;speak()</code>,
+          <code>a-&gt;ten</code>. Dòng <code>virtual ~Animal() {}</code> ở lớp cha giúp <code>delete a;</code> gọi đúng cả
+          destructor của <code>Dog</code> — bài học vỡ lòng khi dùng <code>new</code> với kế thừa.
+        </p>
+      </div>
+
+      <p>Nhiệm vụ cuối cùng của chương — ghép mọi thứ lại với con trỏ lớp cha:</p>
+
+      <div class="exercise-box" data-ex="cpp-15-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-15" data-topic="Đa hình" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐA HÌNH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 15</h2>
+      <ul>
+        <li>Kế thừa: <code>class Dog : public Animal { };</code> — lớp con thừa hưởng thuộc tính và phương thức <code>public</code> của lớp cha.</li>
+        <li>Lớp con thêm được thành viên riêng; thành viên <code>private</code> của lớp cha thì không truy cập được.</li>
+        <li>Ghi đè = lớp con viết lại phương thức <em>cùng tên, cùng tham số</em>; lớp cha cần <code>virtual</code>, lớp con nên thêm <code>override</code>.</li>
+        <li>Thiếu <code>virtual</code>, lời gọi qua con trỏ/tham chiếu lớp cha sẽ chạy phiên bản của lớp cha — không đa hình.</li>
+        <li>Con trỏ lớp cha trỏ object lớp con: <code>Animal* a = new Dog();</code> — gọi bằng <code>a-&gt;speak()</code>, dọn bằng <code>delete a;</code>.</li>
+        <li>Đa hình: một lời gọi — nhiều hành vi tuỳ object thật sự; nên khai báo <code>virtual ~Animal()</code> nếu lớp cha có destructor.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-15" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 15</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-15"] = [
+      /* --- Kế thừa (6) --- */
+      { topic: "Kế thừa", type: "choice", question: "Cú pháp khai báo lớp Dog kế thừa CÔNG KHAI từ lớp Animal?", options: ["class Dog : public Animal { };", "class Dog extends Animal { };", "class Dog inherits Animal { };", "class Dog <- Animal { };"], answer: "class Dog : public Animal { };", explain: "C++ dùng dấu hai chấm + từ khóa public: class Dog : public Animal { };" },
+      { topic: "Kế thừa", type: "choice", question: "Lớp con Dog thừa hưởng gì từ lớp cha Animal?", options: ["Các thuộc tính và phương thức public của Animal", "Chỉ thuộc tính, không thừa hưởng phương thức", "Chỉ phương thức, không thừa hưởng thuộc tính", "Không thừa hưởng gì cả"], answer: "Các thuộc tính và phương thức public của Animal", explain: "Dog dùng được cả ten lẫn an() như của chính mình." },
+      { topic: "Kế thừa", type: "choice", code: "class Animal {\npublic:\n    string ten;\n};\nclass Dog : public Animal {\npublic:\n    int tuoi;\n};\nDog d;\nd.ten = \"Milu\";\nd.tuoi = 3;\ncout << d.ten << \" \" << d.tuoi;", question: "Đoạn code trên in ra gì?", options: ["Milu 3", "Milu", "3", "Lỗi vì ten thuộc Animal"], answer: "Milu 3", explain: "d.ten là thuộc tính thừa hưởng từ Animal, d.tuoi là của Dog — dùng chung bình thường." },
+      { topic: "Kế thừa", type: "fill", question: "Hoàn thành chỗ trống để Dog kế thừa công khai từ Animal:   class Dog : ______ Animal { };", answer: ["public", ": public", "public:"], explain: "Viết public sau dấu hai chấm: class Dog : public Animal { };" },
+      { topic: "Kế thừa", type: "choice", question: "Trong quan hệ Dog kế thừa Animal, Animal thường được gọi là gì?", options: ["Lớp cha (lớp cơ sở)", "Lớp con (lớp dẫn xuất)", "Object", "Destructor"], answer: "Lớp cha (lớp cơ sở)", explain: "Animal là lớp cha/lớp cơ sở; Dog là lớp con/lớp dẫn xuất." },
+      { topic: "Kế thừa", type: "choice", question: "Lớp con có truy cập được thành viên private của lớp cha không?", options: ["Không — private là 'căn hầm khóa riêng' của lớp cha", "Có — mọi thành viên đều được thừa hưởng", "Có, nếu phương thức đó là virtual", "Chỉ khi lớp cha là struct"], answer: "Không — private là 'căn hầm khóa riêng' của lớp cha", explain: "Chỉ thành viên public (và protected) mới được lớp con dùng trực tiếp." },
+      /* --- virtual & override (6) --- */
+      { topic: "virtual & override", type: "choice", question: "Từ khóa nào bật cơ chế đa hình cho một phương thức?", options: ["virtual", "override", "public", "new"], answer: "virtual", explain: "virtual khai báo ở lớp cha — lời gọi sẽ quyết định theo object thật, không theo kiểu con trỏ." },
+      { topic: "virtual & override", type: "choice", code: "class Animal {\npublic:\n    virtual void speak() { cout << \"Am thanh dong vat\"; }\n};\nclass Dog : public Animal {\npublic:\n    void speak() override { cout << \"Gau gau!\"; }\n};\nAnimal* a = new Dog();\na->speak();\ndelete a;", question: "Đoạn code trên in ra gì?", options: ["Gau gau!", "Am thanh dong vat", "Cả hai dòng", "Lỗi biên dịch"], answer: "Gau gau!", explain: "Có virtual nên lời gọi chạy theo object thật (Dog) → \"Gau gau!\"." },
+      { topic: "virtual & override", type: "choice", question: "Nhãn override (đặt ở lớp con) có tác dụng gì?", options: ["Báo compiler kiểm tra đây thật sự là ghi đè hợp lệ của phương thức ảo lớp cha", "Tự động thêm virtual cho lớp cha", "Xóa phương thức của lớp cha", "Chỉ để trang trí, không có tác dụng gì"], answer: "Báo compiler kiểm tra đây thật sự là ghi đè hợp lệ của phương thức ảo lớp cha", explain: "Gõ sai tên hoặc sai tham số, compiler báo lỗi ngay nhờ override — lưới an toàn cho bạn." },
+      { topic: "virtual & override", type: "choice", question: "Nếu lớp cha khai báo void speak() KHÔNG có virtual, gọi a->speak() qua con trỏ lớp cha sẽ chạy phiên bản nào?", options: ["Phương thức của lớp cha (không đa hình)", "Phương thức của lớp con", "Cả hai phiên bản", "Báo lỗi biên dịch"], answer: "Phương thức của lớp cha (không đa hình)", explain: "Thiếu virtual, C++ quyết định theo kiểu con trỏ (lớp cha) — bẫy im lặng nhất của OOP." },
+      { topic: "virtual & override", type: "fill", question: "Điền từ khóa cần thêm trước void speak() ở lớp cha để đa hình hoạt động:   ______ void speak();", answer: ["virtual"], explain: "Khai báo virtual void speak(); ở lớp cha — 'mở khóa' ghi đè đa hình." },
+      { topic: "virtual & override", type: "choice", question: "Muốn GHI ĐÈ một phương thức, phương thức ở lớp con phải thế nào?", options: ["Cùng tên và cùng danh sách tham số với lớp cha", "Cùng tên nhưng tham số tuỳ ý", "Khác tên, chỉ cần cùng tham số", "Chỉ cần cùng kiểu trả về"], answer: "Cùng tên và cùng danh sách tham số với lớp cha", explain: "Sai tên hoặc sai tham số là không còn là ghi đè — dùng override để compiler nhắc bạn." },
+      /* --- Đa hình (6) --- */
+      { topic: "Đa hình", type: "choice", question: "Đa hình trong OOP nghĩa là gì?", options: ["Một lời gọi phương thức nhưng chạy đúng phiên bản của object thật sự", "Nhiều class có code giống hệt nhau", "Tạo nhiều object cùng lúc", "Object tự hủy khi hết phạm vi"], answer: "Một lời gọi phương thức nhưng chạy đúng phiên bản của object thật sự", explain: "Cùng lời gọi a->speak(), mỗi loại con vật kêu một kiểu — đó là đa hình." },
+      { topic: "Đa hình", type: "choice", code: "class Animal {\npublic:\n    virtual void speak() { cout << \"Animal\"; }\n};\nclass Dog : public Animal {\npublic:\n    void speak() override { cout << \"Gau gau!\"; }\n};\nclass Cat : public Animal {\npublic:\n    void speak() override { cout << \"Meo meo!\"; }\n};\nAnimal* a = new Cat();\na->speak();\ndelete a;", question: "Đoạn code trên in ra gì?", options: ["Meo meo!", "Animal", "Gau gau!", "Lỗi vì a là Animal*"], answer: "Meo meo!", explain: "a trỏ tới object Cat nên lời gọi chạy Cat::speak → \"Meo meo!\"." },
+      { topic: "Đa hình", type: "choice", question: "Trong Animal* a = new Dog(); biến a có kiểu gì và trỏ tới gì?", options: ["Kiểu Animal* nhưng trỏ tới một object Dog", "Kiểu Dog* trỏ tới object Dog", "Kiểu Animal* nhưng không trỏ tới đâu", "Kiểu Dog* trỏ tới object Animal"], answer: "Kiểu Animal* nhưng trỏ tới một object Dog", explain: "Con trỏ lớp cha có thể trỏ tới object lớp con — nền tảng của đa hình." },
+      { topic: "Đa hình", type: "choice", question: "Dấu -> dùng để gọi thành viên trong trường hợp nào?", options: ["Khi làm việc với CON TRỎ tới object", "Khi dùng object thường", "Khi khai báo class", "Khi kế thừa lớp"], answer: "Khi làm việc với CON TRỎ tới object", explain: "a->speak() thay cho (*a).speak() — object thường vẫn dùng dấu chấm." },
+      { topic: "Đa hình", type: "choice", question: "Vì sao cần delete a; sau khi dùng Animal* a = new Dog();?", options: ["Để giải phóng bộ nhớ đã cấp bằng new — destructor của Dog mới chạy", "Để xóa code của class Dog khỏi chương trình", "Để con trỏ tự trỏ về null", "Không cần, chương trình tự dọn"], answer: "Để giải phóng bộ nhớ đã cấp bằng new — destructor của Dog mới chạy", explain: "new thì phải delete — nếu không destructor không bao giờ chạy và bộ nhớ bị giữ lại." },
+      { topic: "Đa hình", type: "fill", question: "Viết lệnh gọi phương thức speak() qua con trỏ a:", answer: ["a->speak()", "a->speak();"], explain: "Con trỏ dùng dấu ->: a->speak()" }
+    ];
+    EXERCISES["cpp-15-ex1"] = {
+      topic: "Class Animal & Dog kế thừa",
+      prompt: "Định nghĩa class Animal có thuộc tính public string ten và phương thức void an() in ra thông báo (có dùng ten). Sau đó định nghĩa class Dog kế thừa công khai từ Animal và thêm phương thức void sua() cũng dùng ten.",
+      checks: [
+        { regex: "class\\s+Animal\\s*\\{", desc: "Định nghĩa class Animal", hint: "class Animal { public: string ten; ... };" },
+        { regex: "class\\s+Dog\\s*:\\s*public\\s+Animal\\s*\\{", desc: "Dog kế thừa công khai từ Animal", hint: "class Dog : public Animal { ... };" },
+        { regex: "string\\s+ten\\s*;", desc: "Có thuộc tính string ten ở lớp cha", hint: "Trong Animal: string ten;" },
+        { regex: "cout\\s*<<[^;]*\\bten\\b", desc: "Phương thức in ra thông báo có dùng ten", hint: "cout << ten << \" dang an\" << endl;" }
+      ],
+      sample: "class Animal {\npublic:\n    string ten;\n\n    void an() {\n        cout << ten << \" dang an\" << endl;\n    }\n};\n\nclass Dog : public Animal {\npublic:\n    void sua() {\n        cout << ten << \" go!\" << endl;\n    }\n};"
+    };
+    EXERCISES["cpp-15-ex2"] = {
+      topic: "Ghi đè speak() với override",
+      prompt: "Lớp cha Animal khai báo virtual void speak() in ra một thông báo chung. Lớp con Dog viết lại void speak() override in ra Gau gau! (đặt sau tên phương thức, trước dấu {).",
+      checks: [
+        { regex: "virtual\\s+void\\s+speak\\s*\\(\\s*\\)", desc: "Lớp cha khai báo virtual void speak()", hint: "virtual void speak() { cout << \"Animal keu\" << endl; }" },
+        { regex: "void\\s+speak\\s*\\(\\s*\\)\\s*override", desc: "Lớp con ghi đè bằng void speak() override", hint: "void speak() override { cout << \"Gau gau!\" << endl; }" },
+        { regex: "class\\s+Dog\\s*:\\s*public\\s+Animal", desc: "Dog kế thừa công khai từ Animal", hint: "class Dog : public Animal { ... };" },
+        { regex: "cout\\s*<<", desc: "Có in thông báo trong phương thức", hint: "cout << \"Gau gau!\" << endl;" }
+      ],
+      sample: "class Animal {\npublic:\n    virtual void speak() {\n        cout << \"Animal keu\" << endl;\n    }\n};\n\nclass Dog : public Animal {\npublic:\n    void speak() override {\n        cout << \"Gau gau!\" << endl;\n    }\n};"
+    };
+    EXERCISES["cpp-15-ex3"] = {
+      topic: "Đa hình với con trỏ lớp cha",
+      prompt: "Cho class Animal (có virtual void speak()) và class Dog ghi đè speak(). Hãy dùng con trỏ lớp cha: Animal* a = new Dog(); gọi a->speak(); rồi giải phóng bằng delete a;",
+      checks: [
+        { regex: "Animal\\s*\\*\\s*\\w+\\s*=\\s*new\\s+Dog\\s*\\(\\s*\\)", desc: "Con trỏ Animal* trỏ tới object Dog bằng new Dog()", hint: "Animal* a = new Dog();" },
+        { regex: "->\\s*speak\\s*\\(\\s*\\)", desc: "Gọi speak() qua con trỏ bằng dấu ->", hint: "a->speak();" },
+        { regex: "delete\\s+\\w+\\s*;", desc: "Giải phóng bộ nhớ bằng delete", hint: "delete a;" },
+        { regex: "virtual\\s+void\\s+speak", desc: "speak() ở lớp cha được khai báo virtual", hint: "virtual void speak() { ... } trong Animal" }
+      ],
+      sample: "class Animal {\npublic:\n    virtual void speak() {\n        cout << \"Am thanh dong vat\" << endl;\n    }\n    virtual ~Animal() {}\n};\n\nclass Dog : public Animal {\npublic:\n    void speak() override {\n        cout << \"Gau gau!\" << endl;\n    }\n};\n\nAnimal* a = new Dog();\na->speak();\ndelete a;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

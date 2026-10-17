@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 14 Python: Hàm (function) — def, tham số mặc định, keyword argument, return và trả nhiều giá trị (tuple), docstring — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 14: Hàm (function) | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-14">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-14</span></div>
+      <h1 class="lesson-title">Hàm (function)</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #14 ]</span>
+        <span class="pill">Chương 4 — Hàm &amp; module</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Bạn đã viết được kha khá code — nhưng cứ copy-paste một đoạn logic đi khắp nơi thì sớm muộn cũng rối như dây tai nghe trong cặp.
+        <strong>Hàm (function)</strong> là chiếc hộp thần kỳ giúp bạn <em>đóng gói</em> một đoạn code, đặt tên cho nó,
+        rồi <em>gọi</em> ra dùng bao nhiêu lần cũng được. Mở khóa chương 4 thôi! ⚡
+      </p>
+
+      <h2>def — đóng gói code</h2>
+      <p>
+        Một hàm được tạo bằng từ khóa <code>def</code>, theo sau là tên hàm, cặp ngoặc đơn chứa tham số, dấu hai chấm và
+        phần thân thụt lề. Định nghĩa xong, bạn <strong>gọi hàm</strong> bằng tên kèm cặp ngoặc — lúc đó code bên trong mới chạy.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chao-hoi.py</span>
+        </div>
+        <pre><code class="language-python">def chao(ten):
+    print("Xin chào,", ten)
+
+chao("Nam")
+chao("Linh")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào, Nam
+Xin chào, Linh</pre>
+        </div>
+      </div>
+
+      <p>
+        Viết <code>def chao(ten):</code> một lần, nhưng gọi được <code>chao("Nam")</code>, <code>chao("Linh")</code>… bao nhiêu người bấy nhiêu lời chào.
+        Giờ hãy <strong>giải phẫu</strong> đầy đủ một định nghĩa hàm:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">def</span> <span class="fn">chao</span><span class="op">(</span><span class="vr">ten</span><span class="op">):</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>def</code></td><td>từ khóa mở đầu mọi định nghĩa hàm (viết tắt của <em>define</em>)</td><td>✅</td></tr>
+          <tr><td><code>chao</code></td><td>tên hàm do bạn đặt — quy tắc giống tên biến</td><td>✅</td></tr>
+          <tr><td><code>(ten)</code></td><td>tham số trong ngoặc đơn — khe cắm dữ liệu đầu vào</td><td>❌ (để trống <code>()</code> nếu không cần)</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm kết thúc dòng <code>def</code></td><td>✅</td></tr>
+          <tr><td>thân hàm</td><td>các dòng thụt lề bên dưới — việc mà hàm sẽ làm</td><td>✅ (ít nhất 1 dòng)</td></tr>
+          <tr><td><code>chao("Nam")</code></td><td>lời gọi hàm — lúc này thân hàm mới thực sự chạy</td><td>✅ nếu muốn hàm hoạt động!</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Định nghĩa hàm <strong>chưa chạy gì cả</strong> — nó chỉ "đóng gói" code lại và gắn tên.
+          Đến khi bạn gọi <code>chao("Nam")</code>, Python mới mở hộp ra và chạy từng dòng bên trong.
+        </p>
+      </div>
+
+      <p>Kiểm tra xem bạn đã nắm cách "đóng gói" chưa:</p>
+
+      <div class="quiz-console" data-lesson="py-14" data-topic="Hàm cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — HÀM CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Tham số mặc định &amp; keyword</h2>
+      <p>
+        Tham số có thể được cho sẵn một <strong>giá trị mặc định</strong>. Ai không truyền gì thì hàm dùng giá trị đó;
+        ai truyền thì hàm tôn trọng người ta. Cách gọi kèm tên tham số <code>chao(ten="Nam")</code> gọi là
+        <strong>keyword argument</strong> — nhìn là biết ngay đang truyền cái gì, không sợ nhầm thứ tự.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chao-mac-dinh.py</span>
+        </div>
+        <pre><code class="language-python">def chao(ten="bạn"):
+    print("Xin chào,", ten)
+
+chao()             # không truyền gì → dùng giá trị mặc định
+chao("Linh")       # truyền theo vị trí
+chao(ten="Nam")    # truyền theo tên (keyword)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Xin chào, bạn
+Xin chào, Linh
+Xin chào, Nam</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">chao</span><span class="op">(</span><span class="vr">ten</span><span class="op">=</span><span class="st">"Nam"</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>chao</code></td><td>tên hàm cần gọi</td><td>✅</td></tr>
+          <tr><td><code>ten=</code></td><td>tên tham số + dấu <code>=</code> — truyền theo tên, không theo vị trí</td><td>✅ nếu muốn dùng kiểu keyword</td></tr>
+          <tr><td><code>"Nam"</code></td><td>giá trị truyền cho tham số <code>ten</code></td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Tham số có giá trị mặc định phải đứng <strong>SAU</strong> các tham số thường.
+          Viết <code>def chao(ten="bạn", tuoi):</code> là Python báo lỗi ngay: <em>non-default argument follows default argument</em>.
+          Nhớ quy tắc: tham số có "phao cứu sinh" xếp cuối hàng!
+        </p>
+      </div>
+
+      <p>Luyện tập với tham số mặc định và keyword:</p>
+
+      <div class="quiz-console" data-lesson="py-14" data-topic="Tham số" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THAM SỐ</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>return &amp; trả nhiều giá trị</h2>
+      <p>
+        Hàm xử lý xong có thể <strong>gửi kết quả ra ngoài</strong> bằng từ khóa <code>return</code>.
+        Khác với <code>print()</code> (chỉ hiện lên màn hình), giá trị <code>return</code> được trả về đúng chỗ gọi hàm
+        để bạn tiếp tục tính toán, gán biến, lồng vào biểu thức…
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tong.py</span>
+        </div>
+        <pre><code class="language-python">def tong(a, b):
+    return a + b
+
+ket_qua = tong(3, 4)
+print("Tổng:", ket_qua)
+print(tong(10, 20))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tổng: 7
+30</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>return</code></td><td>từ khóa gửi giá trị ra khỏi hàm — hàm kết thúc ngay tại đây</td><td>✅ (nếu muốn trả kết quả)</td></tr>
+          <tr><td><code>a + b</code></td><td>biểu thức được tính rồi gửi về chỗ gọi hàm</td><td>❌ (viết <code>return</code> trống thì trả về <code>None</code>)</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Hàm còn có thể trả về <strong>nhiều giá trị cùng lúc</strong> — Python tự gói chúng thành một
+        <strong>tuple</strong> (bạn đã học ở bài 10!), và bạn có thể "bung" ra thành nhiều biến.
+        Dòng chữ trong cặp <code>"""…"""</code> ngay đầu hàm là <strong>docstring</strong> — tài liệu mô tả hàm:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">min-max.py</span>
+        </div>
+        <pre><code class="language-python">def min_max(ds):
+    """Trả về (nhỏ nhất, lớn nhất) của danh sách."""
+    return min(ds), max(ds)
+
+nho, lon = min_max([7, 2, 9, 5])
+print("Nhỏ nhất:", nho)
+print("Lớn nhất:", lon)
+print(min_max([7, 2, 9, 5]))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nhỏ nhất: 2
+Lớn nhất: 9
+(2, 9)</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>return min(ds), max(ds)</code> trả về <strong>tuple</strong> <code>(2, 9)</code> — dấu ngoặc đơn là của tuple, không phải của hàm.
+          Viết <code>nho, lon = min_max(...)</code> là cách "bung" tuple ra hai biến, gọn như mở hộp quà!
+        </p>
+      </div>
+
+      <p>Thực hành ngay — viết hàm đầu tiên có <code>return</code> của bạn:</p>
+
+      <div class="exercise-box" data-ex="py-14-ex1"></div>
+
+      <p>Tiếp tục với hàm trả về đúng/sai và hàm tính diện tích:</p>
+
+      <div class="exercise-box" data-ex="py-14-ex2"></div>
+
+      <div class="exercise-box" data-ex="py-14-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-14" data-topic="Hàm nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — HÀM NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 14</h2>
+      <ul>
+        <li>Hàm đóng gói code để tái sử dụng: <code>def ten_ham(tham_so):</code> rồi thân hàm <strong>thụt lề</strong> bên dưới.</li>
+        <li>Định nghĩa hàm <strong>chưa chạy</strong> — phải <em>gọi</em> <code>ten_ham(...)</code> thì code bên trong mới thực thi.</li>
+        <li>Tham số có thể có <strong>giá trị mặc định</strong>, nhưng phải đứng sau tham số thường; gọi kiểu <code>ten_ham(tham_so="giá trị")</code> là keyword argument.</li>
+        <li><code>return</code> gửi giá trị (hoặc gói nhiều giá trị thành tuple) ra khỏi hàm; không có <code>return</code> thì hàm trả về <code>None</code>.</li>
+        <li>Docstring <code>"""…"""</code> ngay đầu hàm là tài liệu mô tả — viết ngắn gọn, rõ ràng.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-14" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 14</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-14"] = [
+      /* --- Hàm cơ bản --- */
+      { topic: "Hàm cơ bản", type: "choice", question: "Từ khóa nào dùng để định nghĩa một hàm trong Python?", options: ["def", "function", "define", "func"], answer: "def", explain: "def là viết tắt của define — mọi hàm Python đều bắt đầu bằng nó." },
+      { topic: "Hàm cơ bản", type: "choice", code: "def chao():\n    print(\"Hi\")\n\nchao()", question: "Đoạn code trên in ra gì?", options: ["Hi", "chao()", "Không in gì", "Lỗi vì thiếu tham số"], answer: "Hi", explain: "Định nghĩa hàm chao rồi gọi chao() — thân hàm chạy và in ra Hi." },
+      { topic: "Hàm cơ bản", type: "choice", question: "Sau khi định nghĩa hàm nhưng CHƯA gọi, code bên trong thân hàm sẽ…", options: ["Chưa chạy — chỉ chạy khi được gọi", "Chạy ngay một lần", "Chạy hai lần", "Báo lỗi vì thiếu lời gọi"], answer: "Chưa chạy — chỉ chạy khi được gọi", explain: "Định nghĩa chỉ là \"đóng gói\"; lời gọi mới kích hoạt code bên trong." },
+      { topic: "Hàm cơ bản", type: "fill", question: "Điền từ khóa mở đầu dòng định nghĩa hàm:", answer: ["def"], explain: "def ten_ham(tham_so): — nhớ dấu hai chấm cuối dòng nhé." },
+      { topic: "Hàm cơ bản", type: "choice", code: "def chao(ten):\n    print(\"Chào\", ten)", question: "Đoạn code trên sẽ làm gì?", options: ["Không in gì — đây mới là định nghĩa, chưa có lời gọi", "In ra Chào ten", "In ra Chào bạn", "Báo lỗi vì tham số ten chưa có giá trị"], answer: "Không in gì — đây mới là định nghĩa, chưa có lời gọi", explain: "Chưa gọi chao(...) thì Python chưa chạy thân hàm — bẫy kinh điển của người mới học!" },
+      /* --- Tham số --- */
+      { topic: "Tham số", type: "choice", question: "Tham số của hàm được viết ở đâu?", options: ["Trong cặp ngoặc đơn sau tên hàm", "Trước từ khóa def", "Trong thân hàm, sau dấu hai chấm", "Sau lời gọi hàm"], answer: "Trong cặp ngoặc đơn sau tên hàm", explain: "def chao(ten): — ten nằm trong ngoặc đơn ngay sau tên hàm." },
+      { topic: "Tham số", type: "choice", code: "def chao(ten=\"bạn\"):\n    print(\"Chào\", ten)\n\nchao()", question: "Đoạn code trên in ra gì?", options: ["Chào bạn", "Chào ten", "Chào", "Lỗi vì thiếu tham số"], answer: "Chào bạn", explain: "Không truyền gì thì tham số ten dùng giá trị mặc định \"bạn\"." },
+      { topic: "Tham số", type: "choice", question: "Cách gọi chao(ten=\"Nam\") được gọi là gì?", options: ["Truyền tham số theo tên (keyword argument)", "Truyền tham số theo vị trí", "Đặt giá trị mặc định cho tham số", "Gán biến ten bằng Nam"], answer: "Truyền tham số theo tên (keyword argument)", explain: "Ghi rõ tên tham số kèm dấu = khi gọi — thứ tự truyền không còn quan trọng." },
+      { topic: "Tham số", type: "fill", question: "Gọi hàm chao, truyền tham số ten với giá trị \"Nam\" theo kiểu keyword (viết phần bên trong ngoặc đơn):", answer: ["ten=\"nam\"", "ten='nam'", "ten = \"nam\"", "ten = 'nam'"], explain: "chao(ten=\"Nam\") — tên tham số, dấu =, rồi giá trị." },
+      { topic: "Tham số", type: "choice", question: "Tham số có giá trị mặc định phải được đặt ở đâu?", options: ["Sau các tham số không có mặc định", "Trước các tham số không có mặc định", "Chỗ nào cũng được", "Phải đứng một mình trong hàm"], answer: "Sau các tham số không có mặc định", explain: "def chao(ten=\"bạn\", tuoi) gây lỗi ngay — tham số mặc định xếp cuối hàng." },
+      { topic: "Tham số", type: "choice", code: "def hien(ten, tuoi=18):\n    print(ten, tuoi)\n\nhien(\"An\")", question: "Đoạn code trên in ra gì?", options: ["An 18", "An", "18 An", "Lỗi vì thiếu tham số tuoi"], answer: "An 18", explain: "An truyền cho ten, còn tuoi không truyền nên nhận giá trị mặc định 18." },
+      /* --- Hàm nâng cao --- */
+      { topic: "Hàm nâng cao", type: "choice", question: "Từ khóa nào gửi giá trị ra khỏi hàm để dùng tiếp ở chỗ gọi?", options: ["return", "print", "output", "send"], answer: "return", explain: "print chỉ hiện lên màn hình; return mới thật sự trả giá trị về chỗ gọi hàm." },
+      { topic: "Hàm nâng cao", type: "choice", code: "def tong(a, b):\n    return a + b\n\nprint(tong(2, 3) + 10)", question: "Đoạn code trên in ra gì?", options: ["15", "5", "23", "Lỗi"], answer: "15", explain: "tong(2, 3) trả về 5, cộng thêm 10 thành 15 — giá trị return dùng được trong biểu thức." },
+      { topic: "Hàm nâng cao", type: "choice", question: "Khi hàm trả về nhiều giá trị cách nhau dấu phẩy, Python gói chúng thành kiểu dữ liệu nào?", options: ["tuple", "list", "dictionary", "chuỗi"], answer: "tuple", explain: "return min(ds), max(ds) trả về một tuple, ví dụ (2, 9)." },
+      { topic: "Hàm nâng cao", type: "choice", code: "def tong(a, b):\n    print(a + b)\n\nx = tong(1, 2)\nprint(x)", question: "Đoạn code trên in ra gì?", options: ["3 rồi None", "3 rồi 3", "None rồi 3", "Báo lỗi"], answer: "3 rồi None", explain: "print trong hàm chỉ in ra 3, hàm KHÔNG có return nên x = None — rồi print(x) in tiếp None." },
+      { topic: "Hàm nâng cao", type: "choice", question: "Docstring của hàm là gì?", options: ["Chuỗi mô tả đặt ngay đầu thân hàm, thường trong \"\"\"…\"\"\"", "Một tên phụ của hàm", "Comment bắt buộc phải có ở mọi dòng", "Từ khóa thay thế cho return"], answer: "Chuỗi mô tả đặt ngay đầu thân hàm, thường trong \"\"\"…\"\"\"", explain: "Docstring ghi lại hàm làm gì, nhận gì, trả gì — giúp người đọc hiểu nhanh." },
+      { topic: "Hàm nâng cao", type: "fill", question: "Điền từ khóa dùng để trả kết quả ra khỏi hàm:", answer: ["return"], explain: "return a + b — gửi giá trị về chỗ gọi hàm và kết thúc hàm ngay tại đó." }
+    ];
+
+    EXERCISES["py-14-ex1"] = {
+      topic: "Hàm cộng hai số",
+      prompt: "Viết hàm cong(a, b) trả về tổng a + b bằng từ khóa return, rồi gọi hàm với hai số bất kỳ và in kết quả bằng print().",
+      checks: [
+        { regex: "\\bdef\\s+cong\\s*\\(", desc: "Định nghĩa hàm bằng def cong(...)", hint: "Bắt đầu bằng: def cong(a, b):" },
+        { regex: "\\breturn\\s+a\\s*\\+\\s*b\\b", desc: "Hàm trả về tổng a + b", hint: "Trong thân hàm viết: return a + b" },
+        { regex: "\\bcong\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\)", desc: "Gọi hàm cong(...) với hai số", hint: "Ví dụ: print(cong(2, 3))" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "Đừng quên in kết quả cuối cùng" }
+      ],
+      sample: "def cong(a, b):\n    return a + b\n\nprint(cong(2, 3))"
+    };
+
+    EXERCISES["py-14-ex2"] = {
+      topic: "Hàm kiểm tra số chẵn",
+      prompt: "Viết hàm kiem_tra_chan(n) trả về True nếu n là số chẵn, False nếu lẻ — dùng biểu thức n % 2 == 0. Rồi in kết quả khi gọi hàm với một số.",
+      checks: [
+        { regex: "\\bdef\\s+kiem_tra_chan\\s*\\(", desc: "Định nghĩa hàm kiem_tra_chan(n)", hint: "def kiem_tra_chan(n):" },
+        { regex: "\\breturn\\s+n\\s*%\\s*2\\s*==\\s*0\\b", desc: "Trả về biểu thức n % 2 == 0", hint: "return n % 2 == 0 — số chẵn chia 2 dư 0" },
+        { regex: "print\\s*\\(", desc: "In kết quả kiểm tra bằng print()", hint: "Ví dụ: print(kiem_tra_chan(4))" }
+      ],
+      sample: "def kiem_tra_chan(n):\n    return n % 2 == 0\n\nprint(kiem_tra_chan(4))"
+    };
+
+    EXERCISES["py-14-ex3"] = {
+      topic: "Hàm tính diện tích",
+      prompt: "Viết hàm dien_tich(dai, rong) trả về diện tích hình chữ nhật (dai * rong), rồi in diện tích của hình có dai = 5, rong = 3.",
+      checks: [
+        { regex: "\\bdef\\s+dien_tich\\s*\\(", desc: "Định nghĩa hàm dien_tich(dai, rong)", hint: "def dien_tich(dai, rong):" },
+        { regex: "\\breturn\\s+dai\\s*\\*\\s*rong\\b", desc: "Trả về tích dai * rong", hint: "return dai * rong" },
+        { regex: "\\bdien_tich\\s*\\(\\s*5\\s*,\\s*3\\s*\\)", desc: "Gọi hàm với dai = 5, rong = 3", hint: "Gọi: dien_tich(5, 3)" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "print(dien_tich(5, 3))" }
+      ],
+      sample: "def dien_tich(dai, rong):\n    return dai * rong\n\nprint(dien_tich(5, 3))"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

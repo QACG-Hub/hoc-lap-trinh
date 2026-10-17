@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 11 C++: cấp phát động với new &amp; delete — new int(5), rò rỉ bộ nhớ, mảng động new int[n] và giải phóng đúng cách bằng delete[].">
+  <title>Bài 11: Cấp phát động: new &amp; delete | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-11">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-11</span></div>
+      <h1 class="lesson-title">Cấp phát động: new &amp; delete</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #11 ]</span>
+        <span class="pill">Chương 4 — Con trỏ &amp; bộ nhớ</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Mảng thường có kích thước "đóng đinh" lúc biên dịch: muốn mảng 100 phần tử thì phải ghi 100 ngay trong code.
+        Nhưng nếu số phần tử chỉ biết <em>sau khi hỏi người dùng</em> thì sao? Câu trả lời là <strong>cấp phát động</strong>
+        với <code>new</code> — tự xin bộ nhớ lúc chạy, và <code>delete</code> để trả lại. Đây là sức mạnh thật sự của con trỏ! ⚡
+      </p>
+
+      <h2>new &amp; delete</h2>
+      <p>
+        <code>new int(5)</code> xin hệ điều hành một ô nhớ vừa đủ chứa một số int, khởi tạo giá trị 5, và trả về
+        <strong>địa chỉ</strong> của ô nhớ đó — nên phải hứng bằng con trỏ. Khi xong việc, gọi <code>delete</code> để trả ô nhớ về:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">new-delete.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int *p = new int(5);   // xin cấp phát 1 biến int, khởi tạo giá trị 5
+    cout &lt;&lt; *p &lt;&lt; endl;    // đọc giá trị qua con trỏ
+    *p = 42;               // ghi đè thoải mái như biến thường
+    cout &lt;&lt; *p &lt;&lt; endl;
+    delete p;              // trả lại bộ nhớ cho hệ thống
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>5
+42</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="op">*</span><span class="vr">p</span> = <span class="fn">new</span> <span class="kw">int</span><span class="op">(</span><span class="st">5</span><span class="op">)</span><span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int *p</code></td><td>con trỏ kiểu int — nơi hứng <strong>địa chỉ</strong> vùng nhớ vừa xin</td><td>✅</td></tr>
+          <tr><td><code>new</code></td><td>toán tử xin cấp phát trên <strong>vùng nhớ động (heap)</strong> lúc chương trình đang chạy</td><td>✅</td></tr>
+          <tr><td><code>int(5)</code></td><td>cấp <strong>MỘT</strong> biến int, khởi tạo bằng 5</td><td>✅ (có thể bỏ, giá trị không xác định)</td></tr>
+          <tr><td><code>int[5]</code></td><td>cấp <strong>MẢNG 5 phần tử</strong> — khác hẳn <code>int(5)</code>, chỉ đổi ngoặc tròn thành ngoặc vuông!</td><td>—</td></tr>
+          <tr><td><code>delete p;</code></td><td>trả vùng nhớ về hệ thống — mỗi <code>new</code> cần một <code>delete</code> tương ứng</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên <code>delete</code> sau khi <code>new</code> gây <strong>rò rỉ bộ nhớ (memory leak)</strong>: vùng nhớ vẫn bị chiếm
+          nhưng bạn đã mất con trỏ để với tới nó. Với chương trình nhỏ thì khó thấy, nhưng vòng lặp <code>new</code> cả triệu lần
+          mà quên <code>delete</code> thì máy sẽ "no bộ nhớ" và chết. Quy tắc: <strong>new ở đâu, delete ở đó</strong>.
+        </p>
+      </div>
+
+      <p>Thử sức với bài tập cấp phát một biến int:</p>
+
+      <div class="exercise-box" data-ex="cpp-11-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-11" data-topic="new &amp; delete" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — NEW &amp; DELETE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Mảng động</h2>
+      <p>
+        Đây là lúc <code>new</code> toả sáng: cấp phát mảng với kích thước <strong>nhập từ bàn phím</strong>. Cú pháp là
+        <code>new int[n]</code> — và mảng động dùng y như mảng thường, qua chỉ số <code>arr[i]</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">mang-dong.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n;
+    cin &gt;&gt; n;                          // nhập số phần tử
+    int *arr = new int[n];             // cấp phát mảng động n phần tử
+
+    for (int i = 0; i &lt; n; i++) cin &gt;&gt; arr[i];
+    for (int i = 0; i &lt; n; i++) cout &lt;&lt; arr[i] &lt;&lt; endl;
+
+    delete[] arr;                      // giải phóng CẢ mảng bằng delete[]
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3
+7 8 9
+7
+8
+9</pre>
+        </div>
+      </div>
+
+      <p>
+        <em>Chú thích nhỏ:</em> dòng <code>3</code> và dòng <code>7 8 9</code> là phần bạn gõ (số phần tử, rồi các phần tử);
+        bốn dòng cuối là chương trình in ra — mỗi phần tử một dòng.
+      </p>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Mảng cấp bằng <code>new int[n]</code> <strong>phải</strong> giải phóng bằng <code>delete[] arr;</code> (có ngoặc vuông),
+          không phải <code>delete arr;</code>. Dùng sai có thể hỏng bộ nhớ hoặc crash — đây là lỗi khó tìm bậc nhất của C++.
+          Quy tắc nhớ: <strong>xoá mảng thì delete[], xoá một biến thì delete</strong>.
+        </p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Điểm "ăn tiền" của mảng động: <code>n</code> có thể nhập lúc chạy — mảng 5 phần tử hay 500 phần tử đều dùng một đoạn code.
+          Mảng thường <code>int arr[100];</code> thì phải ghi cứng kích thước và luôn tốn bấy nhiêu bộ nhớ.
+        </p>
+      </div>
+
+      <p>Hai bài tập về mảng động — nhớ <code>delete[]</code> khi xong nhé:</p>
+
+      <div class="exercise-box" data-ex="cpp-11-ex2"></div>
+
+      <div class="exercise-box" data-ex="cpp-11-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-11" data-topic="Mảng động" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — MẢNG ĐỘNG</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 11</h2>
+      <ul>
+        <li><code>new int(5)</code> cấp phát MỘT biến int trên vùng nhớ động, khởi tạo 5; hứng địa chỉ bằng con trỏ <code>int *p</code>.</li>
+        <li><code>delete p;</code> trả vùng nhớ về hệ thống — quên delete là <strong>rò rỉ bộ nhớ</strong> (new ở đâu, delete ở đó).</li>
+        <li><code>new int[n]</code> cấp phát <strong>mảng động n phần tử</strong>; dùng như mảng thường qua chỉ số <code>arr[i]</code>.</li>
+        <li>Giải phóng mảng phải dùng <code>delete[] arr;</code> — thiếu ngoặc vuông là hành vi không xác định.</li>
+        <li>Phân biệt: <code>new int(5)</code> là một biến = 5, còn <code>new int[5]</code> là mảng 5 phần tử.</li>
+        <li>Khác với mảng thường, kích thước mảng động có thể nhập từ bàn phím ngay lúc chạy chương trình.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-11" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 11</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-11"] = [
+      /* --- new & delete (6) --- */
+      { topic: "new & delete", type: "choice", question: "new int(5) làm gì?", options: ["Cấp phát MỘT biến int trên vùng nhớ động, khởi tạo giá trị 5", "Khai báo biến int thường bằng 5", "Tạo mảng 5 phần tử", "Xoá biến có giá trị 5"], answer: "Cấp phát MỘT biến int trên vùng nhớ động, khởi tạo giá trị 5", explain: "new trả về địa chỉ vùng nhớ; ngoặc TRÒN nghĩa là một biến — ngoặc VUÔNG mới là mảng." },
+      { topic: "new & delete", type: "choice", question: "Quên delete sau khi dùng new sẽ gây ra chuyện gì?", options: ["Rò rỉ bộ nhớ (memory leak) — vùng nhớ không được trả lại", "Chương trình không biên dịch được", "Bộ nhớ tự giảm sau 1 giây", "Lỗi cú pháp ngay dòng new"], answer: "Rò rỉ bộ nhớ (memory leak) — vùng nhớ không được trả lại", explain: "Compiler không báo lỗi, nhưng bộ nhớ bị chiếm mãi — quy tắc: new ở đâu, delete ở đó." },
+      { topic: "new & delete", type: "choice", code: "int *p = new int(7);\ncout << *p;", question: "Đoạn code trên in ra gì?", options: ["7", "Địa chỉ của vùng nhớ mới", "Lỗi cú pháp", "0"], answer: "7", explain: "*p giải tham chiếu, lấy giá trị 7 tại vùng nhớ vừa cấp phát." },
+      { topic: "new & delete", type: "choice", code: "int *p = new int(7);\n*p = *p + 1;\ncout << *p;\ndelete p;", question: "Đoạn code trên in ra gì?", options: ["8", "7", "Lỗi vì đã delete trước khi in", "1"], answer: "8", explain: "*p = *p + 1 tăng giá trị lên 8, in xong mới delete — thứ tự rất quan trọng." },
+      { topic: "new & delete", type: "fill", question: "Giải phóng vùng nhớ của con trỏ p (một biến int cấp bằng new) — gõ cả dấu ; cuối:", answer: ["delete p;", "delete p"], explain: "delete p; — trả lại ô nhớ mà new đã cấp cho p." },
+      { topic: "new & delete", type: "choice", question: "new và delete làm việc với vùng nhớ nào?", options: ["Vùng nhớ động (heap) — do lập trình viên tự quản lý", "Ngăn xếp (stack) — tự động thu hồi", "Ổ cứng của máy", "RAM của một máy khác trong mạng"], answer: "Vùng nhớ động (heap) — do lập trình viên tự quản lý", explain: "Biến thường nằm trên stack và tự biến mất; vùng new nằm trên heap và chỉ mất khi delete." },
+      /* --- Mảng động (6) --- */
+      { topic: "Mảng động", type: "choice", question: "Cách cấp phát mảng động n phần tử int tên arr nào ĐÚNG?", options: ["int *arr = new int[n];", "int arr[n] = new;", "new int arr[n];", "int arr = new int[n];"], answer: "int *arr = new int[n];", explain: "new int[n] trả về địa chỉ mảng, hứng bằng con trỏ int *arr." },
+      { topic: "Mảng động", type: "choice", question: "Giải phóng mảng cấp bằng new int[n] đúng cách là?", options: ["delete[] arr;", "delete arr;", "free(arr);", "arr = 0;"], answer: "delete[] arr;", explain: "Mảng phải dùng delete[] — nhớ cặp ngoặc vuông nếu không muốn hỏng bộ nhớ!" },
+      { topic: "Mảng động", type: "choice", code: "int n = 3;\nint *arr = new int[n]{2, 4, 6};\ncout << arr[1];", question: "Đoạn code trên in ra gì?", options: ["4", "2", "6", "Địa chỉ của arr"], answer: "4", explain: "arr là mảng {2, 4, 6}; arr[1] là phần tử thứ hai = 4." },
+      { topic: "Mảng động", type: "fill", question: "Khai báo mảng động n phần tử kiểu int tên arr (đúng cú pháp, kết thúc bằng dấu ;):", answer: ["int *arr = new int[n];", "int* arr = new int[n];", "int *arr=new int[n];", "int* arr=new int[n];"], explain: "int *arr = new int[n]; — nhập n xong mới cấp phát." },
+      { topic: "Mảng động", type: "choice", question: "Dùng delete arr (thiếu []) cho mảng cấp bằng new int[n] thì sao?", options: ["Hành vi không xác định — có thể hỏng bộ nhớ hoặc crash", "Vẫn đúng, delete và delete[] như nhau", "Compiler báo lỗi cú pháp", "Mảng tự thu nhỏ còn 1 phần tử"], answer: "Hành vi không xác định — có thể hỏng bộ nhớ hoặc crash", explain: "delete[] là bắt buộc với mảng: dùng delete thường có thể 'chạy được' trên máy này nhưng hỏng bộ nhớ trên máy khác." },
+      { topic: "Mảng động", type: "choice", code: "int n;\ncin >> n;\nint *arr = new int[n];\narr[0] = 1;", question: "Nếu nhập n = 3, mảng arr có các phần tử hợp lệ nào?", options: ["arr[0], arr[1], arr[2]", "arr[1], arr[2], arr[3]", "arr[0], arr[1], arr[2], arr[3]", "Chỉ có duy nhất arr[0]"], answer: "arr[0], arr[1], arr[2]", explain: "Mảng n phần tử có chỉ số từ 0 đến n-1 — với n = 3 là 0, 1, 2." }
+    ];
+    EXERCISES["cpp-11-ex1"] = {
+      topic: "new int & delete",
+      prompt: "Dùng new int(5) cấp phát một biến int (hứng bằng con trỏ p), in giá trị đó ra bằng cout, rồi giải phóng bộ nhớ bằng delete.",
+      checks: [
+        { regex: "new\\s+int", desc: "Cấp phát bằng new int", hint: "int *p = new int(5);" },
+        { regex: "cout\\s*<<", desc: "In giá trị ra màn hình bằng cout", hint: "cout << *p << endl;" },
+        { regex: "delete\\s+\\w+\\s*;", desc: "Giải phóng bộ nhớ bằng delete", hint: "delete p;" }
+      ],
+      sample: "int *p = new int(5);\ncout << *p << endl;\ndelete p;"
+    };
+    EXERCISES["cpp-11-ex2"] = {
+      topic: "Mảng động new int[5]",
+      prompt: "Cấp phát mảng động 5 phần tử int bằng new int[5], gán giá trị cho từng phần tử (ví dụ 1..5) rồi in cả mảng ra màn hình. Đừng quên delete[] khi xong!",
+      checks: [
+        { regex: "new\\s+int\\s*\\[\\s*5\\s*\\]", desc: "Cấp phát mảng 5 phần tử bằng new int[5]", hint: "int *arr = new int[5];" },
+        { regex: "arr\\s*\\[\\s*i\\s*\\]\\s*=", desc: "Gán giá trị cho các phần tử qua chỉ số arr[i]", hint: "for (int i = 0; i < 5; i++) arr[i] = i + 1;" },
+        { regex: "cout\\s*<<", desc: "In các phần tử ra màn hình bằng cout", hint: "cout << arr[i] << \" \";" },
+        { regex: "delete\\s*\\[\\s*\\]", desc: "Giải phóng mảng đúng cách bằng delete[]", hint: "delete[] arr;" }
+      ],
+      sample: "int *arr = new int[5];\nfor (int i = 0; i < 5; i++) arr[i] = i + 1;\nfor (int i = 0; i < 5; i++) cout << arr[i] << \" \";\ndelete[] arr;"
+    };
+    EXERCISES["cpp-11-ex3"] = {
+      topic: "new + delete[] tổng hợp",
+      prompt: "Nhập n từ bàn phím, cấp phát mảng động n phần tử, nhập các phần tử, tính tổng rồi in tổng ra — cuối cùng giải phóng mảng bằng delete[].",
+      checks: [
+        { regex: "new\\s+int\\s*\\[\\s*n\\s*\\]", desc: "Cấp phát mảng n phần tử bằng new int[n]", hint: "int *arr = new int[n];" },
+        { regex: "cin\\s*>>\\s*arr\\s*\\[", desc: "Nhập từng phần tử bằng cin >> arr[i]", hint: "for (int i = 0; i < n; i++) cin >> arr[i];" },
+        { regex: "\\+\\s*=", desc: "Cộng dồn các phần tử để tính tổng", hint: "tong += arr[i];" },
+        { regex: "delete\\s*\\[\\s*\\]", desc: "Giải phóng mảng đúng cách bằng delete[]", hint: "delete[] arr;" }
+      ],
+      sample: "int n;\ncin >> n;\nint *arr = new int[n];\nfor (int i = 0; i < n; i++) cin >> arr[i];\nint tong = 0;\nfor (int i = 0; i < n; i++) tong += arr[i];\ncout << \"Tong: \" << tong << endl;\ndelete[] arr;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

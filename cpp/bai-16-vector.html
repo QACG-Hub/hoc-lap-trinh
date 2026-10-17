@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 16 C++: vector — mảng động trong STL: khai báo vector&lt;int&gt;, push_back, size(), duyệt bằng for và range-based for, sắp xếp với sort().">
+  <title>Bài 16: Vector | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-16">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-16</span></div>
+      <h1 class="lesson-title">Vector</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #16 ]</span>
+        <span class="pill">Chương 6 — STL &amp; nâng cao</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Chào mừng đến với <strong>Chương 6 — STL</strong>! Mảng thường <code>int a[10];</code> giống chiếc tủ có đúng 10 ngăn
+        cố định: hết ngăn là hết chỗ. Còn <strong>vector</strong> giống một <em>đoàn tàu</em> — bạn cứ nối thêm toa mới vào cuối,
+        không cần biết trước sẽ có bao nhiêu toa. Đây là cấu trúc dữ liệu được dùng nhiều nhất trong C++ hiện đại,
+        và cũng là "tấm vé" bước vào thư viện chuẩn STL. ⚡
+      </p>
+
+      <h2>Vector cơ bản</h2>
+      <p>
+        <code>vector</code> là <strong>mảng động</strong>: tự co giãn khi bạn thêm hay bớt phần tử. Muốn dùng, chỉ cần nạp
+        thêm thư viện <code>&lt;vector&gt;</code>:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">vector.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; v;              // vector rỗng — chưa có phần tử nào
+    v.push_back(3);             // thêm 3 vào cuối
+    v.push_back(7);             // thêm 7 vào cuối
+    v.push_back(5);             // thêm 5 vào cuối
+    cout &lt;&lt; v.size() &lt;&lt; endl;   // đếm số phần tử
+    cout &lt;&lt; v[0] &lt;&lt; endl;       // phần tử đầu tiên
+    cout &lt;&lt; v[2] &lt;&lt; endl;       // phần tử cuối (chỉ số 2)
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3
+3
+5</pre>
+        </div>
+      </div>
+
+      <p>Bốn khái niệm cốt lõi nằm gọn trong đoạn code trên: khai báo, thêm, đếm và truy cập. Giải phẫu lệnh "thêm toa tàu":</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">v</span><span class="op">.</span><span class="fn">push_back</span><span class="op">(</span><span class="st">3</span><span class="op">);</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>v</code></td><td>tên vector — khai báo trước bằng <code>vector&lt;int&gt; v;</code></td><td>✅</td></tr>
+          <tr><td><code>.</code></td><td>toán tử truy cập "thành viên" — như mở đúng ngăn kéo của chiếc tủ tên <code>v</code></td><td>✅</td></tr>
+          <tr><td><code>push_back</code></td><td>hàm thêm phần tử vào <strong>cuối</strong> vector</td><td>✅</td></tr>
+          <tr><td><code>(3)</code></td><td>giá trị cần thêm — ở đây là số 3</td><td>✅</td></tr>
+          <tr><td><code>;</code></td><td>kết thúc câu lệnh</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <code>v[i]</code> <strong>không kiểm tra</strong> chỉ số hợp lệ! Chỉ số chạy từ <code>0</code> đến <code>v.size() - 1</code>.
+          Truy cập <code>v[5]</code> khi vector mới có 3 phần tử có thể làm chương trình chạy sai hoặc crash ngay lập tức —
+          compiler không hề báo lỗi. Khi cần an toàn, dùng <code>v.at(i)</code> (ném lỗi rõ ràng nếu sai chỉ số).
+        </p>
+      </div>
+
+      <p>Kiểm tra nhanh phần khai báo và thêm phần tử:</p>
+
+      <div class="quiz-console" data-lesson="cpp-16" data-topic="Vector cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — VECTOR CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-16-ex1"></div>
+
+      <h2>Duyệt vector</h2>
+      <p>
+        Vector có <code>size()</code> nên duyệt bằng vòng <code>for</code> theo chỉ số y hệt mảng. Nhưng STL còn tặng ta một
+        món quà dễ thương hơn: <strong>range-based for</strong> — đọc là "với từng x trong v":
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">duyet-vector.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; v = {3, 7, 5};
+
+    for (int i = 0; i &lt; (int)v.size(); i++) {
+        if (i &gt; 0) cout &lt;&lt; " ";
+        cout &lt;&lt; v[i];
+    }
+    cout &lt;&lt; endl;
+
+    for (int x : v) cout &lt;&lt; x &lt;&lt; endl;
+
+    cout &lt;&lt; "Dau: " &lt;&lt; v.front() &lt;&lt; ", Cuoi: " &lt;&lt; v.back() &lt;&lt; endl;
+    v.pop_back();                // bỏ phần tử cuối
+    cout &lt;&lt; "Size sau pop_back: " &lt;&lt; v.size() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3 7 5
+3
+7
+5
+Dau: 3, Cuoi: 5
+Size sau pop_back: 2</pre>
+        </div>
+      </div>
+
+      <p>Mổ xẻ vòng lặp range-based — dấu hai chấm <code>:</code> đọc là "lần lượt trong":</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">for</span> <span class="op">(</span><span class="kw">int</span> <span class="vr">x</span> <span class="op">:</span> <span class="vr">v</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int x</code></td><td>biến nhận giá trị của <strong>từng phần tử</strong> — kiểu phải khớp với kiểu trong <code>vector&lt;int&gt;</code></td><td>✅</td></tr>
+          <tr><td><code>:</code></td><td>dấu hai chấm — "lần lượt trong"</td><td>✅</td></tr>
+          <tr><td><code>v</code></td><td>vector cần duyệt</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>for (int x : v)</code> tạo ra <strong>bản sao</strong> của từng phần tử — sửa <code>x</code> không ảnh hưởng vector.
+          Muốn sửa thật, viết <code>for (int &amp;x : v)</code> (thêm dấu <code>&amp;</code> — mượn trực tiếp, không sao chép).
+          Ngoài ra: <code>size()</code> đếm phần tử, <code>front()</code> lấy phần tử đầu, <code>back()</code> lấy phần tử cuối,
+          <code>pop_back()</code> xoá phần tử cuối.
+        </p>
+      </div>
+
+      <div class="quiz-console" data-lesson="cpp-16" data-topic="Duyệt vector" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DUYỆT VECTOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-16-ex2"></div>
+
+      <h2>Sắp xếp với sort</h2>
+      <p>
+        Vector lộn xộn <code>{7, 3, 5}</code>? STL có sẵn "cây gậy thần" <code>sort</code> trong thư viện <code>&lt;algorithm&gt;</code>.
+        Chỉ một dòng lệnh là cả dãy xếp hàng ngay ngắn theo thứ tự tăng dần:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">sort-vector.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; v = {7, 3, 5};
+    cout &lt;&lt; "Truoc:";
+    for (int x : v) cout &lt;&lt; " " &lt;&lt; x;
+    cout &lt;&lt; endl;
+
+    sort(v.begin(), v.end());    // sắp xếp tăng dần
+
+    cout &lt;&lt; "Sau:";
+    for (int x : v) cout &lt;&lt; " " &lt;&lt; x;
+    cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Truoc: 7 3 5
+Sau: 3 5 7</pre>
+        </div>
+      </div>
+
+      <p>
+        <code>v.begin()</code> là "cổng vào" và <code>v.end()</code> là "cổng ra" của vector — hai <em>iterator</em> này nói cho
+        <code>sort</code> biết cần sắp xếp <strong>toàn bộ</strong> vector. Bạn sẽ gặp lại cặp <code>begin()/end()</code> này
+        rất nhiều lần khi làm việc với STL.
+      </p>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>sort</code> mặc định sắp <strong>tăng dần</strong>. Muốn giảm dần, cách nhẹ nhàng nhất là sắp tăng rồi
+          <code>reverse(v.begin(), v.end());</code> (cũng nằm trong <code>&lt;algorithm&gt;</code>). Và nhớ: thiếu
+          <code>#include &lt;algorithm&gt;</code> là compiler đỏ lè ngay!
+        </p>
+      </div>
+
+      <p>Thử thách cuối bài — đúng vũ khí, đúng thao tác:</p>
+
+      <div class="quiz-console" data-lesson="cpp-16" data-topic="Sort vector" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SORT VECTOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="exercise-box" data-ex="cpp-16-ex3"></div>
+
+      <h2>TỔNG KẾT BÀI 16</h2>
+      <ul>
+        <li><code>vector&lt;int&gt; v;</code> là <strong>mảng động</strong> — thêm bao nhiêu phần tử cũng được; cần <code>#include &lt;vector&gt;</code>.</li>
+        <li><code>v.push_back(x)</code> thêm phần tử vào cuối; <code>v.size()</code> đếm số phần tử; <code>v[i]</code> truy cập theo chỉ số (bắt đầu từ 0).</li>
+        <li><code>v.front()</code> / <code>v.back()</code> lấy phần tử đầu / cuối; <code>v.pop_back()</code> bỏ phần tử cuối.</li>
+        <li>Duyệt vector: vòng <code>for</code> theo chỉ số (<code>i &lt; (int)v.size()</code>) hoặc range-based <code>for (int x : v)</code>; dùng <code>int &amp;x</code> nếu muốn sửa phần tử.</li>
+        <li><code>sort(v.begin(), v.end())</code> sắp xếp tăng dần — cần <code>#include &lt;algorithm&gt;</code>.</li>
+        <li>Vector là "viên gạch đầu tiên" của STL — các bài sau: <code>string</code>, <code>pair</code>, <code>map</code>, <code>set</code>. 🚀</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-16" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 16</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-16"] = [
+      /* --- Vector cơ bản (6) --- */
+      { topic: "Vector cơ bản", type: "choice", question: "Cần nạp thư viện nào để dùng vector?", options: ["<vector>", "<array>", "<iostream>", "<list>"], answer: "<vector>", explain: "Thêm #include <vector> ở đầu chương trình là dùng được ngay." },
+      { topic: "Vector cơ bản", type: "choice", code: "vector<int> v;\nv.push_back(4);\nv.push_back(9);\nv.push_back(1);\ncout << v.size();", question: "Đoạn code trên in ra gì?", options: ["3", "2", "4", "1"], answer: "3", explain: "Ba lệnh push_back thêm 3 phần tử nên v.size() = 3." },
+      { topic: "Vector cơ bản", type: "fill", question: "Điền lệnh thêm giá trị 8 vào cuối vector v:", answer: ["v.push_back(8);", "v.push_back(8)"], explain: "push_back thêm phần tử vào CUỐI vector: v.push_back(8);" },
+      { topic: "Vector cơ bản", type: "choice", question: "Lệnh v.push_back(5); làm gì?", options: ["Thêm 5 vào cuối vector", "Chèn 5 vào đầu vector", "Xoá phần tử bằng 5", "Đếm số phần tử bằng 5"], answer: "Thêm 5 vào cuối vector", explain: "push_back luôn thêm vào CUỐI — như nối thêm một toa tàu." },
+      { topic: "Vector cơ bản", type: "choice", code: "vector<int> v = {10, 20, 30};\ncout << v[1];", question: "Đoạn code trên in ra gì?", options: ["20", "10", "30", "1"], answer: "20", explain: "Chỉ số đếm từ 0: v[0] = 10, v[1] = 20, v[2] = 30." },
+      { topic: "Vector cơ bản", type: "fill", question: "Điền tên hàm trả về SỐ PHẦN TỬ của vector: cout << v.______();", answer: ["size", "size()"], explain: "v.size() trả về số phần tử hiện có trong vector." },
+      { topic: "Vector cơ bản", type: "choice", question: "Chỉ số của phần tử ĐẦU TIÊN trong vector là bao nhiêu?", options: ["0", "1", "-1", "v.size()"], answer: "0", explain: "Giống mảng, vector cũng đánh chỉ số từ 0." },
+      /* --- Duyệt vector (6) --- */
+      { topic: "Duyệt vector", type: "choice", question: "Cú pháp range-based for nào ĐÚNG để duyệt vector v?", options: ["for (int x : v)", "for (int x in v)", "for (x : int v)", "for each (int x in v)"], answer: "for (int x : v)", explain: "C++ dùng dấu hai chấm: for (int x : v) — đọc là 'lần lượt x trong v'." },
+      { topic: "Duyệt vector", type: "choice", code: "vector<int> v = {2, 4, 6};\nfor (int x : v) cout << x;", question: "Đoạn code trên in ra gì?", options: ["246", "2 4 6", "6", "24"], answer: "246", explain: "Mỗi vòng x lần lượt bằng 2, 4, 6 và được in LIỀN nhau (không có dấu cách)." },
+      { topic: "Duyệt vector", type: "fill", question: "Điền điều kiện còn thiếu để duyệt hết vector bằng vòng for theo chỉ số: for (int i = 0; ______ ; i++)", answer: ["i < v.size()", "i < (int)v.size()", "i<v.size()"], explain: "Chỉ số hợp lệ là 0..size()-1 nên điều kiện là i < v.size()." },
+      { topic: "Duyệt vector", type: "choice", question: "Lệnh v.pop_back(); làm gì?", options: ["Xoá phần tử CUỐI của vector", "Xoá toàn bộ vector", "Lấy phần tử đầu tiên", "Thêm một phần tử vào cuối"], answer: "Xoá phần tử CUỐI của vector", explain: "pop_back xoá phần tử cuối — ngược lại với push_back." },
+      { topic: "Duyệt vector", type: "choice", code: "vector<int> v = {3, 7, 5};\ncout << v.front() << \" va \" << v.back();", question: "Đoạn code trên in ra gì?", options: ["3 va 5", "5 va 3", "3 va 7", "7 va 5"], answer: "3 va 5", explain: "front() là phần tử đầu (3), back() là phần tử cuối (5)." },
+      { topic: "Duyệt vector", type: "choice", question: "Muốn duyệt vector bằng range-based for VÀ sửa được giá trị từng phần tử, viết thế nào?", options: ["for (int &x : v)", "for (int x : v)", "for (const int x : v)", "for (x = 0; x < v.size(); x++)"], answer: "for (int &x : v)", explain: "Thêm & để mượn trực tiếp phần tử thay vì tạo bản sao — sửa x là sửa luôn vector." },
+      /* --- Sort vector (6) --- */
+      { topic: "Sort vector", type: "choice", question: "sort nằm trong thư viện nào?", options: ["<algorithm>", "<vector>", "<sort>", "<map>"], answer: "<algorithm>", explain: "sort là hàm của thư viện <algorithm> — nhớ nạp nó trước khi dùng." },
+      { topic: "Sort vector", type: "choice", question: "Cú pháp nào sắp xếp TĂNG DẦN cho vector v?", options: ["sort(v.begin(), v.end());", "sort(v);", "v.sort();", "sort(v[0], v[v.size()]);"], answer: "sort(v.begin(), v.end());", explain: "sort cần cặp iterator đầu–cuối: sort(v.begin(), v.end());" },
+      { topic: "Sort vector", type: "choice", code: "vector<int> v = {5, 1, 4};\nsort(v.begin(), v.end());\ncout << v[0];", question: "Đoạn code trên in ra gì?", options: ["1", "5", "4", "0"], answer: "1", explain: "Sau khi sắp tăng dần, vector thành {1, 4, 5} nên v[0] = 1." },
+      { topic: "Sort vector", type: "fill", question: "Điền từ còn thiếu để sắp xếp toàn bộ vector v: sort(v.______(), v.end());", answer: ["begin"], explain: "v.begin() là iterator trỏ tới phần tử đầu tiên; đi cùng v.end() tạo thành phạm vi cần sắp." },
+      { topic: "Sort vector", type: "choice", question: "sort(v.begin(), v.end()); sắp xếp theo thứ tự nào?", options: ["Tăng dần", "Giảm dần", "Ngẫu nhiên", "Giữ nguyên thứ tự nhập"], answer: "Tăng dần", explain: "Mặc định sort sắp tăng dần; muốn giảm dần thì sort xong rồi reverse." },
+      { topic: "Sort vector", type: "choice", question: "Cách nào sắp xếp vector GIẢM DẦN (dùng kiến thức bài này)?", options: ["sort(v.begin(), v.end()); rồi reverse(v.begin(), v.end());", "sort(v.end(), v.begin());", "v.sort(giam);", "sort(v, DESC);"], answer: "sort(v.begin(), v.end()); rồi reverse(v.begin(), v.end());", explain: "Sắp tăng rồi đảo ngược cả dãy bằng reverse — cũng trong <algorithm>." }
+    ];
+    EXERCISES["cpp-16-ex1"] = {
+      topic: "Khai báo & thêm phần tử vector",
+      prompt: "Khai báo vector<int> v (rỗng), thêm 3 phần tử tuỳ ý bằng push_back, rồi in ra số phần tử (v.size()) và phần tử đầu tiên (v[0]) bằng cout.",
+      checks: [
+        { regex: "vector\\s*<\\s*int\\s*>\\s*v", desc: "Khai báo vector<int> tên v", hint: "Viết: vector<int> v;" },
+        { regex: "v\\s*\\.\\s*push_back\\s*\\(", minCount: 3, desc: "Thêm ít nhất 3 phần tử bằng v.push_back(...)", hint: "v.push_back(3); — gọi 3 lần với 3 giá trị khác nhau" },
+        { regex: "v\\s*\\.\\s*size\\s*\\(\\s*\\)", desc: "In số phần tử bằng v.size()", hint: "cout << v.size() << endl;" },
+        { regex: "v\\s*\\[\\s*0\\s*\\]", desc: "Truy cập phần tử đầu tiên bằng v[0]", hint: "cout << v[0] << endl;" }
+      ],
+      sample: "vector<int> v;\nv.push_back(3);\nv.push_back(7);\nv.push_back(5);\ncout << v.size() << endl;\ncout << v[0] << endl;"
+    };
+    EXERCISES["cpp-16-ex2"] = {
+      topic: "Duyệt vector bằng range-based for",
+      prompt: "Dùng range-based for để in toàn bộ phần tử của vector<int> v ra màn hình, mỗi phần tử trên một dòng.",
+      checks: [
+        { regex: "for\\s*\\(\\s*int\\s+\\w+\\s*:\\s*v\\s*\\)", desc: "Dùng range-based for duyệt v (dạng for (int x : v))", hint: "Viết: for (int x : v) { ... }" },
+        { regex: "cout\\s*<<", desc: "In phần tử bằng cout", hint: "cout << x << endl;" },
+        { regex: "endl", desc: "Xuống dòng sau mỗi phần tử", hint: "Thêm << endl vào cuối lệnh in" }
+      ],
+      sample: "for (int x : v) {\n    cout << x << endl;\n}"
+    };
+    EXERCISES["cpp-16-ex3"] = {
+      topic: "Sắp xếp vector",
+      prompt: "Sắp xếp vector v tăng dần bằng sort(v.begin(), v.end()), rồi in các phần tử ra màn hình bằng vòng for.",
+      checks: [
+        { regex: "sort\\s*\\(\\s*v\\s*\\.\\s*begin\\s*\\(\\s*\\)\\s*,\\s*v\\s*\\.\\s*end\\s*\\(\\s*\\)\\s*\\)", desc: "Gọi sort(v.begin(), v.end())", hint: "Viết đúng: sort(v.begin(), v.end());" },
+        { regex: "for\\s*\\(", desc: "Dùng vòng for để in lại vector", hint: "for (int x : v) { ... }" },
+        { regex: "cout\\s*<<", desc: "In các phần tử bằng cout", hint: "cout << x << \" \";" }
+      ],
+      sample: "sort(v.begin(), v.end());\nfor (int x : v) {\n    cout << x << \" \";\n}"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

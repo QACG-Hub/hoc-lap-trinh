@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 20 Python: OOP nâng cao — kế thừa, super(), ghi đè phương thức và đa hình. Ví dụ Animal &amp; Dog, bài tập chấm điểm và quiz random.">
+  <title>Bài 20: OOP nâng cao: Kế thừa &amp; đa hình | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-20">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-20</span></div>
+      <h1 class="lesson-title">OOP nâng cao: Kế thừa &amp; đa hình</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #20 ]</span>
+        <span class="pill">Chương 5 — Nâng cao</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Ở bài 19 bạn đã đúc được những object đầu tiên. Nhưng nếu <code>Dog</code>, <code>Cat</code>, <code>Bird</code> đều
+        ăn, ngủ, kêu giống nhau thì chẳng lẽ phải <em>copy-paste</em> code ba lần? Không đời nào!
+        Nhiệm vụ #20 dạy bạn phép thuật của OOP: <strong>kế thừa</strong> — viết một lần, tái sử dụng cho cả họ hàng,
+        và <strong>đa hình</strong> — một lời gọi, muôn vàn cách phản ứng. ⚡
+      </p>
+
+      <h2>Kế thừa</h2>
+      <p>
+        <strong>Kế thừa</strong> (inheritance) cho phép một class <em>thừa hưởng trọn vẹn</em> thuộc tính và phương thức
+        của class khác. Class được thừa hưởng gọi là <strong>lớp cha</strong> (lớp cơ sở); class đi thừa hưởng gọi là
+        <strong>lớp con</strong>. Cú pháp chỉ thêm tên lớp cha vào trong ngoặc: <code>class Dog(Animal):</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">animal-dog.py</span>
+        </div>
+        <pre><code class="language-python">class Animal:
+    def __init__(self, ten, tuoi):
+        self.ten = ten
+        self.tuoi = tuoi
+
+    def gioi_thieu(self):
+        print("Tôi là", self.ten, "và", self.tuoi, "tuổi")
+
+class Dog(Animal):
+    def sua(self):
+        print(self.ten, "nói: Gâu gâu!")
+
+d = Dog("Milu", 2)
+d.gioi_thieu()
+d.sua()</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tôi là Milu và 2 tuổi
+Milu nói: Gâu gâu!</pre>
+        </div>
+      </div>
+
+      <p>
+        Để ý: class <code>Dog</code> <strong>không hề viết</strong> <code>__init__</code> hay <code>gioi_thieu()</code>,
+        nhưng <code>Dog("Milu", 2)</code> vẫn chạy trơn tru — nó dùng lại nguyên bản của cha. Giải phẫu dòng kế thừa:
+      </p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">class</span> <span class="vr">Dog</span><span class="op">(</span><span class="vr">Animal</span><span class="op">)</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>class</code></td><td>từ khóa mở đầu định nghĩa lớp</td><td>✅</td></tr>
+          <tr><td><code>Dog</code></td><td>tên <strong>lớp con</strong> đang được định nghĩa</td><td>✅</td></tr>
+          <tr><td><code>(Animal)</code></td><td>tên <strong>lớp cha</strong> trong ngoặc — "Dog kế thừa Animal"</td><td>✅ (khi muốn kế thừa)</td></tr>
+          <tr><td><code>:</code> + thụt lề</td><td>mở thân lớp con — chỉ cần viết phần <em>riêng</em> của nó</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Quan hệ kế thừa đọc là "<strong>là một</strong>": <em>Dog là một Animal</em>.
+          Lớp con hưởng <strong>tất cả</strong> thuộc tính lẫn phương thức của cha (kể cả <code>__init__</code>),
+          rồi có thể thêm phương thức riêng như <code>sua()</code>.
+        </p>
+      </div>
+
+      <p>Đúc một gia đình động vật có kế thừa đầu tiên:</p>
+
+      <div class="exercise-box" data-ex="py-20-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-20" data-topic="Kế thừa" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — KẾ THỪA</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>super() &amp; ghi đè</h2>
+      <p>
+        Lớp con có thể <strong>ghi đè</strong> (override): định nghĩa lại một phương thức <em>cùng tên</em> với lớp cha
+        để thay hành vi cũ. Nhưng thường lớp con vẫn muốn cha lo phần dữ liệu chung — lúc đó gọi
+        <code>super().__init__(...)</code> để chạy <code>__init__</code> của cha trước, rồi mới thêm phần riêng.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">goi-cha.py</span>
+        </div>
+        <pre><code class="language-python">class Animal:
+    def __init__(self, ten):
+        self.ten = ten
+
+class Dog(Animal):
+    def __init__(self, ten):
+        super().__init__(ten)      # cha lo phần self.ten
+        self.loai = "Chó"          # con thêm phần riêng
+
+d = Dog("Milu")
+print(d.ten, "-", d.loai)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Milu - Chó</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">super</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="fn">__init__</span><span class="op">(</span><span class="vr">ten</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>super()</code></td><td>"lớp cha ngay trên tôi" — đại diện cho lớp cha</td><td>✅</td></tr>
+          <tr><td><code>.__init__</code></td><td>gọi phương thức khởi tạo của lớp cha</td><td>✅</td></tr>
+          <tr><td><code>(ten)</code></td><td>tham số truyền lên cha — cha gán <code>self.ten</code> như thường</td><td>tuỳ cha cần gì</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Ghi đè phương thức cũng tương tự: lớp con viết lại <code>speak()</code>. Nếu muốn chạy <em>cả</em> phiên bản của cha
+        rồi mới thêm phần mới, gọi <code>super().speak()</code> ngay trong phương thức ghi đè:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ghi-de.py</span>
+        </div>
+        <pre><code class="language-python">class Animal:
+    def speak(self):
+        print("... một âm thanh chung chung")
+
+class Dog(Animal):
+    def speak(self):
+        super().speak()            # chạy bản gốc của cha
+        print("Gâu gâu!")          # rồi thêm phần của con
+
+d = Dog()
+d.speak()</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>... một âm thanh chung chung
+Gâu gâu!</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Nếu lớp con tự viết <code>__init__</code> mà <strong>quên</strong> <code>super().__init__(...)</code>,
+          thuộc tính của cha sẽ <em>không bao giờ</em> được tạo. Truy cập <code>d.ten</code> lúc đó sẽ báo
+          <code>AttributeError: 'Dog' object has no attribute 'ten'</code>. Viết <code>__init__</code> ở con thì nhớ gọi cha!
+        </p>
+      </div>
+
+      <p>Luyện chiêu gọi cha bằng <code>super()</code> và ghi đè phương thức:</p>
+
+      <div class="exercise-box" data-ex="py-20-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-20" data-topic="super &amp; override" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — SUPER &amp; GHI ĐÈ</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Đa hình</h2>
+      <p>
+        <strong>Đa hình</strong> (polymorphism — "nhiều hình dạng") là hệ quả đẹp nhất của kế thừa:
+        cho các object thuộc nhiều lớp khác nhau vào <em>cùng một list</em>, rồi dùng một vòng <code>for</code>
+        gọi <em>cùng một phương thức</em> <code>con.speak()</code>. Mỗi object tự chạy theo cách của lớp nó!
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">da-hinh.py</span>
+        </div>
+        <pre><code class="language-python">class Animal:
+    def speak(self):
+        print("...")
+
+class Dog(Animal):
+    def speak(self):
+        print("Gâu gâu!")
+
+class Cat(Animal):
+    def speak(self):
+        print("Meo meo!")
+
+for con in [Dog(), Cat()]:
+    con.speak()</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Gâu gâu!
+Meo meo!</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">con</span><span class="op">.</span><span class="fn">speak</span><span class="op">(</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>con</code></td><td>biến vòng lặp — lần lượt trỏ vào từng object trong list</td><td>✅</td></tr>
+          <tr><td><code>.speak()</code></td><td>gọi phương thức — <strong>viết y hệt nhau</strong> cho mọi object</td><td>✅</td></tr>
+          <tr><td>kết quả</td><td>Python tự chọn phiên bản theo <strong>lớp thật</strong> của object: Dog → "Gâu gâu!", Cat → "Meo meo!"</td><td>—</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Đa hình chỉ cần một điều kiện: các lớp con <strong>ghi đè cùng tên phương thức</strong>.
+          Nhờ vậy code gọi không cần biết object thuộc lớp nào — bạn thêm lớp mới cả chục năm sau, vòng <code>for</code> cũ vẫn chạy đúng.
+        </p>
+      </div>
+
+      <p>Thử thách cuối bài: cho dàn nhạc "kêu" từng con một:</p>
+
+      <div class="exercise-box" data-ex="py-20-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-20" data-topic="Đa hình" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ĐA HÌNH</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 20</h2>
+      <ul>
+        <li><code>class Dog(Animal):</code> — lớp con hưởng trọn thuộc tính và phương thức của lớp cha.</li>
+        <li>Quan hệ kế thừa đọc là "<strong>là một</strong>": Dog là một Animal.</li>
+        <li><code>super().__init__(...)</code> gọi <code>__init__</code> của cha khi lớp con tự định nghĩa khởi tạo.</li>
+        <li><strong>Ghi đè</strong> (override): lớp con viết lại phương thức cùng tên; <code>super().speak()</code> để chạy thêm bản của cha.</li>
+        <li><strong>Đa hình</strong>: list các object khác lớp + vòng <code>for</code> gọi cùng phương thức — mỗi lớp chạy theo cách riêng.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-20" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 20</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-20"] = [
+      /* --- Kế thừa (7) --- */
+      { topic: "Kế thừa", type: "choice", question: "Cú pháp nào cho biết lớp Dog kế thừa lớp Animal?", options: ["class Dog(Animal):", "class Dog extends Animal:", "class Dog <- Animal:", "class Dog: Animal"], answer: "class Dog(Animal):", explain: "Python đặt tên lớp cha trong cặp ngoặc đơn ngay sau tên lớp con." },
+      { topic: "Kế thừa", type: "choice", question: "Trong class Dog(Animal), lớp Animal được gọi là gì?", options: ["Lớp cha (lớp cơ sở)", "Lớp con", "Object", "Phương thức"], answer: "Lớp cha (lớp cơ sở)", explain: "Animal là lớp cha; Dog là lớp con — con thừa hưởng từ cha." },
+      { topic: "Kế thừa", type: "choice", code: "class Animal:\n    def speak(self):\n        print(\"Con vật kêu\")\n\nclass Cat(Animal):\n    pass\n\nc = Cat()\nc.speak()", question: "Đoạn code trên in ra gì?", options: ["Con vật kêu", "Lỗi vì Cat không có speak", "Meo meo", "Không in gì"], answer: "Con vật kêu", explain: "Cat thừa hưởng speak() từ Animal nên gọi được ngay, dù thân class Cat chỉ có pass." },
+      { topic: "Kế thừa", type: "fill", question: "Điền tên lớp cha còn thiếu: class Dog(___)", answer: ["Animal", "animal"], explain: "class Dog(Animal): — lớp cha Animal đặt trong ngoặc đơn." },
+      { topic: "Kế thừa", type: "choice", question: "Lớp con Dog(Animal) được hưởng những gì từ Animal?", options: ["Cả thuộc tính lẫn phương thức (kể cả __init__)", "Chỉ thuộc tính, không có phương thức", "Chỉ phương thức, không có thuộc tính", "Không được gì, phải viết lại hết"], answer: "Cả thuộc tính lẫn phương thức (kể cả __init__)", explain: "Vì thế Dog(\"Milu\", 2) chạy được dù Dog không hề viết __init__." },
+      { topic: "Kế thừa", type: "choice", code: "class Animal:\n    def __init__(self, ten):\n        self.ten = ten\n\nclass Dog(Animal):\n    pass\n\nd = Dog(\"Milu\")\nprint(d.ten)", question: "Đoạn code trên in ra gì?", options: ["Milu", "Lỗi vì Dog không có __init__", "None", "Dog"], answer: "Milu", explain: "Dog thừa hưởng __init__ của Animal, nên self.ten vẫn được gán bình thường." },
+      { topic: "Kế thừa", type: "choice", question: "Vì sao nên dùng kế thừa?", options: ["Tái sử dụng code chung, lớp con chỉ viết phần khác biệt", "Để chương trình chạy nhanh gấp đôi", "Vì Python bắt buộc mọi class phải có lớp cha", "Để giảm số dòng import"], answer: "Tái sử dụng code chung, lớp con chỉ viết phần khác biệt", explain: "Thay vì copy-paste __init__ cho từng loài vật, viết một lần ở Animal là đủ." },
+
+      /* --- super & override (7) --- */
+      { topic: "super & override", type: "fill", question: "Điền tên hàm gọi phương thức khởi tạo của lớp cha: ___.__init__(ten)", answer: ["super()", "super"], explain: "super().__init__(ten) chạy __init__ của lớp cha — cha lo phần dữ liệu chung." },
+      { topic: "super & override", type: "choice", code: "class Animal:\n    def speak(self):\n        print(\"Âm thanh chung\")\n\nclass Dog(Animal):\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nd = Dog()\nd.speak()", question: "Đoạn code trên in ra gì?", options: ["Gâu gâu!", "Âm thanh chung", "Cả hai dòng", "Lỗi"], answer: "Gâu gâu!", explain: "Dog ghi đè speak() — phiên bản của lớp con được dùng thay cho bản của cha." },
+      { topic: "super & override", type: "choice", question: "Ghi đè (override) một phương thức nghĩa là gì?", options: ["Lớp con định nghĩa lại phương thức cùng tên với lớp cha", "Xóa phương thức khỏi lớp cha", "Đổi tên phương thức của lớp cha", "Gọi phương thức của lớp cha"], answer: "Lớp con định nghĩa lại phương thức cùng tên với lớp cha", explain: "Cùng chữ ký, khác hành vi — object của lớp con dùng bản mới." },
+      { topic: "super & override", type: "choice", question: "Muốn trong speak() của lớp con chạy CẢ bản gốc của cha rồi mới thêm phần mới, viết thế nào?", options: ["super().speak() rồi thêm code mới", "speak() lần nữa", "return speak", "print(speak)"], answer: "super().speak() rồi thêm code mới", explain: "super().speak() gọi đúng phiên bản của lớp cha ngay bên trên." },
+      { topic: "super & override", type: "choice", code: "class Animal:\n    def __init__(self, ten):\n        self.ten = ten\n\nclass Dog(Animal):\n    def __init__(self, ten):\n        super().__init__(ten)\n        self.loai = \"Chó\"\n\nd = Dog(\"Milu\")\nprint(d.ten, \"-\", d.loai)", question: "Đoạn code trên in ra gì?", options: ["Milu - Chó", "Chó - Milu", "Lỗi AttributeError", "Milu - None"], answer: "Milu - Chó", explain: "super().__init__(ten) gán self.ten = \"Milu\", sau đó lớp con thêm self.loai = \"Chó\"." },
+      { topic: "super & override", type: "choice", question: "Lớp con viết __init__ nhưng QUÊN gọi super().__init__() thì điều gì xảy ra?", options: ["Thuộc tính của lớp cha không được tạo, truy cập sẽ lỗi AttributeError", "Python tự gọi giúp, không sao cả", "Chương trình chạy chậm hơn", "Lớp con tự động bị xóa"], answer: "Thuộc tính của lớp cha không được tạo, truy cập sẽ lỗi AttributeError", explain: "Viết __init__ ở con là ghi đè luôn bản của cha — không gọi thì cha không được khởi tạo." },
+      { topic: "super & override", type: "choice", question: "Khi nào lớp con cần tự viết __init__?", options: ["Khi cần thêm thuộc tính riêng hoặc xử lý thêm lúc tạo object", "Luôn luôn phải viết lại", "Không bao giờ được viết", "Chỉ khi lớp cha không có __init__"], answer: "Khi cần thêm thuộc tính riêng hoặc xử lý thêm lúc tạo object", explain: "Nếu không cần gì thêm, cứ để lớp con thừa hưởng __init__ của cha — đỡ phải viết." },
+
+      /* --- Đa hình (6) --- */
+      { topic: "Đa hình", type: "choice", question: "Đa hình trong OOP nghĩa là gì?", options: ["Cùng một lời gọi phương thức, mỗi lớp chạy theo cách riêng của nó", "Một class có nhiều lớp cha", "Một object có nhiều tên gọi", "Chương trình chạy được trên nhiều hệ điều hành"], answer: "Cùng một lời gọi phương thức, mỗi lớp chạy theo cách riêng của nó", explain: "for con in ds: con.speak() — Dog sủa, Cat kêu, mỗi bên một kiểu." },
+      { topic: "Đa hình", type: "choice", code: "class Animal:\n    def speak(self):\n        print(\"...\")\n\nclass Dog(Animal):\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nclass Cat(Animal):\n    def speak(self):\n        print(\"Meo meo!\")\n\nfor con in [Dog(), Cat()]:\n    con.speak()", question: "Đoạn code trên in ra gì?", options: ["Gâu gâu! rồi Meo meo! (hai dòng)", "Gâu gâu! Meo meo! (cùng một dòng)", "... hai lần", "Lỗi vì list không chứa được nhiều lớp"], answer: "Gâu gâu! rồi Meo meo! (hai dòng)", explain: "Mỗi object gọi speak() theo phiên bản của lớp nó — Dog trước, Cat sau." },
+      { topic: "Đa hình", type: "fill", question: "Điền tên phương thức được gọi chung cho mọi con vật trong vòng lặp: for con in ds: con.___()", answer: ["speak"], explain: "Cùng gọi con.speak() nhưng mỗi lớp con chạy phiên bản riêng." },
+      { topic: "Đa hình", type: "choice", question: "Vì sao cùng một dòng con.speak() lại cho kết quả khác nhau ở Dog và Cat?", options: ["Vì Python chọn phiên bản speak() theo lớp thật của từng object", "Vì Dog chạy trước Cat", "Vì list tự trộn kết quả", "Vì speak() ngẫu nhiên mỗi lần gọi"], answer: "Vì Python chọn phiên bản speak() theo lớp thật của từng object", explain: "Object mang theo lớp của nó — gọi phương thức là tra đúng bản của lớp đó." },
+      { topic: "Đa hình", type: "choice", code: "class Animal:\n    def speak(self):\n        print(\"...\")\n\nclass Dog(Animal):\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nds = [Animal(), Dog()]\nfor con in ds:\n    con.speak()", question: "Đoạn code trên in ra gì?", options: ["Dòng 1 là ... , dòng 2 là Gâu gâu!", "Cả hai dòng đều Gâu gâu!", "Lỗi vì Animal không có speak", "Cả hai dòng đều ..."], answer: "Dòng 1 là ... , dòng 2 là Gâu gâu!", explain: "Animal() chưa ghi đè nên dùng bản gốc; Dog() dùng bản ghi đè — đó chính là đa hình." },
+      { topic: "Đa hình", type: "choice", question: "Điều kiện để một list chứa được nhiều loại object và gọi chung một phương thức?", options: ["Các object đó thường cùng kế thừa một lớp cha và cùng có phương thức đó", "Các object phải có cùng tên biến", "List phải được sắp xếp bằng sort() trước", "Phải chuyển hết object thành chuỗi"], answer: "Các object đó thường cùng kế thừa một lớp cha và cùng có phương thức đó", explain: "Kế thừa cho chúng 'giao kèo' chung; con nào muốn khác thì ghi đè." }
+    ];
+
+    EXERCISES["py-20-ex1"] = {
+      topic: "Class Animal & Dog kế thừa",
+      prompt: "Định nghĩa class Animal với __init__(self, ten) gán self.ten, và phương thức gioi_thieu(self) in ra tên con vật. Sau đó định nghĩa class Dog(Animal) kế thừa. Tạo một object Dog rồi gọi phương thức gioi_thieu() để thấy nó thừa hưởng từ cha.",
+      checks: [
+        { regex: "class\\s+Animal\\s*:", desc: "Định nghĩa class Animal", hint: "Mở đầu bằng: class Animal:" },
+        { regex: "class\\s+Dog\\s*\\(\\s*Animal\\s*\\)\\s*:", desc: "Định nghĩa class Dog(Animal) kế thừa", hint: "class Dog(Animal): — tên lớp cha nằm trong ngoặc" },
+        { regex: "\\w+\\s*=\\s*Dog\\s*\\(", desc: "Tạo một object Dog", hint: "Ví dụ: d = Dog(\"Milu\")" },
+        { regex: "\\.\\s*gioi_thieu\\s*\\(\\s*\\)", desc: "Gọi phương thức gioi_thieu() thừa hưởng từ Animal", hint: "d.gioi_thieu() — Dog chưa viết phương thức này, nó dùng của Animal" }
+      ],
+      sample: "class Animal:\n    def __init__(self, ten):\n        self.ten = ten\n\n    def gioi_thieu(self):\n        print(\"Tôi là\", self.ten)\n\nclass Dog(Animal):\n    pass\n\nd = Dog(\"Milu\")\nd.gioi_thieu()"
+    };
+
+    EXERCISES["py-20-ex2"] = {
+      topic: "super() và ghi đè speak()",
+      prompt: "Cho class Animal có __init__(self, ten) và speak(self) in ra một âm thanh chung. Viết class Dog(Animal): dùng super().__init__(ten) để gọi khởi tạo của cha, và GHI ĐÈ speak(self) để in ra Gâu gâu! . Tạo object Dog rồi gọi speak().",
+      checks: [
+        { regex: "class\\s+Dog\\s*\\(\\s*Animal\\s*\\)\\s*:", desc: "Dog kế thừa Animal", hint: "class Dog(Animal):" },
+        { regex: "super\\s*\\(\\s*\\)\\s*\\.\\s*__init__\\s*\\(", desc: "Gọi super().__init__(...) trong __init__ của lớp con", hint: "super().__init__(ten) — đặt ngay đầu __init__ của Dog" },
+        { regex: "def\\s+speak\\s*\\(\\s*self\\s*\\)\\s*:", minCount: 2, desc: "Có speak() ở cả cha lẫn con (ghi đè)", hint: "Animal có def speak(self), Dog cũng có def speak(self)" },
+        { regex: "print\\s*\\(\\s*[\"']Gâu gâu!?[\"']\\s*\\)", desc: "Phiên bản speak() của Dog in ra Gâu gâu!", hint: "Trong speak của Dog: print(\"Gâu gâu!\")" }
+      ],
+      sample: "class Animal:\n    def __init__(self, ten):\n        self.ten = ten\n\n    def speak(self):\n        print(self.ten, \"phát ra âm thanh\")\n\nclass Dog(Animal):\n    def __init__(self, ten):\n        super().__init__(ten)\n\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nd = Dog(\"Milu\")\nd.speak()"
+    };
+
+    EXERCISES["py-20-ex3"] = {
+      topic: "Đa hình với vòng for",
+      prompt: "Định nghĩa class Animal có speak(self), rồi hai lớp con Dog(Animal) và Cat(Animal) ghi đè speak() để in Gâu gâu! và Meo meo!. Tạo list gồm HAI object (một Dog, một Cat) và dùng vòng for gọi .speak() cho từng object.",
+      checks: [
+        { regex: "def\\s+speak\\s*\\(\\s*self\\s*\\)\\s*:", minCount: 2, desc: "Có ít nhất 2 phương thức speak() được định nghĩa", hint: "Dog.speak in Gâu gâu!, Cat.speak in Meo meo!" },
+        { regex: "\\[\\s*\\w+\\s*\\(\\s*\\)\\s*,\\s*\\w+\\s*\\(\\s*\\)\\s*\\]", desc: "Tạo list chứa 2 object [Dog(), Cat()]", hint: "ds = [Dog(), Cat()] — list chứa các object" },
+        { regex: "for\\s+\\w+\\s+in\\s+\\w+\\s*:", desc: "Duyệt list bằng vòng for", hint: "for con in ds:" },
+        { regex: "\\.\\s*speak\\s*\\(\\s*\\)", desc: "Gọi .speak() cho từng object trong vòng lặp", hint: "Trong thân for: con.speak()" }
+      ],
+      sample: "class Animal:\n    def speak(self):\n        print(\"...\")\n\nclass Dog(Animal):\n    def speak(self):\n        print(\"Gâu gâu!\")\n\nclass Cat(Animal):\n    def speak(self):\n        print(\"Meo meo!\")\n\nds = [Dog(), Cat()]\nfor con in ds:\n    con.speak()"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

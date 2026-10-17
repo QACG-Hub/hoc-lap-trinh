@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi" data-base="." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Học Python và C++ miễn phí bằng tiếng Việt — giải phẫu cú pháp, tự viết code có chấm điểm, quiz random. Giao diện cyberpunk.">
+  <title>HỌCLAPTRINH.EXE — Học Python & C++ trong thế giới neon</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="index.html" class="active">TRANG CHỦ</a>
+        <a href="python/index.html">PYTHON</a>
+        <a href="cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <h1 class="glitch" data-text="HỌC PYTHON + C++">HỌC PYTHON + C++</h1>
+        <p class="hero-sub">
+          Lộ trình bài bản bằng tiếng Việt: <code>giải phẫu cú pháp</code> từng phần,
+          <code>tự viết code</code> được chấm đúng/sai ngay, và <code>quiz random</code> sau mỗi bài.
+          Không cần cài gì — mở là học. 🌆
+        </p>
+        <div class="hero-cta">
+          <a class="btn btn-cyan" href="python/index.html">▸ Bắt đầu với Python</a>
+          <a class="btn btn-magenta" href="cpp/index.html">▸ Chinh phục C++</a>
+        </div>
+      </div>
+      <div class="hero-terminal">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+            <span class="terminal-title">neon-session ~ terminal</span>
+          </div>
+          <pre><code>$ python3 hello.py
+⚡ Xin chào, lập trình viên!
+$ g++ hello.cpp -o hello &amp;&amp; ./hello
+⚡ Hello from C++!</code></pre>
+          <div class="terminal-out">
+            <span class="out-label">▸ TRẠNG THÁI</span>
+            <pre>2 ngôn ngữ • 42 bài học • 0 đồng</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="stat"><div class="stat-num">42</div><div class="stat-label">Bài học</div></div>
+      <div class="stat"><div class="stat-num">2</div><div class="stat-label">Lộ trình</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Dạng luyện tập</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Tiếng Việt</div></div>
+    </section>
+
+    <!-- LỘ TRÌNH -->
+    <h2 class="section-title">// <span>CHỌN LỘ TRÌNH</span> CỦA BẠN</h2>
+    <p class="section-sub">Hai ngôn ngữ, hai hành trình — tiến độ được lưu tự động trên máy bạn.</p>
+
+    <section class="courses">
+      <a class="course-card python" href="python/index.html" data-course="python">
+        <span class="course-badge">🐍 PYTHON</span>
+        <h3>Lộ trình Python</h3>
+        <p class="course-desc">Ngôn ngữ thân thiện nhất để bắt đầu. Cú pháp dễ đọc, gần tiếng Anh — ứng dụng từ web, tự động hóa đến AI.</p>
+        <ul class="course-list">
+          <li>22 bài • 5 chương: Nhập môn → OOP &amp; nâng cao</li>
+          <li>Dành cho người mới bắt đầu từ con số 0</li>
+          <li>12+ câu quiz mỗi bài, đề random mỗi lần làm</li>
+        </ul>
+        <div class="hud">
+          <div class="pbar"><div class="pbar-fill" data-progress="python"></div></div>
+          <span class="hud-text" data-progress-text="python">0%</span>
+        </div>
+        <span class="course-cta">VÀO LỘ TRÌNH ▸</span>
+      </a>
+
+      <a class="course-card cpp" href="cpp/index.html" data-course="cpp">
+        <span class="course-badge">⚙️ C++</span>
+        <h3>Lộ trình C++</h3>
+        <p class="course-desc">Ngôn ngữ hiệu năng cao — nền tảng của game, hệ điều hành và các kỳ thi thuật toán. Học xong Python, C++ là bước tiến lớn.</p>
+        <ul class="course-list">
+          <li>20 bài • 6 chương: Nhập môn → STL &amp; nâng cao</li>
+          <li>Từ Hello World đến con trỏ, OOP, vector</li>
+          <li>Ví dụ chạy được với g++ ngay trên máy bạn</li>
+        </ul>
+        <div class="hud">
+          <div class="pbar"><div class="pbar-fill" data-progress="cpp"></div></div>
+          <span class="hud-text" data-progress-text="cpp">0%</span>
+        </div>
+        <span class="course-cta">VÀO LỘ TRÌNH ▸</span>
+      </a>
+    </section>
+
+    <!-- CÁCH HỌC -->
+    <h2 class="section-title">// CÁCH <span>HỌC</span> HIỆU QUẢ</h2>
+    <p class="section-sub">Mỗi bài học đi theo 4 bước — đọc ít, làm nhiều.</p>
+
+    <section class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>ĐỌC LÝ THUYẾT</h4>
+        <p>Giải thích ngắn gọn, ví dụ chạy được kèm kết quả mẫu ngay bên dưới.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>GIẢI PHẪU CÚ PHÁP</h4>
+        <p>Từng thành phần của cú pháp được bẻ nhỏ và chú thích màu — hiểu bản chất, không học vẹt.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>TỰ VIẾT CODE</h4>
+        <p>Gõ code của bạn vào ô luyện tập, hệ thống chấm đúng/sai theo từng tiêu chí và gợi ý khi bí.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h4>QUIZ RANDOM</h4>
+        <p>Thử thách sau mỗi cú pháp + kiểm tra cuối bài — đề trộn mới mỗi lần làm, khỏi học tủ.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡ • Made with 💜 and JavaScript thuần</p>
+  </footer>
+
+  <script src="assets/js/lessons-data.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

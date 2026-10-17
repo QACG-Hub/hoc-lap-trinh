@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 14 C++: constructor &amp; destructor — hàm khởi tạo tự chạy khi tạo object, hàm hủy tự chạy khi object hết phạm vi, kèm ví dụ g++ chạy thật.">
+  <title>Bài 14: Constructor &amp; Destructor | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-14">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-14</span></div>
+      <h1 class="lesson-title">Constructor &amp; Destructor</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #14 ]</span>
+        <span class="pill">Chương 5 — Lập trình hướng đối tượng</span>
+        <span class="pill">Mức độ: Cao thủ</span>
+      </div>
+
+      <p>
+        Ở bài trước, tạo object xong bạn phải tự gán từng thuộc tính — quên một cái là dữ liệu "rác" nằm luôn trong máy.
+        C++ có hai "người quản gia" tự động: <strong>constructor</strong> dọn dẹp và nạp đồ <em>lúc object sinh ra</em>,
+        <strong>destructor</strong> thu dọn <em>lúc object ra đi</em>. Học xong bài này, object của bạn sẽ "tự biết" mình cần gì. ⚡
+      </p>
+
+      <h2>Constructor</h2>
+      <p>
+        <strong>Constructor</strong> (hàm khởi tạo) là hàm đặc biệt <strong>cùng tên với class</strong> và
+        <strong>không có kiểu trả về</strong>. Nó <em>tự động chạy ngay khi object được tạo</em> — bạn không gọi tên nó bao giờ.
+        Xem lớp <code>Point</code> nhận toạ độ ngay lúc sinh ra:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">point.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Point {
+public:
+    int x, y;
+
+    Point(int a, int b) {   // constructor: tên trùng class
+        x = a;
+        y = b;
+    }
+};
+
+int main() {
+    Point p(3, 5);          // constructor tự chạy với a = 3, b = 5
+    cout &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>(3, 5)</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu constructor — ba đặc điểm "nhận diện" nằm ở đây:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">Point</span><span class="op">(</span><span class="kw">int</span> <span class="vr">a</span><span class="op">,</span> <span class="kw">int</span> <span class="vr">b</span><span class="op">)</span> <span class="op">{</span> <span class="vr">x</span> <span class="op">=</span> <span class="vr">a</span><span class="op">;</span> <span class="vr">y</span> <span class="op">=</span> <span class="vr">b</span><span class="op">;</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>Point</code></td><td>tên constructor phải <strong>trùng tên class</strong> (viết hoa đúng như class)</td><td>✅</td></tr>
+          <tr><td><code>(int a, int b)</code></td><td>tham số để nạp dữ liệu ban đầu — giống tham số hàm thường</td><td>❌ (có thể để rỗng)</td></tr>
+          <tr><td>kiểu trả về</td><td>constructor <strong>không có</strong> kiểu trả về (không <code>void</code>, không <code>int</code>)</td><td>✅ (phải vắng mặt!)</td></tr>
+          <tr><td><code>{ x = a; y = b; }</code></td><td>thân constructor — nơi gán giá trị ban đầu cho thuộc tính</td><td>✅</td></tr>
+          <tr><td><code>Point p(3, 5);</code></td><td>truyền tham số ngay lúc khai báo object — constructor tự chạy</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Một class có thể có <strong>nhiều constructor</strong> khác bộ tham số — C++ tự chọn cái khớp với cách bạn tạo object.
+        Rất tiện khi muốn có "object mặc định" lẫn "object nạp đầy đủ":
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhieu-ctor.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Point {
+public:
+    int x, y;
+
+    Point() { x = 0; y = 0; }              // không tham số
+    Point(int a, int b) { x = a; y = b; }  // có tham số
+
+    void in() { cout &lt;&lt; "(" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ")" &lt;&lt; endl; }
+};
+
+int main() {
+    Point p1;        // gọi Point()
+    Point p2(4, 7);  // gọi Point(int, int)
+    p1.in();
+    p2.in();
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>(0, 0)
+(4, 7)</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Nếu bạn <em>không</em> viết constructor nào, C++ tự sinh một constructor mặc định rỗng — thuộc tính sẽ chứa
+          giá trị "rác" không xác định. Vì vậy hãy tập thói quen tự viết constructor để object sinh ra là đã
+          <strong>hợp lệ</strong> ngay.
+        </p>
+      </div>
+
+      <p>Thử tự tay viết constructor đầu tiên:</p>
+
+      <div class="exercise-box" data-ex="cpp-14-ex1"></div>
+
+      <div class="exercise-box" data-ex="cpp-14-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-14" data-topic="Constructor" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — CONSTRUCTOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Destructor</h2>
+      <p>
+        <strong>Destructor</strong> (hàm hủy) là "anh em sinh đôi" của constructor: tên class có thêm dấu
+        <code>~</code> phía trước, <strong>không tham số</strong>, <strong>không kiểu trả về</strong>.
+        Nó cũng <em>tự chạy</em> — nhưng vào lúc object <strong>hết phạm vi</strong>, tức là bị "thu hồi".
+        Cùng xem thứ tự sinh ra và ra đi của một object:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">huy.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Point {
+public:
+    int x, y;
+
+    Point(int a, int b) {
+        x = a; y = b;
+        cout &lt;&lt; "Tạo Point (" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ")" &lt;&lt; endl;
+    }
+    ~Point() {
+        cout &lt;&lt; "Đã hủy Point (" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ")" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Point p(3, 5);              // constructor chạy trước
+    cout &lt;&lt; "Trong main" &lt;&lt; endl;
+    return 0;                   // kết thúc main → destructor chạy sau
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tạo Point (3, 5)
+Trong main
+Đã hủy Point (3, 5)</pre>
+        </div>
+      </div>
+
+      <p>Giải phẫu destructor — chỉ khác constructor đúng một ký tự:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="op">~</span><span class="fn">Point</span><span class="op">()</span> <span class="op">{</span> <span class="cm">// dọn dẹp tại đây</span> <span class="op">}</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>~</code></td><td>dấu ngã — "tem nhận diện" destructor, không phải phép trừ</td><td>✅</td></tr>
+          <tr><td><code>Point</code></td><td>tên class (không có <code>~</code> thì là constructor!)</td><td>✅</td></tr>
+          <tr><td><code>()</code></td><td>destructor <strong>không nhận tham số</strong> — luôn để rỗng</td><td>✅</td></tr>
+          <tr><td>kiểu trả về</td><td>không có kiểu trả về</td><td>✅ (phải vắng mặt!)</td></tr>
+          <tr><td><code>{ … }</code></td><td>thân destructor — dọn dẹp, giải phóng tài nguyên, in log...</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>
+        Vậy chính xác destructor chạy <em>lúc nào</em>? Hãy xem object nằm trong một khối <code>{ }</code> nhỏ —
+        nó "ra đi" ngay khi khối đó kết thúc, chứ không đợi hết chương trình:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">phamvi.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+class Point {
+public:
+    int x, y;
+
+    Point(int a, int b) {
+        x = a; y = b;
+        cout &lt;&lt; "Tạo Point (" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ")" &lt;&lt; endl;
+    }
+    ~Point() {
+        cout &lt;&lt; "Đã hủy Point (" &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; ")" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Point p(1, 2);
+    {
+        Point q(7, 8);          // object trong block nhỏ
+        cout &lt;&lt; "Trong block" &lt;&lt; endl;
+    }                           // q hết phạm vi → destructor chạy NGAY
+    cout &lt;&lt; "Ket thuc main" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tạo Point (1, 2)
+Tạo Point (7, 8)
+Trong block
+Đã hủy Point (7, 8)
+Ket thuc main
+Đã hủy Point (1, 2)</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Ba điều dễ hiểu nhầm về destructor: (1) nó chạy khi object hết phạm vi — ra khỏi khối <code>{ }</code> gần nhất
+          hoặc khi hàm chứa nó kết thúc; (2) nếu nhiều object cùng hết phạm vi, thứ tự hủy là <strong>ngược</strong> với thứ tự
+          tạo (tạo sau hủy trước); (3) object cấp phát bằng <code>new</code> <strong>không</strong> tự hủy khi hết phạm vi —
+          phải gọi <code>delete</code>, nếu không destructor không bao giờ chạy.
+        </p>
+      </div>
+
+      <p>Bài tập cuối chương về "người quản gia" này — nhớ dấu <code>~</code> nhé:</p>
+
+      <div class="exercise-box" data-ex="cpp-14-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-14" data-topic="Destructor" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DESTRUCTOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 14</h2>
+      <ul>
+        <li><strong>Constructor</strong> cùng tên class, không kiểu trả về, tự chạy ngay khi object được tạo.</li>
+        <li>Constructor nhận tham số để nạp dữ liệu ban đầu: <code>Point p(3, 5);</code> — có thể viết nhiều constructor khác bộ tham số.</li>
+        <li>Không viết constructor nào thì C++ tự sinh constructor mặc định rỗng — thuộc tính chứa giá trị rác.</li>
+        <li><strong>Destructor</strong> có dạng <code>~Point()</code>, không tham số, không kiểu trả về, tự chạy khi object <strong>hết phạm vi</strong>.</li>
+        <li>Object trong khối <code>{ }</code> bị hủy ngay khi ra khỏi khối; nhiều object thì hủy theo thứ tự ngược lúc tạo.</li>
+        <li>Object cấp phát bằng <code>new</code> phải <code>delete</code> thủ công, destructor mới chạy.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-14" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 14</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["cpp-14"] = [
+      /* --- Constructor (6) --- */
+      { topic: "Constructor", type: "choice", question: "Đặc điểm nào đúng về TÊN của constructor?", options: ["Cùng tên với class và không có kiểu trả về", "Khác tên class, có kiểu trả về int", "Bắt đầu bằng dấu ~", "Luôn viết hoa toàn bộ"], answer: "Cùng tên với class và không có kiểu trả về", explain: "Constructor trùng tên class, không có kiểu trả về — đó là 'chữ ký' nhận diện nó." },
+      { topic: "Constructor", type: "choice", question: "Constructor tự động chạy vào thời điểm nào?", options: ["Ngay khi object được tạo", "Khi gọi phương thức đầu tiên", "Khi chương trình kết thúc", "Chỉ khi được gọi tên đầy đủ"], answer: "Ngay khi object được tạo", explain: "Tạo object là constructor chạy — bạn không bao giờ gọi tên nó." },
+      { topic: "Constructor", type: "choice", code: "class Point {\npublic:\n    int x, y;\n    Point(int a, int b) {\n        x = a;\n        y = b;\n    }\n};\nPoint p(3, 5);\ncout << p.x + p.y;", question: "Đoạn code trên in ra gì?", options: ["8", "35", "3 5", "Lỗi"], answer: "8", explain: "Constructor nhận a = 3, b = 5 → p.x = 3, p.y = 5 → 3 + 5 = 8." },
+      { topic: "Constructor", type: "fill", question: "Viết phần khai báo constructor KHÔNG tham số của class Point (gõ tên kèm cặp ngoặc đơn):", answer: ["Point()", "Point();", "Point ()", "point()"], explain: "Constructor rỗng: Point() — cùng tên class, không tham số, không kiểu trả về." },
+      { topic: "Constructor", type: "choice", question: "Viết void Point(int a) { ... } bên trong class Point — điều gì đúng?", options: ["Không phải constructor vì constructor không được có kiểu trả về", "Vẫn là constructor vì tên trùng class", "Là destructor", "Compiler tự xóa kiểu void giúp bạn"], answer: "Không phải constructor vì constructor không được có kiểu trả về", explain: "Có kiểu trả về là thành hàm thường — C++ không coi đó là constructor nữa." },
+      { topic: "Constructor", type: "choice", question: "Class Point có cả Point() và Point(int a, int b). Lệnh Point p; gọi constructor nào?", options: ["Point() — không tham số", "Point(int a, int b)", "Cả hai", "Không gọi constructor nào"], answer: "Point() — không tham số", explain: "C++ chọn constructor khớp với danh sách tham số khi tạo object." },
+      /* --- Destructor (6) --- */
+      { topic: "Destructor", type: "choice", question: "Tên destructor của class Point viết thế nào?", options: ["~Point", "Point", "!Point", "del Point"], answer: "~Point", explain: "Thêm dấu ~ trước tên class: ~Point()." },
+      { topic: "Destructor", type: "choice", question: "Destructor tự động chạy vào thời điểm nào?", options: ["Khi object hết phạm vi", "Ngay khi object được tạo", "Mỗi khi gọi cout", "Chỉ khi gọi tên nó"], answer: "Khi object hết phạm vi", explain: "Ra khỏi khối/hàm chứa object là destructor chạy — cơ chế dọn dẹp tự động." },
+      { topic: "Destructor", type: "choice", code: "class Point {\npublic:\n    ~Point() {\n        cout << \"Đã hủy!\";\n    }\n};\nint main() {\n    Point p;\n    cout << \"Trong main\";\n    return 0;\n}", question: "Đoạn code trên in ra gì?", options: ["Trong mainĐã hủy!", "Đã hủy!Trong main", "Trong main", "Đã hủy!"], answer: "Trong mainĐã hủy!", explain: "Không có endl nào nên hai chuỗi dính liền, destructor chạy SAU lệnh in của main." },
+      { topic: "Destructor", type: "choice", question: "Destructor có được nhận tham số không?", options: ["Không — destructor không có tham số, không có kiểu trả về", "Có — nhận 1 tham số", "Có — nhận tuỳ số thuộc tính", "Tuỳ trình biên dịch"], answer: "Không — destructor không có tham số, không có kiểu trả về", explain: "Vì không thể truyền gì cho nó: object hủy là hủy, hết!" },
+      { topic: "Destructor", type: "choice", question: "Một class có thể có bao nhiêu destructor?", options: ["Đúng một", "Hai", "Không giới hạn", "Không được có destructor"], answer: "Đúng một", explain: "Destructor không có bộ tham số nên không thể nạp chồng — mỗi class chỉ một destructor." },
+      { topic: "Destructor", type: "choice", code: "int main() {\n    Point q(1, 2);\n    {\n        Point r(3, 4);\n        cout << \"Trong block\" << endl;\n    }\n    cout << \"Sau block\" << endl;\n    return 0;\n}", question: "Destructor của object r chạy vào lúc nào?", options: ["Ngay khi ra khỏi block trong { } — trước dòng \"Sau block\"", "Khi main kết thúc — sau dòng \"Sau block\"", "Ngay lúc r được tạo", "Không bao giờ chạy"], answer: "Ngay khi ra khỏi block trong { } — trước dòng \"Sau block\"", explain: "r thuộc block nhỏ nên bị hủy ngay khi block kết thúc, trước cả khi main in tiếp." }
+    ];
+    EXERCISES["cpp-14-ex1"] = {
+      topic: "Constructor có tham số",
+      prompt: "Định nghĩa class Point với hai thuộc tính int x, int y và constructor Point(int a, int b) gán x = a, y = b.",
+      checks: [
+        { regex: "class\\s+Point\\s*\\{", desc: "Định nghĩa class Point", hint: "Bắt đầu bằng: class Point { public: int x, y; ... };" },
+        { regex: "Point\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)", desc: "Constructor Point(int, int) — hai tham số kiểu int", hint: "Point(int a, int b) { x = a; y = b; }" },
+        { regex: "\\bx\\s*=\\s*\\w+\\s*;", desc: "Gán thuộc tính x từ tham số", hint: "Trong constructor: x = a;" },
+        { regex: "\\by\\s*=\\s*\\w+\\s*;", desc: "Gán thuộc tính y từ tham số", hint: "Trong constructor: y = b;" }
+      ],
+      sample: "class Point {\npublic:\n    int x, y;\n\n    Point(int a, int b) {\n        x = a;\n        y = b;\n    }\n};"
+    };
+    EXERCISES["cpp-14-ex2"] = {
+      topic: "Constructor in thông báo",
+      prompt: "Viết constructor không tham số Point() cho class Point: bên trong in ra một thông báo tuỳ ý bằng cout. Sau đó tạo một object Point để constructor tự chạy.",
+      checks: [
+        { regex: "class\\s+Point\\s*\\{", desc: "Định nghĩa class Point", hint: "class Point { public: Point() { cout << ...; } };" },
+        { regex: "Point\\s*\\(\\s*\\)\\s*\\{", desc: "Constructor không tham số Point()", hint: "Point() { cout << \"Tao Point moi\" << endl; }" },
+        { regex: "cout\\s*<<", desc: "In thông báo bằng cout trong constructor", hint: "cout << \"Tao Point moi\" << endl;" },
+        { regex: "Point\\s+\\w+\\s*;", desc: "Tạo object Point để constructor chạy", hint: "Point p;" }
+      ],
+      sample: "class Point {\npublic:\n    Point() {\n        cout << \"Tao Point moi\" << endl;\n    }\n};\n\nPoint p;"
+    };
+    EXERCISES["cpp-14-ex3"] = {
+      topic: "Destructor ~Point",
+      prompt: "Thêm destructor ~Point() vào class Point, bên trong in ra dòng chữ: Đã hủy. Rồi tạo một object Point để thấy destructor tự chạy khi hết phạm vi.",
+      checks: [
+        { regex: "~\\s*Point\\s*\\(\\s*\\)", desc: "Định nghĩa destructor ~Point()", hint: "~Point() { cout << \"Đã hủy\" << endl; }" },
+        { regex: "Đã hủy|Da huy", desc: "In ra dòng chữ Đã hủy", hint: "cout << \"Đã hủy\" << endl;" },
+        { regex: "cout\\s*<<", desc: "In bằng cout bên trong destructor", hint: "cout << \"Đã hủy\" << endl;" },
+        { regex: "Point\\s+\\w+\\s*;", desc: "Tạo object Point để destructor chạy", hint: "Point p;" }
+      ],
+      sample: "class Point {\npublic:\n    ~Point() {\n        cout << \"Đã hủy\" << endl;\n    }\n};\n\nPoint p;"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

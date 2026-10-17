@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 4 Python: nhập dữ liệu với input(), ép kiểu int(input())/float(input()) và ví dụ tổng hợp tính diện tích hình chữ nhật — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 4: Nhập dữ liệu với input() | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-04">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-04</span></div>
+      <h1 class="lesson-title">Nhập dữ liệu với input()</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #04 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Từ trước đến giờ chương trình của bạn chỉ <em>nói một chiều</em>: bạn viết gì, nó in nấy.
+        Nhiệm vụ hôm nay mở kênh <strong>hai chiều</strong> — bạn sẽ dùng <code>input()</code> để chương trình
+        biết lắng nghe, hỏi người dùng vài câu rồi trả lời dựa trên câu trả lời đó.
+        Cuối bài là 3 bài tập chấm điểm tự động và 2 đề quiz! ⚡
+      </p>
+
+      <h2>input() — trò chuyện với chương trình</h2>
+      <p>
+        Hàm <code>input()</code> tạm dừng chương trình, chờ người dùng gõ gì đó rồi nhấn <code>Enter</code>,
+        và <em>trả về</em> đúng những gì người dùng đã gõ. Dữ liệu trả về này thường được cất ngay vào một biến để dùng về sau.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">chao-hoi.py</span>
+        </div>
+        <pre><code class="language-python">ten = input("Tên bạn: ")
+print("Xin chào,", ten)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tên bạn: An
+Xin chào, An</pre>
+        </div>
+      </div>
+
+      <p>
+        Phần <code>An</code> ở dòng đầu là do người dùng gõ vào (không phải code in ra) — chuỗi <code>"Tên bạn: "</code>
+        chỉ là <strong>lời nhắc</strong> xuất hiện trước khi chương trình chờ nhập.
+      </p>
+
+      <p>Giải phẫu cú pháp để thấy rõ từng bộ phận:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">input</span><span class="op">(</span><span class="st">"Tên bạn: "</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>input</code></td><td>tên hàm — "đọc dữ liệu người dùng gõ vào"</td><td>✅</td></tr>
+          <tr><td><code>( )</code></td><td>cặp ngoặc đơn bọc lời nhắc</td><td>✅</td></tr>
+          <tr><td><code>"Tên bạn: "</code></td><td>lời nhắc hiển thị trước khi chờ nhập (nhớ dấu cách cuối cho đẹp)</td><td>❌ (có thể để trống)</td></tr>
+          <tr><td>giá trị trả về</td><td>chuỗi ký tự người dùng đã gõ — <strong>luôn là chuỗi (str)</strong></td><td>—</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          <code>input()</code> <strong>LUÔN trả về chuỗi (str)</strong>, kể cả khi người dùng gõ toàn chữ số.
+          Người dùng gõ <code>7</code> thì bạn nhận được chuỗi <code>"7"</code>, không phải số 7.
+          Đây là cái bẫy lớn nhất của bài này — mục sau sẽ xử lý!
+        </p>
+      </div>
+
+      <p>Thực hành ngay: đọc dữ liệu vào biến <code>ten</code> rồi in biến đó ra.</p>
+
+      <div class="exercise-box" data-ex="py-04-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-04" data-topic="input()" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — INPUT()</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ép kiểu khi nhập dữ liệu</h2>
+      <p>
+        Vì <code>input()</code> trả về chuỗi, muốn <em>tính toán</em> với dữ liệu vừa nhập ta phải
+        <strong>ép kiểu ngay tại chỗ</strong>: bọc <code>int()</code> quanh <code>input()</code> để lấy số nguyên,
+        hoặc <code>float()</code> để lấy số thực.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tuoi.py</span>
+        </div>
+        <pre><code class="language-python">tuoi = int(input("Tuổi của bạn: "))
+print("Sang năm bạn", tuoi + 1, "tuổi")</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tuổi của bạn: 13
+Sang năm bạn 14 tuổi</pre>
+        </div>
+      </div>
+
+      <p><code>input("Tuổi của bạn: ")</code> chạy trước để lấy chuỗi <code>"13"</code>, rồi <code>int()</code> đổi chuỗi đó thành số 13 — nhờ vậy <code>tuoi + 1</code> mới cộng đúng:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="fn">int</span><span class="op">(</span><span class="fn">input</span><span class="op">(</span><span class="st">"Tuổi: "</span><span class="op">)</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>input("Tuổi: ")</code></td><td>chạy <strong>trước</strong> — đọc dữ liệu và trả về chuỗi</td><td>✅</td></tr>
+          <tr><td><code>int( ... )</code></td><td>chạy <strong>sau</strong> — đổi chuỗi số thành số nguyên</td><td>✅</td></tr>
+          <tr><td><code>float( ... )</code></td><td>thay cho <code>int</code> khi cần số thực như <code>8.5</code></td><td>❌ (tuỳ nhu cầu)</td></tr>
+        </table>
+      </div>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">diem-so.py</span>
+        </div>
+        <pre><code class="language-python">diem = float(input("Điểm trung bình: "))
+print("Điểm của bạn là", diem)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Điểm trung bình: 8.5
+Điểm của bạn là 8.5</pre>
+        </div>
+      </div>
+
+      <p>Nhưng coi chừng — nếu gõ chữ vào chỗ cần số, chương trình nổ ngay:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">loi-int.py</span>
+        </div>
+        <pre><code class="language-python">tuoi = int(input("Tuổi: "))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tuổi: mười ba
+Traceback (most recent call last):
+  File "loi-int.py", line 1, in &lt;module&gt;
+    tuoi = int(input("Tuổi: "))
+ValueError: invalid literal for int() with base 10: 'mười ba'</pre>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Nhập chữ vào <code>int()</code> → lỗi <code>ValueError</code> và chương trình dừng ngay.
+          <code>int()</code> chỉ nhận chuỗi toàn chữ số như <code>"13"</code>. Người dùng quậy phá là chuyện thường ở đời — sau này bạn sẽ học
+          <code>try/except</code> để "đỡ" lỗi này.
+        </p>
+      </div>
+
+      <p>Luyện tập ép kiểu khi nhập — cộng hai số:</p>
+
+      <div class="exercise-box" data-ex="py-04-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-04" data-topic="Ép kiểu khi nhập" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ÉP KIỂU KHI NHẬP</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ví dụ tổng hợp: diện tích hình chữ nhật</h2>
+      <p>
+        Ghép mọi thứ đã học: đọc hai số thực từ bàn phím, nhân chúng rồi in kết quả.
+        Đây là dạng bài "máy tính mini" đầu tiên của bạn.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">dien-tich.py</span>
+        </div>
+        <pre><code class="language-python">dai = float(input("Chiều dài: "))
+rong = float(input("Chiều rộng: "))
+dien_tich = dai * rong
+print("Diện tích hình chữ nhật:", dien_tich)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Chiều dài: 5.5
+Chiều rộng: 2
+Diện tích hình chữ nhật: 11.0</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          Quy tắc vàng khi nhập liệu: <strong>cần số nguyên → <code>int(input(...))</code></strong>,
+          <strong>cần số thực → <code>float(input(...))</code></strong>.
+          Dùng <code>float()</code> cho cả số nguyên cũng chạy tốt (13 thành <code>13.0</code>).
+        </p>
+      </div>
+
+      <p>Bài tập tổng hợp cuối cùng — nhập tuổi và tính tuổi năm sau:</p>
+
+      <div class="exercise-box" data-ex="py-04-ex3"></div>
+
+      <h2>TỔNG KẾT BÀI 04</h2>
+      <ul>
+        <li><code>input("lời nhắc")</code> đọc dữ liệu người dùng gõ vào — chuỗi trong ngoặc chỉ là lời nhắc hiển thị trước.</li>
+        <li><code>input()</code> <strong>luôn trả về chuỗi (str)</strong>, dù người dùng gõ số.</li>
+        <li>Ép kiểu ngay khi nhập: <code>int(input(...))</code> cho số nguyên, <code>float(input(...))</code> cho số thực.</li>
+        <li>Gõ chữ vào <code>int()</code> → <code>ValueError</code>; tạm thời cứ nhập đúng số, xử lý lỗi để học ở bài sau.</li>
+        <li>Mẫu kinh điển: <code>dien_tich = float(input("Chiều dài: ")) * float(input("Chiều rộng: "))</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-04" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 04</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-04"] = [
+      /* --- input() --- */
+      { topic: "input()", type: "choice", question: "Hàm nào dùng để đọc dữ liệu người dùng gõ từ bàn phím?", options: ["print()", "input()", "type()", "int()"], answer: "input()", explain: "input() chờ người dùng gõ rồi trả về nội dung vừa gõ." },
+      { topic: "input()", type: "choice", code: "x = input(\"Số: \")\nprint(type(x))", question: "Nếu người dùng gõ 7, chương trình in ra gì?", options: ["<class 'int'>", "<class 'str'>", "7", "Lỗi"], answer: "<class 'str'>", explain: "input() LUÔN trả về chuỗi — gõ 7 là nhận chuỗi \"7\"." },
+      { topic: "input()", type: "choice", code: "ten = input(\"Tên: \")\nprint(\"Chào \" + ten)", question: "Nếu người dùng gõ An, chương trình in ra gì?", options: ["Chào An", "Chào ten", "AnChào", "Lỗi vì thiếu dấu nháy"], answer: "Chào An", explain: "input() trả về chuỗi \"An\", nối với \"Chào \" thành \"Chào An\"." },
+      { topic: "input()", type: "choice", question: "Trong input(\"Tuổi: \"), chuỗi \"Tuổi: \" có tác dụng gì?", options: ["Hiển thị lời nhắc cho người dùng trước khi chờ nhập", "Lưu câu trả lời vào biến Tuổi", "Tự động ép câu trả lời sang số", "Không có tác dụng gì"], answer: "Hiển thị lời nhắc cho người dùng trước khi chờ nhập", explain: "Đối số của input() là lời nhắc hiển thị ngay trước khi chương trình chờ gõ." },
+      { topic: "input()", type: "choice", question: "Muốn kết quả của input() dùng được để tính toán, phải làm gì?", options: ["Bọc input() bằng int() hoặc float()", "Không cần làm gì, input() tự trả về số", "Bọc input() bằng print()", "Bọc input() bằng str()"], answer: "Bọc input() bằng int() hoặc float()", explain: "input() trả chuỗi, muốn tính toán phải ép sang số bằng int() hoặc float()." },
+      { topic: "input()", type: "fill", question: "Gõ tên hàm đọc dữ liệu từ bàn phím (chỉ tên hàm, không cần ngoặc):", answer: ["input"], explain: "input() là hàm đọc dữ liệu; nhớ nó luôn trả về chuỗi nhé." },
+      /* --- Ép kiểu khi nhập --- */
+      { topic: "Ép kiểu khi nhập", type: "choice", question: "Cách nhập một số nguyên từ bàn phím nào ĐÚNG?", options: ["int(input(\"Số: \"))", "input(int(\"Số: \"))", "integer(input(\"Số: \"))", "number(input(\"Số: \"))"], answer: "int(input(\"Số: \"))", explain: "input() đọc chuỗi trước, int() bọc ngoài để đổi thành số nguyên." },
+      { topic: "Ép kiểu khi nhập", type: "choice", code: "tuoi = int(input(\"Tuổi: \"))\nprint(tuoi + 1)", question: "Nếu người dùng gõ 15, chương trình in ra gì?", options: ["16", "151", "15", "Lỗi"], answer: "16", explain: "int() đổi \"15\" thành số 15, cộng 1 được 16." },
+      { topic: "Ép kiểu khi nhập", type: "choice", code: "so = int(input(\"Số: \"))", question: "Nếu người dùng gõ abc, chuyện gì xảy ra?", options: ["Báo lỗi ValueError và chương trình dừng", "In ra 0", "Tự bỏ qua rồi chạy tiếp", "Đổi abc thành số 1"], answer: "Báo lỗi ValueError và chương trình dừng", explain: "int() chỉ nhận chuỗi chữ số; chuỗi chữ cái gây ValueError." },
+      { topic: "Ép kiểu khi nhập", type: "choice", code: "a = input(\"a: \")\nb = input(\"b: \")\nprint(a + b)", question: "Nếu người dùng gõ 2 rồi 3, chương trình in ra gì?", options: ["23", "5", "2 3", "Lỗi"], answer: "23", explain: "Quên ép kiểu nên đây là phép NỐI hai chuỗi \"2\" + \"3\" = \"23\", không phải phép cộng!" },
+      { topic: "Ép kiểu khi nhập", type: "fill", question: "Muốn nhập số thực như 8.5, bọc input() bằng hàm nào? (chỉ tên hàm)", answer: ["float"], explain: "float(input(...)) cho phép nhập cả số nguyên lẫn số thập phân." },
+      { topic: "Ép kiểu khi nhập", type: "choice", question: "Vì sao phải ép kiểu ngay khi nhập dữ liệu số?", options: ["Vì input() luôn trả về chuỗi, còn tính toán cần số", "Vì chuỗi không in được ra màn hình", "Vì int() nhanh hơn input()", "Không cần ép kiểu, Python tự hiểu"], answer: "Vì input() luôn trả về chuỗi, còn tính toán cần số", explain: "Không ép kiểu thì \"2\" + \"3\" ra \"23\" — sai kết quả ngay." }
+    ];
+
+    EXERCISES["py-04-ex1"] = {
+      topic: "Đọc dữ liệu với input()",
+      prompt: "Dùng input() đọc tên người dùng vào biến ten, rồi in giá trị biến ten bằng print().",
+      checks: [
+        { regex: "\\bten\\s*=\\s*input\\s*\\(", desc: "Gán dữ liệu input(...) cho biến ten", hint: "Viết: ten = input(\"Tên bạn: \")" },
+        { regex: "print\\s*\\([^)]*\\bten\\b", desc: "In biến ten ra màn hình bằng print(...)", hint: "print(ten) hoặc print(\"Chào\", ten)" }
+      ],
+      sample: "ten = input(\"Tên bạn: \")\nprint(ten)"
+    };
+
+    EXERCISES["py-04-ex2"] = {
+      topic: "Cộng hai số nhập từ bàn phím",
+      prompt: "Dùng int(input(...)) nhập hai số nguyên a và b, rồi in tổng a + b ra màn hình.",
+      checks: [
+        { regex: "int\\s*\\(\\s*input\\s*\\(", minCount: 2, desc: "Dùng int(input(...)) ít nhất 2 lần để nhập hai số", hint: "a = int(input(\"a = \")) rồi b = int(input(\"b = \"))" },
+        { regex: "\\ba\\s*\\+\\s*b\\b", desc: "Tính tổng bằng phép cộng a + b", hint: "print(\"Tổng:\", a + b)" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "Đừng quên in tổng ra màn hình" }
+      ],
+      sample: "a = int(input(\"a = \"))\nb = int(input(\"b = \"))\nprint(\"Tổng:\", a + b)"
+    };
+
+    EXERCISES["py-04-ex3"] = {
+      topic: "Tuổi của năm sau",
+      prompt: "Nhập tuổi bằng int(input(...)) vào biến tuoi, rồi in ra số tuổi của bạn vào năm sau (tuoi + 1).",
+      checks: [
+        { regex: "\\btuoi\\s*=\\s*int\\s*\\(\\s*input\\s*\\(", desc: "Nhập tuổi bằng int(input(...))", hint: "tuoi = int(input(\"Tuổi của bạn: \"))" },
+        { regex: "\\btuoi\\s*\\+\\s*1\\b", desc: "Tính tuổi năm sau bằng tuoi + 1", hint: "print(\"Sang năm bạn\", tuoi + 1, \"tuổi\")" },
+        { regex: "print\\s*\\(", desc: "In kết quả bằng print()", hint: "Dùng print() để hiện số tuổi năm sau" }
+      ],
+      sample: "tuoi = int(input(\"Tuổi của bạn: \"))\nprint(\"Sang năm bạn\", tuoi + 1, \"tuổi\")"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

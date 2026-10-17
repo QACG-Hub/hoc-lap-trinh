@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 9 Python: List — danh sách. Tạo list, index từ 0, len(), append/insert/remove/pop, duyệt for, slice, sort/sum/min/max — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 9: List — danh sách | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-09">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-09</span></div>
+      <h1 class="lesson-title">List — danh sách</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #09 ]</span>
+        <span class="pill">Chương 3 — Cấu trúc dữ liệu</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Từ trước tới giờ mỗi biến chỉ giữ được <em>một</em> giá trị — chán chưa? Đã đến lúc nâng cấp:
+        <strong>list</strong> là một chiếc hộp nhiều ngăn, giữ được <em>cả dãy</em> dữ liệu trong một biến duy nhất.
+        Danh sách điểm, danh sách tên, danh sách việc cần làm… mọi thứ trên đời đều bắt đầu từ list. ⚡
+      </p>
+
+      <h2>List là gì?</h2>
+      <p>
+        <strong>List</strong> (danh sách) là một <strong>chuỗi giá trị có thứ tự</strong>, được viết trong cặp
+        <strong>ngoặc vuông</strong> <code>[ ]</code>, các phần tử cách nhau bằng dấu phẩy.
+        Mỗi phần tử có một <strong>vị trí</strong> gọi là <strong>index</strong> — và index bắt đầu từ <strong>0</strong> (không phải 1 đâu nhé!).
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">danh-sach.py</span>
+        </div>
+        <pre><code class="language-python">diem = [8, 9, 7, 10]     # list 4 phần tử
+print(diem)              # in cả list
+print(len(diem))         # đếm số phần tử
+print(diem[0])           # phần tử đầu tiên
+print(diem[1])           # phần tử thứ hai
+print(diem[-1])          # phần tử cuối cùng</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[8, 9, 7, 10]
+4
+8
+9
+10</pre>
+        </div>
+      </div>
+
+      <p>Hãy <strong>giải phẫu</strong> cách lấy một phần tử trong list:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">diem</span><span class="op">[</span><span class="st">0</span><span class="op">]</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>diem</code></td><td>tên biến đang giữ list</td><td>✅</td></tr>
+          <tr><td><code>[ ]</code></td><td>cặp ngoặc vuông đánh dấu "tôi muốn lấy phần tử bên trong"</td><td>✅</td></tr>
+          <tr><td><code>0</code></td><td>index — vị trí phần tử, đếm từ 0</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Index âm đếm ngược từ cuối: <code>-1</code> là phần tử cuối, <code>-2</code> là phần tử kế cuối. Khỏi cần tính <code>len(diem) - 1</code>!</p>
+      </div>
+
+      <p>Khởi động nhẹ nhàng — tạo list đầu tiên của bạn:</p>
+
+      <div class="exercise-box" data-ex="py-09-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-09" data-topic="List cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — LIST CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Thao tác với list: thêm, xóa, sửa</h2>
+      <p>
+        List là <strong>linh động</strong>: bạn có thể thêm phần tử mới, xóa phần tử cũ, hoặc sửa giá trị tại chỗ.
+        Các thao tác này gọi là <strong>phương thức</strong> (method) — viết bằng dấu chấm: <code>ds.append(...)</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">thao-tac-list.py</span>
+        </div>
+        <pre><code class="language-python">ds = [1, 2, 3]
+ds.append(4)         # thêm 4 vào cuối
+ds.insert(0, 0)      # chèn 0 vào vị trí index 0
+print(ds)
+
+ds.remove(2)         # xóa phần tử mang giá trị 2
+print(ds)
+
+x = ds.pop()         # lấy ra phần tử cuối
+print(x, ds)
+
+ds[0] = 99           # sửa phần tử đầu thành 99
+print(ds)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>[0, 1, 2, 3, 4]
+[0, 1, 3, 4]
+4 [0, 1, 3]
+[99, 1, 3]</pre>
+        </div>
+      </div>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">ds</span><span class="op">.</span><span class="fn">append</span><span class="op">(</span><span class="st">4</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>ds</code></td><td>list cần thao tác</td><td>✅</td></tr>
+          <tr><td><code>.append</code></td><td>phương thức thêm phần tử vào <strong>cuối</strong> list</td><td>✅</td></tr>
+          <tr><td><code>(4)</code></td><td>giá trị muốn thêm — đặt trong ngoặc đơn</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Truy cập vị trí không tồn tại (ví dụ <code>ds[10]</code> khi list chỉ có 4 phần tử) sẽ báo lỗi <code>IndexError: list index out of range</code>. Python đếm từ 0, nên phần tử cuối cùng có index là <code>len(ds) - 1</code>.</p>
+      </div>
+
+      <p>Luyện ngay hai chiêu thêm và xóa:</p>
+
+      <div class="exercise-box" data-ex="py-09-ex2"></div>
+
+      <div class="quiz-console" data-lesson="py-09" data-topic="Thao tác list" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — THAO TÁC LIST</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Duyệt list &amp; slice</h2>
+      <p>
+        <strong>Duyệt</strong> list là đi qua từng phần tử một — dùng vòng <code>for x in ds</code> (bạn sẽ học sâu ở chương sau, giờ chỉ cần biết nó chạy lần lượt từng phần tử).
+        Còn <strong>slice</strong> là <em>cắt</em> một đoạn của list bằng cú pháp <code>ds[a:b]</code> — lấy từ index <code>a</code> đến <strong>trước</strong> index <code>b</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">duyet-va-cat.py</span>
+        </div>
+        <pre><code class="language-python">ds = [5, 2, 8, 1]
+
+for x in ds:                    # đi qua từng phần tử
+    print("Phần tử:", x)
+
+print("Cắt 1:3 →", ds[1:3])     # slice: index 1 và 2
+
+ds.sort()                       # sắp xếp tăng dần
+print("sort:", ds)
+
+ds.reverse()                    # đảo ngược thứ tự
+print("reverse:", ds)
+
+print("sum =", sum(ds), "min =", min(ds), "max =", max(ds))</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Phần tử: 5
+Phần tử: 2
+Phần tử: 8
+Phần tử: 1
+Cắt 1:3 → [2, 8]
+sort: [1, 2, 5, 8]
+reverse: [8, 5, 2, 1]
+sum = 16 min = 1 max = 8</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p><code>sort()</code> và <code>reverse()</code> thay đổi <strong>chính list gốc</strong>; còn <code>sum()</code>, <code>min()</code>, <code>max()</code>, <code>len()</code> chỉ <strong>trả về giá trị</strong> chứ không đụng vào list.</p>
+      </div>
+
+      <p>Thử thách cuối: tính tổng điểm bằng cả hai cách:</p>
+
+      <div class="exercise-box" data-ex="py-09-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-09" data-topic="Duyệt &amp; slice" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — DUYỆT &amp; SLICE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 09</h2>
+      <ul>
+        <li>List tạo bằng ngoặc vuông: <code>[8, 9, 7, 10]</code> — một biến giữ được cả dãy.</li>
+        <li>Index bắt đầu từ <strong>0</strong>; index âm đếm từ cuối (<code>-1</code> là phần tử cuối).</li>
+        <li>Thêm/xóa/sửa: <code>append</code>, <code>insert</code>, <code>remove</code>, <code>pop</code>, <code>ds[0] = 99</code>.</li>
+        <li>Duyệt bằng <code>for x in ds</code>; cắt đoạn bằng slice <code>ds[1:3]</code> (đến <em>trước</em> index 3).</li>
+        <li><code>len()</code>, <code>sum()</code>, <code>min()</code>, <code>max()</code> trả về giá trị; <code>sort()</code>, <code>reverse()</code> đổi list gốc.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-09" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 09</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-09"] = [
+      /* --- List cơ bản (6) --- */
+      { topic: "List cơ bản", type: "choice", question: "Cách tạo một list gồm ba số 1, 2, 3 trong Python?", options: ["[1, 2, 3]", "(1, 2, 3)", "{1, 2, 3}", "list(1, 2, 3)"], answer: "[1, 2, 3]", explain: "List nằm trong cặp ngoặc VUÔNG [ ], các phần tử cách nhau dấu phẩy." },
+      { topic: "List cơ bản", type: "choice", code: "ds = [10, 20, 30]\nprint(ds[0])", question: "Đoạn code trên in ra gì?", options: ["10", "20", "30", "0"], answer: "10", explain: "Index bắt đầu từ 0 — ds[0] là phần tử ĐẦU TIÊN." },
+      { topic: "List cơ bản", type: "fill", question: "Phần tử đầu tiên của list nằm ở index nào? (chỉ ghi số)", answer: ["0"], explain: "Python đếm từ 0: phần tử đầu là index 0, phần tử thứ hai là index 1." },
+      { topic: "List cơ bản", type: "choice", code: "print(len([4, 5, 6, 7]))", question: "Đoạn code trên in ra gì?", options: ["3", "4", "5", "7"], answer: "4", explain: "len() đếm số phần tử — list này có 4 phần tử." },
+      { topic: "List cơ bản", type: "choice", code: "ds = [10, 20, 30]\nprint(ds[-1])", question: "Đoạn code trên in ra gì?", options: ["10", "20", "30", "Báo lỗi"], answer: "30", explain: "Index âm đếm từ cuối: -1 là phần tử cuối cùng." },
+      { topic: "List cơ bản", type: "choice", question: "Câu lệnh nào cho biết list ds có bao nhiêu phần tử?", options: ["len(ds)", "size(ds)", "ds.length", "count(ds)"], answer: "len(ds)", explain: "len(ds) trả về số phần tử của ds." },
+
+      /* --- Thao tác list (7) --- */
+      { topic: "Thao tác list", type: "choice", question: "Phương thức append() làm gì?", options: ["Thêm phần tử vào cuối list", "Thêm phần tử vào đầu list", "Xóa phần tử cuối list", "Sắp xếp list tăng dần"], answer: "Thêm phần tử vào cuối list", explain: "append(4) nhét 4 vào cuối list — chiêu thêm phần tử hay dùng nhất." },
+      { topic: "Thao tác list", type: "choice", code: "ds = [1, 2]\nds.append(3)\nprint(ds)", question: "Đoạn code trên in ra gì?", options: ["[1, 2, 3]", "[3, 1, 2]", "[1, 2]", "3"], answer: "[1, 2, 3]", explain: "append thêm 3 vào cuối list [1, 2]." },
+      { topic: "Thao tác list", type: "choice", question: "ds.insert(1, 99) chèn giá trị 99 vào đâu?", options: ["Vị trí index 1 (chỗ phần tử thứ hai)", "Vị trí index 0 (đầu list)", "Cuối list", "Thay thế mọi số 99 trong list"], answer: "Vị trí index 1 (chỗ phần tử thứ hai)", explain: "insert(vị_trí, giá_trị) — 99 được chèn vào index 1, các phần tử phía sau bị đẩy lùi." },
+      { topic: "Thao tác list", type: "choice", code: "ds = [1, 2, 3]\nds.remove(2)\nprint(ds)", question: "Đoạn code trên in ra gì?", options: ["[1, 3]", "[2, 3]", "[1, 2]", "[3]"], answer: "[1, 3]", explain: "remove(giá_trị) xóa phần tử có GIÁ TRỊ 2 khỏi list." },
+      { topic: "Thao tác list", type: "fill", question: "Điền tên phương thức thêm 4 vào cuối list ds (chỉ gõ tên, không ngoặc): ds.___(4)", answer: ["append"], explain: "ds.append(4) — thêm 4 vào cuối list." },
+      { topic: "Thao tác list", type: "choice", code: "ds = [1, 2, 3]\nx = ds.pop()\nprint(x)", question: "Đoạn code trên in ra gì?", options: ["3", "1", "[1, 2]", "2"], answer: "3", explain: "pop() lấy ra VÀ xóa phần tử cuối cùng — ở đây là 3." },
+      { topic: "Thao tác list", type: "choice", question: "Muốn SỬA phần tử thứ hai (index 1) của list ds thành 99, viết thế nào?", options: ["ds[1] = 99", "ds(1) = 99", "ds.1 = 99", "ds = 99"], answer: "ds[1] = 99", explain: "Gán thẳng vào vị trí: ds[1] = 99 — index 1 là phần tử thứ hai." },
+
+      /* --- Duyệt & slice (7) --- */
+      { topic: "Duyệt & slice", type: "choice", code: "ds = [1, 2, 3]\ntong = 0\nfor x in ds:\n    tong = tong + x\nprint(tong)", question: "Đoạn code trên in ra gì?", options: ["6", "3", "123", "[1, 2, 3]"], answer: "6", explain: "Vòng for cộng dồn 1 + 2 + 3 = 6." },
+      { topic: "Duyệt & slice", type: "choice", code: "ds = [5, 2, 8, 1]\nprint(ds[1:3])", question: "Đoạn code trên in ra gì?", options: ["[2, 8]", "[5, 2]", "[2, 8, 1]", "[5, 2, 8]"], answer: "[2, 8]", explain: "Slice ds[1:3] lấy từ index 1 đến TRƯỚC index 3 → index 1 và 2." },
+      { topic: "Duyệt & slice", type: "choice", question: "ds.sort() làm gì?", options: ["Sắp xếp list tăng dần (đổi luôn list gốc)", "Sắp xếp list giảm dần", "Đảo ngược thứ tự list", "Tính tổng các phần tử"], answer: "Sắp xếp list tăng dần (đổi luôn list gốc)", explain: "sort() sắp tăng dần và thay đổi chính list đó; muốn giảm dần thì sort(reverse=True)." },
+      { topic: "Duyệt & slice", type: "fill", question: "Điền tên hàm tính tổng các phần tử của list ds (chỉ gõ tên, không ngoặc): ___(ds)", answer: ["sum"], explain: "sum(ds) cộng tất cả phần tử số trong ds." },
+      { topic: "Duyệt & slice", type: "choice", code: "print(min([7, 3, 9]))", question: "Đoạn code trên in ra gì?", options: ["3", "7", "9", "19"], answer: "3", explain: "min() trả về phần tử nhỏ nhất — trong 7, 3, 9 là 3." },
+      { topic: "Duyệt & slice", type: "choice", code: "ds = [5, 2, 8, 1]\nds.reverse()\nprint(ds)", question: "Đoạn code trên in ra gì?", options: ["[1, 8, 2, 5]", "[1, 2, 5, 8]", "[5, 2, 8, 1]", "[8, 5, 1, 2]"], answer: "[1, 8, 2, 5]", explain: "reverse() đảo NGƯỢC thứ tự hiện tại (không sắp xếp): 5, 2, 8, 1 → 1, 8, 2, 5." },
+      { topic: "Duyệt & slice", type: "choice", question: "ds[1:3] lấy ra những phần tử nào?", options: ["Từ index 1 đến TRƯỚC index 3 (2 phần tử)", "Từ index 1 đến hết list", "Ba phần tử đầu tiên", "Từ index 1 đến index 3 tính cả hai đầu (3 phần tử)"], answer: "Từ index 1 đến TRƯỚC index 3 (2 phần tử)", explain: "Slice lấy từ vị trí đầu đến TRƯỚC vị trí cuối — ds[1:3] là index 1 và 2." }
+    ];
+
+    EXERCISES["py-09-ex1"] = {
+      topic: "List 5 số đầu tiên",
+      prompt: "Tạo một list tên so gồm ĐÚNG 5 số (cách nhau dấu phẩy), rồi dùng print() in cả list ra màn hình.",
+      checks: [
+        { regex: "\\bso\\s*=\\s*\\[\\s*\\d+\\s*(?:,\\s*\\d+\\s*){4,}\\]", desc: "Gán list so chứa ít nhất 5 số trong ngoặc [ ]", hint: "Ví dụ: so = [3, 7, 1, 9, 5]" },
+        { regex: "print\\s*\\(\\s*so\\s*\\)", desc: "Dùng print(so) để in cả list", hint: "Chỉ cần viết print(so)" }
+      ],
+      sample: "so = [3, 7, 1, 9, 5]\nprint(so)"
+    };
+
+    EXERCISES["py-09-ex2"] = {
+      topic: "Thêm phần tử bằng append",
+      prompt: "Tạo list ds gồm 2 số bất kỳ, dùng ds.append(...) thêm MỘT số nữa vào cuối, rồi in cả list ds ra.",
+      checks: [
+        { regex: "\\bds\\s*=\\s*\\[\\s*\\d+\\s*,\\s*\\d+", desc: "Tạo list ds với ít nhất 2 số", hint: "Ví dụ: ds = [1, 2]" },
+        { regex: "\\bds\\.append\\s*\\(\\s*-?\\d+\\s*\\)", desc: "Gọi ds.append(...) để thêm một số vào cuối", hint: "ds.append(3) — thêm 3 vào cuối list ds" },
+        { regex: "print\\s*\\(\\s*ds\\s*\\)", desc: "In list ds sau khi thêm bằng print(ds)", hint: "print(ds)" }
+      ],
+      sample: "ds = [1, 2]\nds.append(3)\nprint(ds)"
+    };
+
+    EXERCISES["py-09-ex3"] = {
+      topic: "Tính tổng các phần tử",
+      prompt: "Cho list diem = [8, 9, 7, 10]. Hãy TÍNH TỔNG các phần tử (dùng sum() hoặc vòng for) và in kết quả ra.",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*\\[\\s*8\\s*,\\s*9\\s*,\\s*7\\s*,\\s*10\\s*\\]", desc: "Tạo đúng list diem = [8, 9, 7, 10]", hint: "Viết: diem = [8, 9, 7, 10]" },
+        { regex: "(sum\\s*\\(\\s*diem\\s*\\)|for\\s+\\w+\\s+in\\s+diem\\b)", desc: "Dùng sum(diem) hoặc vòng for duyệt qua diem", hint: "Cách nhanh: sum(diem). Cách for: tong = 0 rồi cộng dồn từng phần tử." },
+        { regex: "print\\s*\\(", desc: "In kết quả tổng ra màn hình", hint: "Ví dụ: print(sum(diem))" }
+      ],
+      sample: "diem = [8, 9, 7, 10]\nprint(sum(diem))"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

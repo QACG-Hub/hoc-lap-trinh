@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 3 C++: biến và các kiểu dữ liệu cơ bản (int, double, char, bool, string), ép kiểu để chia số thực và xem trước cin.">
+  <title>Bài 3: Biến &amp; kiểu dữ liệu | C++ | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="cpp" data-lesson="cpp-03">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="../python/index.html">PYTHON</a>
+        <a href="index.html" class="active">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">cpp</a> / <span>cpp-03</span></div>
+      <h1 class="lesson-title">Biến &amp; kiểu dữ liệu</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #03 ]</span>
+        <span class="pill">Chương 1 — Nhập môn</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        Chương trình nào cũng cần ghi nhớ dữ liệu — và trong C++, mọi biến đều phải có <strong>kiểu rõ ràng</strong>.
+        Bài này bạn sẽ học khai báo biến, phân biệt các kiểu dữ liệu cơ bản, <strong>ép kiểu</strong> để chia ra số thực chính xác,
+        và hé lộ <code>cin</code> — cách đọc dữ liệu từ bàn phím. ⚙️
+      </p>
+
+      <h2>Biến trong C++</h2>
+      <p>
+        Trong Python, bạn chỉ cần gõ <code>tuoi = 20</code> là xong. Còn C++ <strong>bắt buộc ghi rõ kiểu</strong> ngay khi khai báo:
+        muốn chiếc hộp đựng số nguyên thì phải mở đầu bằng <code>int</code>, đựng số thực thì bằng <code>double</code>…
+        Chính quy tắc này giúp C++ nhanh và chặt chẽ hơn.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">bien.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int tuoi = 20;              // khai báo kèm kiểu int
+    cout &lt;&lt; tuoi &lt;&lt; endl;       // in ra 20
+
+    tuoi = 21;                  // gán lại giá trị mới — được!
+    cout &lt;&lt; tuoi &lt;&lt; endl;       // in ra 21
+
+    const double PI = 3.14;     // hằng số — gán lại sẽ bị lỗi
+    cout &lt;&lt; PI &lt;&lt; endl;         // in ra 3.14
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>20
+21
+3.14</pre>
+        </div>
+      </div>
+
+      <p>Hai điều cần nhớ: biến thường <strong>gán lại được</strong> thoải mái, còn <code>const</code> tạo <strong>hằng số</strong> — gán lại sẽ báo lỗi biên dịch ngay. Giờ giải phẫu dòng khai báo:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">int</span> <span class="vr">tuoi</span> <span class="op">=</span> 20<span class="op">;</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>int</code></td><td>kiểu dữ liệu — ở đây là số nguyên</td><td>✅</td></tr>
+          <tr><td><code>tuoi</code></td><td>tên biến do bạn đặt</td><td>✅</td></tr>
+          <tr><td><code>=</code></td><td>toán tử gán — đưa giá trị bên phải vào biến bên trái</td><td>✅</td></tr>
+          <tr><td><code>20</code></td><td>giá trị ban đầu gán vào biến</td><td>✅</td></tr>
+          <tr><td><code>;</code></td><td>kết thúc câu lệnh</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <p>Thực hành ngay — khai báo biến đúng cú pháp C++:</p>
+
+      <div class="exercise-box" data-ex="cpp-03-ex1"></div>
+
+      <div class="quiz-console" data-lesson="cpp-03" data-topic="Biến" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — BIẾN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Các kiểu dữ liệu cơ bản</h2>
+      <p>
+        C++ cho bạn một bộ kiểu "đóng hộp" sẵn — chỉ cần chọn đúng hộp cho dữ liệu. Đây là những kiểu bạn sẽ dùng hằng ngày:
+      </p>
+
+      <table>
+        <tr><th>Kiểu</th><th>Lưu gì</th><th>Ví dụ</th><th>Ghi chú</th></tr>
+        <tr><td><code>int</code></td><td>số nguyên</td><td><code>20</code>, <code>-7</code></td><td>dùng nhiều nhất</td></tr>
+        <tr><td><code>double</code></td><td>số thực (chính xác gấp đôi <code>float</code>)</td><td><code>8.5</code>, <code>3.14</code></td><td>mặc định nên chọn cho số thực</td></tr>
+        <tr><td><code>float</code></td><td>số thực (độ chính xác thấp hơn)</td><td><code>3.14f</code></td><td>ít dùng hơn <code>double</code></td></tr>
+        <tr><td><code>char</code></td><td>MỘT ký tự — nháy ĐƠN</td><td><code>'A'</code>, <code>'7'</code></td><td>nháy đơn mới là ký tự</td></tr>
+        <tr><td><code>bool</code></td><td>đúng / sai</td><td><code>true</code>, <code>false</code></td><td>viết thường; in ra thành 1/0</td></tr>
+        <tr><td><code>string</code></td><td>chuỗi ký tự — nháy KÉP</td><td><code>"An"</code>, <code>"Xin chào"</code></td><td>cần <code>#include &lt;string&gt;</code></td></tr>
+      </table>
+
+      <p>Xem đủ bộ kiểu trong một chương trình hoàn chỉnh:</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">kieu-du-lieu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    int tuoi = 20;              // số nguyên
+    double diem = 8.5;          // số thực
+    char xepLoai = 'A';         // một ký tự — nháy ĐƠN
+    bool totNghiep = true;      // đúng / sai
+    string ten = "An";          // chuỗi — nháy KÉP
+
+    cout &lt;&lt; ten &lt;&lt; " - " &lt;&lt; tuoi &lt;&lt; " tuổi" &lt;&lt; endl;
+    cout &lt;&lt; "Điểm: " &lt;&lt; diem &lt;&lt; " - Xếp loại: " &lt;&lt; xepLoai &lt;&lt; endl;
+    cout &lt;&lt; "Tốt nghiệp: " &lt;&lt; totNghiep &lt;&lt; endl;   // bool in ra 1/0
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>An - 20 tuổi
+Điểm: 8.5 - Xếp loại: A
+Tốt nghiệp: 1</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p><code>cout</code> in <code>bool</code> thành <code>1</code>/<code>0</code>. Muốn in ra chữ <code>true</code>/<code>false</code>, dùng <code>boolalpha</code>: <code>cout &lt;&lt; boolalpha &lt;&lt; totNghiep;</code> — mẹo nhỏ này rất hữu ích khi gỡ lỗi.</p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Phép chia hai số nguyên trong C++ là <strong>chia nguyên</strong>: <code>7 / 2</code> cho ra <code>3</code>, không phải <code>3.5</code>! Khác hẳn Python (luôn ra 3.5). Muốn kết quả số thực phải <strong>ép kiểu</strong> — học ngay ở §3.</p>
+      </div>
+
+      <p>Thử in biến ra màn hình bằng cout:</p>
+
+      <div class="exercise-box" data-ex="cpp-03-ex2"></div>
+
+      <div class="quiz-console" data-lesson="cpp-03" data-topic="Kiểu dữ liệu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — KIỂU DỮ LIỆU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ép kiểu &amp; xem trước cin</h2>
+      <p>
+        Chìa khoá để <code>7 / 2</code> ra <code>3.5</code> là <strong>ép kiểu</strong> (type casting) — nói với compiler:
+        "hãy tính phép này như số thực đi". Chỉ cần ép <em>một</em> trong hai toán hạng thành <code>double</code> là cả phép chia chuyển sang số thực:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">ep-kieu.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; 7 / 2 &lt;&lt; endl;                        // chia hai int → 3
+    cout &lt;&lt; (double)7 / 2 &lt;&lt; endl;                // ép kiểu "kiểu C" → 3.5
+    cout &lt;&lt; static_cast&lt;double&gt;(7) / 2 &lt;&lt; endl;   // ép kiểu hiện đại → 3.5
+
+    int x = 3.9;                                  // gán số thực vào int...
+    cout &lt;&lt; x &lt;&lt; endl;                            // ...bị cắt thành 3
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>3
+3.5
+3.5
+3</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Cách ép kiểu C <code>(double)7</code> vẫn chạy tốt, nhưng C++ hiện đại khuyến nghị <code>static_cast&lt;double&gt;(7)</code> — rõ ràng hơn và ít gây lỗi ngầm. Đi thi đấu thuật toán bạn sẽ gặp cả hai.</p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Gán số thực vào biến <code>int</code> không làm tròn mà <strong>cắt thẳng phần thập phân</strong>: <code>int x = 3.9;</code> cho <code>x</code> bằng <code>3</code> (không phải 4). Hãy chọn kiểu đúng ngay từ lúc khai báo!</p>
+      </div>
+
+      <h3>Xem trước: đọc dữ liệu với cin</h3>
+      <p>
+        Nếu <code>cout</code> đẩy dữ liệu <em>ra</em> màn hình với <code>&lt;&lt;</code>, thì <code>cin</code> kéo dữ liệu người dùng gõ <em>vào</em> biến với <code>&gt;&gt;</code>.
+        Chương trình đầu tiên có tương tác trông như thế này — bạn sẽ học kỹ ở bài sau:
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">nhap.cpp</span>
+        </div>
+        <pre><code class="language-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int tuoi;
+    cout &lt;&lt; "Nhập tuổi của bạn: ";
+    cin &gt;&gt; tuoi;
+    cout &lt;&lt; "Bạn " &lt;&lt; tuoi &lt;&lt; " tuổi!" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Nhập tuổi của bạn: 20
+Bạn 20 tuổi!</pre>
+        </div>
+      </div>
+
+      <p>Thử thách cuối cùng — ép kiểu để phép chia ra số thực:</p>
+
+      <div class="exercise-box" data-ex="cpp-03-ex3"></div>
+
+      <div class="quiz-console" data-lesson="cpp-03" data-topic="Ép kiểu" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ÉP KIỂU</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 03</h2>
+      <ul>
+        <li>Khai báo biến trong C++ <strong>bắt buộc ghi kiểu</strong>: <code>int tuoi = 20;</code> — khác Python (kiểu động).</li>
+        <li>Biến thường gán lại được; <code>const</code> tạo hằng số, gán lại sẽ lỗi biên dịch.</li>
+        <li>Kiểu cơ bản: <code>int</code> (số nguyên), <code>double</code>/<code>float</code> (số thực), <code>char</code> (một ký tự, nháy đơn), <code>bool</code> (true/false, in ra 1/0), <code>string</code> (chuỗi, nháy kép, cần <code>#include &lt;string&gt;</code>).</li>
+        <li>Chia hai số nguyên là <strong>chia nguyên</strong>: <code>7 / 2</code> ra <code>3</code>; muốn <code>3.5</code> phải ép kiểu <code>(double)7 / 2</code> hoặc <code>static_cast&lt;double&gt;(7) / 2</code>.</li>
+        <li>Gán số thực vào <code>int</code> sẽ <strong>cắt phần thập phân</strong> (<code>int x = 3.9;</code> → <code>3</code>).</li>
+        <li>Xem trước: <code>cin &gt;&gt; bien;</code> đọc dữ liệu người dùng nhập từ bàn phím — học kỹ ở bài sau.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="cpp-03" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 03</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 7 Python: vòng lặp for và hàm range() — range(5), range(1, 6), bước nhảy range(0, 10, 2), tính tổng 1..100, bảng cửu chương và duyệt chuỗi, kèm bài tập chấm điểm, quiz random.">
+  <title>Bài 7: Vòng lặp for | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-07">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-07</span></div>
+      <h1 class="lesson-title">Vòng lặp for</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #07 ]</span>
+        <span class="pill">Chương 2 — Cấu trúc điều khiển</span>
+        <span class="pill">Mức độ: Chiến binh</span>
+      </div>
+
+      <p>
+        Máy tính không bao giờ biết mệt — nên đừng bắt nó làm việc lặp lại bằng cách copy-paste 100 dòng lệnh!
+        <strong>Vòng lặp <code>for</code></strong> cho phép bạn viết một lần, chạy trăm lần.
+        Đây là siêu năng lực đưa bạn từ "gõ code" lên "điều khiển cỗ máy". ⚡
+      </p>
+
+      <h2>for &amp; range()</h2>
+      <p>
+        Vòng lặp <code>for</code> duyệt qua từng giá trị trong một dãy và chạy khối lệnh bên trong với mỗi giá trị.
+        Cách tạo dãy số nhanh nhất là hàm <code>range()</code> — nó sinh ra dãy số theo yêu cầu mà bạn không phải gõ tay.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">range.py</span>
+        </div>
+        <pre><code class="language-python">for i in range(5):        # 0 → 4
+    print(i)
+print("---")
+for i in range(1, 6):     # 1 → 5
+    print(i)
+print("---")
+for i in range(0, 10, 2): # bước nhảy 2
+    print(i)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>0
+1
+2
+3
+4
+---
+1
+2
+3
+4
+5
+---
+0
+2
+4
+6
+8</pre>
+        </div>
+      </div>
+
+      <table>
+        <tr><th>Cách viết</th><th>Dãy giá trị sinh ra</th></tr>
+        <tr><td><code>range(5)</code></td><td>0, 1, 2, 3, 4 — bắt đầu từ 0, <strong>dừng trước 5</strong></td></tr>
+        <tr><td><code>range(1, 6)</code></td><td>1, 2, 3, 4, 5 — bắt đầu từ 1, <strong>dừng trước 6</strong></td></tr>
+        <tr><td><code>range(0, 10, 2)</code></td><td>0, 2, 4, 6, 8 — tham số thứ ba là <strong>bước nhảy</strong></td></tr>
+      </table>
+
+      <p>Giải phẫu vòng lặp <code>for</code> để nắm từng bộ phận:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="kw">for</span> <span class="vr">i</span> <span class="kw">in</span> <span class="fn">range</span><span class="op">(</span><span class="st">1</span><span class="op">,</span> <span class="st">6</span><span class="op">)</span><span class="op">:</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>for</code></td><td>từ khoá mở đầu vòng lặp — "với mỗi…"</td><td>✅</td></tr>
+          <tr><td><code>i</code></td><td>biến đếm — mỗi vòng tự động nhận một giá trị trong dãy</td><td>✅</td></tr>
+          <tr><td><code>in range(1, 6)</code></td><td>dãy giá trị cần duyệt (ở đây là 1, 2, 3, 4, 5)</td><td>✅</td></tr>
+          <tr><td><code>:</code> + khối lệnh</td><td>dấu hai chấm rồi các dòng <strong>thụt lề 4 dấu cách</strong> — phần được lặp lại</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>range()</code> <strong>không bao giờ bao gồm giá trị cuối</strong>: muốn chạy 1 đến 5 thì viết <code>range(1, 6)</code>,
+          muốn chạy 1 đến 100 thì viết <code>range(1, 101)</code>. Quy tắc "dừng trước đích" này là cái bẫy kinh điển!
+        </p>
+      </div>
+
+      <p>Thực hành ngay — in dãy số bằng <code>for</code>:</p>
+
+      <div class="exercise-box" data-ex="py-07-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-07" data-topic="for &amp; range" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — FOR &amp; RANGE</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ứng dụng for</h2>
+      <p>
+        Vòng lặp chỉ thực sự tỏa sáng khi kết hợp với biến cộng dồn và tính toán bên trong.
+        Ba ứng dụng kinh điển: <strong>tính tổng</strong>, <strong>in bảng cửu chương</strong> và <strong>duyệt chuỗi</strong>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">tong-1-100.py</span>
+        </div>
+        <pre><code class="language-python">total = 0
+for i in range(1, 101):
+    total += i
+print("Tổng 1..100 =", total)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>Tổng 1..100 = 5050</pre>
+        </div>
+      </div>
+
+      <p>
+        Phép gán <code>total += i</code> là cách viết tắt của <code>total = total + i</code>: mỗi vòng, giá trị của <code>i</code>
+        được <em>cộng dồn</em> vào <code>total</code>. Biến <code>total</code> phải được khởi tạo <code>0</code> <strong>trước</strong> vòng lặp.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">cuu-chuong-2.py</span>
+        </div>
+        <pre><code class="language-python">for i in range(1, 11):
+    print("2 x", i, "=", 2 * i)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>2 x 1 = 2
+2 x 2 = 4
+2 x 3 = 6
+2 x 4 = 8
+2 x 5 = 10
+2 x 6 = 12
+2 x 7 = 14
+2 x 8 = 16
+2 x 9 = 18
+2 x 10 = 20</pre>
+        </div>
+      </div>
+
+      <p>Một bất ngờ thú vị: <code>for</code> còn duyệt được từng ký tự của chuỗi!</p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">duyet-chuoi.py</span>
+        </div>
+        <pre><code class="language-python">for ch in "PYTHON":
+    print(ch)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>P
+Y
+T
+H
+O
+N</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>
+          <code>total += i</code> đọc là "total cộng thêm i rồi gán lại cho total". Các phép viết tắt cùng họ:
+          <code>total -= i</code>, <code>total *= 2</code>, <code>total /= 2</code>.
+        </p>
+      </div>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>
+          Quên khởi tạo <code>total = 0</code> trước vòng lặp mà dùng ngay <code>total += i</code> sẽ báo lỗi
+          <code>NameError: name 'total' is not defined</code> — Python chưa biết <code>total</code> là ai!
+        </p>
+      </div>
+
+      <p>Tự tay tính tổng bằng vòng lặp — kỹ năng nền tảng của mọi thuật toán:</p>
+
+      <div class="exercise-box" data-ex="py-07-ex2"></div>
+
+      <p>Và một bài nâng nhẹ: dùng bước nhảy để lọc số chẵn:</p>
+
+      <div class="exercise-box" data-ex="py-07-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-07" data-topic="Ứng dụng for" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — ỨNG DỤNG FOR</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 07</h2>
+      <ul>
+        <li><code>for i in range(...):</code> lặp với <code>i</code> lần lượt nhận từng giá trị trong dãy.</li>
+        <li><code>range(5)</code> → 0..4; <code>range(1, 6)</code> → 1..5; <code>range(0, 10, 2)</code> → 0, 2, 4, 6, 8 (tham số thứ ba là bước nhảy).</li>
+        <li><code>range()</code> <strong>dừng trước giá trị cuối</strong> — muốn đến 100 phải viết <code>range(1, 101)</code>.</li>
+        <li>Cộng dồn bằng <code>total += i</code> (viết tắt của <code>total = total + i</code>); nhớ khởi tạo <code>total = 0</code> trước vòng lặp.</li>
+        <li><code>for ch in "PYTHON":</code> duyệt được từng ký tự của chuỗi — rất tiện cho xử lý văn bản sau này.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-07" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 07</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-07"] = [
+      /* --- for & range --- */
+      { topic: "for & range", type: "choice", question: "range(5) sinh ra dãy giá trị nào?", options: ["0, 1, 2, 3, 4", "1, 2, 3, 4, 5", "0, 1, 2, 3, 4, 5", "5"], answer: "0, 1, 2, 3, 4", explain: "range(5) bắt đầu từ 0 và dừng TRƯỚC 5." },
+      { topic: "for & range", type: "choice", code: "for i in range(3):\n    print(i)", question: "Đoạn code trên in ra lần lượt những giá trị nào (mỗi giá trị một dòng)?", options: ["0, 1, 2", "1, 2, 3", "0, 1, 2, 3", "3"], answer: "0, 1, 2", explain: "range(3) sinh ra 0, 1, 2 — dừng trước 3." },
+      { topic: "for & range", type: "choice", question: "range(1, 6) khác range(6) ở điểm nào?", options: ["range(1, 6) chạy 1→5, còn range(6) chạy 0→5", "range(1, 6) chạy 1→6, còn range(6) chạy 1→5", "Hai cách viết giống hệt nhau", "range(6) bắt đầu từ 1"], answer: "range(1, 6) chạy 1→5, còn range(6) chạy 0→5", explain: "Tham số đầu là điểm bắt đầu, tham số cuối là điểm dừng (không bao gồm)." },
+      { topic: "for & range", type: "choice", question: "range(0, 10, 2) sinh ra dãy nào?", options: ["0, 2, 4, 6, 8", "2, 4, 6, 8, 10", "0, 2, 4, 6, 8, 10", "10, 8, 6, 4, 2"], answer: "0, 2, 4, 6, 8", explain: "Tham số thứ ba là bước nhảy 2, và vẫn dừng trước 10." },
+      { topic: "for & range", type: "choice", question: "range(5) có bao gồm số 5 không?", options: ["Không — dừng TRƯỚC 5", "Có, luôn bao gồm", "Chỉ khi dùng print(5)", "Tuỳ số lượng vòng lặp"], answer: "Không — dừng TRƯỚC 5", explain: "Quy tắc vàng của range(): không bao giờ chạm tới giá trị cuối." },
+      { topic: "for & range", type: "choice", question: "Tham số thứ ba của range(0, 10, 2) có ý nghĩa gì?", options: ["Bước nhảy — mỗi vòng tăng thêm 2", "Số vòng lặp tối đa", "Giá trị bắt đầu", "Giá trị kết thúc"], answer: "Bước nhảy — mỗi vòng tăng thêm 2", explain: "range(bắt_đầu, kết_thúc, bước_nhảy) — bỏ qua bước nhảy thì mặc định là 1." },
+      { topic: "for & range", type: "fill", question: "Điền tên hàm sinh dãy số cho vòng lặp for (ví dụ range(5)):", answer: ["range"], explain: "range() sinh dãy số 0, 1, 2, ... để for duyệt qua." },
+      /* --- Ứng dụng for --- */
+      { topic: "Ứng dụng for", type: "choice", code: "total = 0\nfor i in range(1, 4):\n    total += i\nprint(total)", question: "Đoạn code trên in ra gì?", options: ["6", "3", "10", "123"], answer: "6", explain: "total cộng dồn 1 + 2 + 3 = 6." },
+      { topic: "Ứng dụng for", type: "choice", code: "for ch in \"ABC\":\n    print(ch)", question: "Đoạn code trên in ra gì?", options: ["A, B, C (mỗi ký tự một dòng)", "ABC (một dòng)", "A B C (một dòng)", "Lỗi vì không duyệt được chuỗi"], answer: "A, B, C (mỗi ký tự một dòng)", explain: "for duyệt từng ký tự của chuỗi, mỗi vòng in một ký tự." },
+      { topic: "Ứng dụng for", type: "choice", question: "Đoạn code nào in đúng bảng cửu chương 2 (2 x 1 đến 2 x 10)?", options: ["for i in range(1, 11): print(\"2 x\", i, \"=\", 2 * i)", "for i in range(1, 10): print(\"2 x\", i)", "print(\"2 x 10 = 20\")", "while True: print(2)"], answer: "for i in range(1, 11): print(\"2 x\", i, \"=\", 2 * i)", explain: "range(1, 11) chạy 1..10 và mỗi vòng in một dòng của bảng cửu chương." },
+      { topic: "Ứng dụng for", type: "choice", question: "Vòng lặp for i in range(1, 101) chạy bao nhiêu lần?", options: ["100 lần", "101 lần", "99 lần", "50 lần"], answer: "100 lần", explain: "Từ 1 đến 100 là 100 giá trị — dừng trước 101." },
+      { topic: "Ứng dụng for", type: "choice", code: "tong = 0\nfor i in range(1, 6):\n    tong += i\nprint(tong)", question: "Đoạn code trên in ra gì?", options: ["15", "10", "5", "20"], answer: "15", explain: "1 + 2 + 3 + 4 + 5 = 15." },
+      { topic: "Ứng dụng for", type: "fill", question: "Viết dạng viết tắt của phép gán total = total + i (gõ cả biểu thức):", answer: ["total += i", "total+=i", "total = total + i"], explain: "+= là viết tắt của \"cộng thêm rồi gán lại\" — dùng cực nhiều khi tính tổng." }
+    ];
+
+    EXERCISES["py-07-ex1"] = {
+      topic: "In dãy số bằng for",
+      prompt: "Dùng vòng lặp for với range() để in ra các số từ 1 đến 10, mỗi số một dòng.",
+      checks: [
+        { regex: "\\bfor\\s+\\w+\\s+in\\s+range\\s*\\(\\s*1\\s*,\\s*11\\s*\\)", desc: "Dùng for ... in range(1, 11) để chạy từ 1 đến 10", hint: "for i in range(1, 11): — nhớ dừng trước 11!" },
+        { regex: "print\\s*\\(", desc: "In giá trị trong vòng lặp bằng print()", hint: "print(i) nằm trong khối lệnh thụt lề của for" }
+      ],
+      sample: "for i in range(1, 11):\n    print(i)"
+    };
+
+    EXERCISES["py-07-ex2"] = {
+      topic: "Tính tổng 1 đến 100",
+      prompt: "Dùng vòng lặp for tính tổng các số từ 1 đến 100: khởi tạo biến tổng bằng 0, cộng dồn bằng +=, rồi in kết quả (mong đợi 5050).",
+      checks: [
+        { regex: "\\bfor\\s+\\w+\\s+in\\s+range\\s*\\(\\s*1\\s*,\\s*101\\s*\\)", desc: "Lặp từ 1 đến 100 bằng range(1, 101)", hint: "for i in range(1, 101):" },
+        { regex: "\\w+\\s*\\+=\\s*\\w+", desc: "Cộng dồn giá trị vào biến tổng bằng +=", hint: "tong += i bên trong vòng lặp" },
+        { regex: "print\\s*\\(", desc: "In tổng ra màn hình bằng print()", hint: "print(\"Tổng =\", tong)" }
+      ],
+      sample: "tong = 0\nfor i in range(1, 101):\n    tong += i\nprint(\"Tổng =\", tong)"
+    };
+
+    EXERCISES["py-07-ex3"] = {
+      topic: "Số chẵn với bước nhảy",
+      prompt: "Dùng vòng lặp for với range() có bước nhảy để in ra các số chẵn từ 0 đến 10 (gợi ý: range(0, 11, 2)).",
+      checks: [
+        { regex: "range\\s*\\(\\s*0\\s*,\\s*11\\s*,\\s*2\\s*\\)", desc: "Dùng range(0, 11, 2) với bước nhảy 2", hint: "for i in range(0, 11, 2):" },
+        { regex: "print\\s*\\(", desc: "In các số ra màn hình bằng print()", hint: "print(i) bên trong vòng lặp" }
+      ],
+      sample: "for i in range(0, 11, 2):\n    print(i)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

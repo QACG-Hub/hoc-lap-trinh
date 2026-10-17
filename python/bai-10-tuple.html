@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="vi" data-base=".." data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bài 10 Python: Tuple — bất biến (immutable), truy cập index, so sánh list vs tuple, unpacking và hoán đổi giá trị — kèm bài tập chấm điểm và quiz random.">
+  <title>Bài 10: Tuple | Python | HỌCLAPTRINH.EXE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⚡%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=JetBrains+Mono:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-course="python" data-lesson="py-10">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">HỌC<span class="logo-accent">LẬP</span>TRÌNH<span class="logo-exe">.EXE</span></a>
+      <nav class="site-nav">
+        <a href="../index.html">TRANG CHỦ</a>
+        <a href="index.html" class="active">PYTHON</a>
+        <a href="../cpp/index.html">C++</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Đổi giao diện">☀</button>
+    </div>
+  </header>
+
+  <main class="container lesson-layout">
+
+    <div class="lesson-sidebar-wrap">
+      <button id="sidebar-toggle" class="btn btn-ghost sidebar-toggle" type="button">☰ DANH SÁCH BÀI HỌC</button>
+      <aside class="sidebar" id="lesson-sidebar"></aside>
+    </div>
+
+    <article class="lesson-content">
+      <div class="crumb"><a href="../index.html">~/</a> <a href="index.html">python</a> / <span>py-10</span></div>
+      <h1 class="lesson-title">Tuple</h1>
+      <div class="lesson-meta">
+        <span class="pill">[ NHIỆM VỤ #10 ]</span>
+        <span class="pill">Chương 3 — Cấu trúc dữ liệu</span>
+        <span class="pill">Mức độ: Khởi động</span>
+      </div>
+
+      <p>
+        List rất mạnh, nhưng mạnh quá đôi khi thành… rủi ro: ai đó có thể sửa dữ liệu của bạn lúc nào không hay.
+        <strong>Tuple</strong> ra đời như một <em>phiên bản list "niêm phong"</em> — tạo xong là bất động, không gì sửa được.
+        Nghe có vẻ yếu, nhưng thực ra đây là siêu năng lực giúp code an toàn hơn. ⚡
+      </p>
+
+      <h2>Tuple là gì?</h2>
+      <p>
+        <strong>Tuple</strong> là một chuỗi giá trị có thứ tự, viết trong cặp <strong>ngoặc đơn</strong> <code>( )</code>,
+        các phần tử cách nhau bằng dấu phẩy — ví dụ <code>(10, 20)</code>.
+        Điểm khác biệt cốt lõi: tuple <strong>bất biến</strong> (immutable) — tạo xong thì <strong>KHÔNG thể sửa, thêm hay xóa</strong> phần tử.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">toa-do.py</span>
+        </div>
+        <pre><code class="language-python">toa_do = (10, 20)    # tuple 2 phần tử
+print(toa_do)
+print(toa_do[0])     # truy cập index như list
+print(len(toa_do))   # đếm số phần tử</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>(10, 20)
+10
+2</pre>
+        </div>
+      </div>
+
+      <p>Hãy <strong>giải phẫu</strong> lệnh tạo tuple:</p>
+
+      <div class="anatomy">
+        <div class="anatomy-head">🔬 GIẢI PHẪU CÚ PHÁP</div>
+        <div class="anatomy-code"><span class="vr">toa_do</span> <span class="op">=</span> <span class="op">(</span><span class="st">10</span><span class="op">,</span> <span class="st">20</span><span class="op">)</span></div>
+        <table class="anatomy-table">
+          <tr><th>Thành phần</th><th>Ý nghĩa</th><th>Bắt buộc</th></tr>
+          <tr><td><code>toa_do</code></td><td>tên biến giữ tuple</td><td>✅</td></tr>
+          <tr><td><code>=</code></td><td>dấu gán — bỏ tuple bên phải vào biến bên trái</td><td>✅</td></tr>
+          <tr><td><code>( )</code></td><td>cặp ngoặc ĐƠN bao quanh tuple</td><td>✅</td></tr>
+          <tr><td><code>10, 20</code></td><td>các phần tử, cách nhau dấu phẩy</td><td>✅</td></tr>
+        </table>
+      </div>
+
+      <h3>List hay Tuple? Bảng so sánh nhanh</h3>
+      <p>Chọn đúng "vũ khí" cho từng tình huống:</p>
+
+      <table>
+        <tr><th>Tiêu chí</th><th>List <code>[ ]</code></th><th>Tuple <code>( )</code></th></tr>
+        <tr><td>Sửa phần tử</td><td>✅ Thoải mái</td><td>❌ Bất biến (immutable)</td></tr>
+        <tr><td>Thêm / xóa phần tử</td><td>✅ <code>append</code>, <code>remove</code>…</td><td>❌ Không có</td></tr>
+        <tr><td>Truy cập index, <code>len()</code>, slice</td><td>✅ Có</td><td>✅ Có (giống hệt list)</td></tr>
+        <tr><td>Dùng khi nào?</td><td>Dữ liệu <strong>thay đổi</strong> liên tục</td><td>Dữ liệu <strong>cố định</strong>: tọa độ, ngày sinh…</td></tr>
+      </table>
+
+      <div class="warn">
+        <strong>// CẢNH BÁO</strong>
+        <p>Gán lại phần tử tuple sẽ lập tức báo lỗi <code>TypeError: 'tuple' object does not support item assignment</code>. Ví dụ <code>toa_do[0] = 99</code> là <strong>không hợp lệ</strong> — muốn "sửa" thì phải tạo tuple mới.</p>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Cẩn thận cái bẫy: <code>(5)</code> chỉ là <em>số nguyên 5</em> trong ngoặc, còn <code>(5,)</code> — có dấu phẩy — mới là tuple một phần tử. Dấu phẩy mới là linh hồn của tuple!</p>
+      </div>
+
+      <p>Thử tạo tuple đầu tiên của bạn:</p>
+
+      <div class="exercise-box" data-ex="py-10-ex1"></div>
+
+      <div class="quiz-console" data-lesson="py-10" data-topic="Tuple cơ bản" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TUPLE CƠ BẢN</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>Ứng dụng tuple: unpacking &amp; hoán đổi</h2>
+      <p>
+        Vì tuple luôn đi theo cụm, Python cho bạn <strong>unpacking</strong> — "mở hộp" tuple ra thành nhiều biến trong một dòng:
+        <code>x, y = toa_do</code>. Đây cũng là cách hoán đổi giá trị hai biến nhanh nhất quả đất: <code>a, b = b, a</code>.
+      </p>
+
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="terminal-title">unpacking.py</span>
+        </div>
+        <pre><code class="language-python">toa_do = (10, 20)
+
+# Unpacking: tách tuple vào hai biến
+x, y = toa_do
+print("x =", x, "| y =", y)
+
+# Hoán đổi giá trị thần tốc
+a, b = 1, 2
+a, b = b, a
+print("a =", a, "| b =", b)
+
+# Tuple dữ liệu cố định — duyệt như list
+mon_hoc = ("Toán", "Văn", "Anh")
+for mon in mon_hoc:
+    print("Môn:", mon)</code></pre>
+        <div class="terminal-out">
+          <span class="out-label">▸ KẾT QUẢ</span>
+          <pre>x = 10 | y = 20
+a = 2 | b = 1
+Môn: Toán
+Môn: Văn
+Môn: Anh</pre>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>// GHI NHỚ</strong>
+        <p>Số biến bên trái phải <strong>khớp</strong> số phần tử tuple. <code>x, y = (1, 2, 3)</code> sẽ báo lỗi <code>ValueError</code> vì thừa một giá trị không biết gán cho ai.</p>
+      </div>
+
+      <p>Luyện unpacking và chuyển đổi tuple thành list:</p>
+
+      <div class="exercise-box" data-ex="py-10-ex2"></div>
+
+      <div class="exercise-box" data-ex="py-10-ex3"></div>
+
+      <div class="quiz-console" data-lesson="py-10" data-topic="Tuple nâng cao" data-count="2">
+        <div class="quiz-head">
+          <span class="quiz-title">🧪 THỬ THÁCH NHANH — TUPLE NÂNG CAO</span>
+          <span class="quiz-sub">2 câu random • chấm ngay</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <h2>TỔNG KẾT BÀI 10</h2>
+      <ul>
+        <li>Tuple viết trong ngoặc đơn: <code>(10, 20)</code>; truy cập index, <code>len()</code>, slice giống list.</li>
+        <li>Tuple <strong>bất biến</strong>: gán lại phần tử sẽ báo <code>TypeError</code>.</li>
+        <li>Chọn tuple cho dữ liệu <strong>cố định</strong>; chọn list khi cần sửa đổi.</li>
+        <li>Unpacking: <code>x, y = toa_do</code> — số biến phải khớp số phần tử.</li>
+        <li>Hoán đổi thần tốc: <code>a, b = b, a</code>.</li>
+        <li>Chuyển tuple thành list để sửa được: <code>ds = list(so)</code>.</li>
+      </ul>
+
+      <div class="quiz-console quiz-final" data-lesson="py-10" data-final="true" data-count="5">
+        <div class="quiz-head">
+          <span class="quiz-title">🎯 KIỂM TRA CUỐI BÀI 10</span>
+          <span class="quiz-sub">5 câu random từ toàn bộ bài • lưu kỷ lục</span>
+        </div>
+        <div class="quiz-body"></div>
+      </div>
+
+      <div class="lesson-end">
+        <button id="mark-done" class="btn btn-magenta" type="button">[ HOÀN THÀNH NHIỆM VỤ ]</button>
+      </div>
+
+      <nav id="lesson-nav" class="lesson-nav"></nav>
+    </article>
+
+  </main>
+
+  <footer class="site-footer">
+    <p><span class="neon-cyan">HỌCLAPTRINH.EXE</span> — học Python &amp; C++ trong thế giới neon ⚡</p>
+  </footer>
+
+  <script src="../assets/js/lessons-data.js"></script>
+  <script src="../assets/js/practice-data.js"></script>
+  <script>
+    /* Dữ liệu quiz + bài tập của RIÊNG bài này (JS inline) */
+    QUIZZES["py-10"] = [
+      /* --- Tuple cơ bản (6) --- */
+      { topic: "Tuple cơ bản", type: "choice", question: "Tuple được tạo bằng cặp dấu nào?", options: ["( )", "[ ]", "{ }", "Không cần dấu gì"], answer: "( )", explain: "Tuple dùng ngoặc ĐƠN; list dùng ngoặc vuông, dict/set dùng ngoặc nhọn." },
+      { topic: "Tuple cơ bản", type: "choice", question: "Chạy toa_do = (10, 20) rồi toa_do[0] = 99 — điều gì xảy ra?", options: ["Báo lỗi TypeError vì tuple không sửa được", "toa_do trở thành (99, 20)", "Tuple tự chuyển thành list", "Chương trình bỏ qua dòng đó"], answer: "Báo lỗi TypeError vì tuple không sửa được", explain: "Tuple là immutable — mọi nỗ lực sửa phần tử đều bị chặn bằng TypeError." },
+      { topic: "Tuple cơ bản", type: "choice", code: "toa_do = (10, 20)\nprint(toa_do[1])", question: "Đoạn code trên in ra gì?", options: ["20", "10", "(10, 20)", "1"], answer: "20", explain: "Index đếm từ 0 — toa_do[1] là phần tử thứ hai." },
+      { topic: "Tuple cơ bản", type: "fill", question: "len((3, 4, 5)) bằng mấy? (chỉ ghi số)", answer: ["3"], explain: "len() đếm số phần tử — tuple này có 3 phần tử." },
+      { topic: "Tuple cơ bản", type: "choice", code: "t = (5)\nprint(type(t) == int)", question: "Đoạn code trên in ra gì?", options: ["True", "False", "Lỗi TypeError", "(5,)"], answer: "True", explain: "(5) chỉ là số nguyên 5 trong ngoặc — không có dấu phẩy thì chưa phải tuple!" },
+      { topic: "Tuple cơ bản", type: "choice", question: "Muốn tạo tuple CHỈ MỘT phần tử số 5, viết thế nào?", options: ["(5,)", "(5)", "[5]", "{5}"], answer: "(5,)", explain: "Dấu phẩy quyết định: (5,) là tuple một phần tử, (5) chỉ là số 5." },
+      { topic: "Tuple cơ bản", type: "choice", question: "Thao tác nào KHÔNG dùng được với tuple?", options: ["Thêm phần tử bằng append()", "Đọc phần tử bằng index", "Đếm bằng len()", "Cắt đoạn bằng slice"], answer: "Thêm phần tử bằng append()", explain: "Tuple bất biến nên không có append/remove — muốn thêm thì phải tạo tuple mới." },
+
+      /* --- Tuple nâng cao (6) --- */
+      { topic: "Tuple nâng cao", type: "choice", code: "toa_do = (3, 7)\nx, y = toa_do\nprint(y)", question: "Đoạn code trên in ra gì?", options: ["7", "3", "(3, 7)", "Lỗi"], answer: "7", explain: "Unpacking gán x = 3, y = 7 theo thứ tự — nên y là 7." },
+      { topic: "Tuple nâng cao", type: "fill", question: "Gõ lệnh hoán đổi giá trị a và b bằng MỘT dòng:", answer: ["a, b = b, a", "a,b=b,a"], explain: "a, b = b, a — Python tạo tuple (b, a) rồi unpack ngược lại, đổi chỗ trong một nốt nhạc." },
+      { topic: "Tuple nâng cao", type: "choice", question: "Unpacking tuple là gì?", options: ["Tách các phần tử tuple gán vào nhiều biến", "Đóng gói tuple vào trong list", "Xóa tuple khỏi bộ nhớ", "Sắp xếp tuple tăng dần"], answer: "Tách các phần tử tuple gán vào nhiều biến", explain: "x, y = toa_do — mỗi biến nhận một phần tử theo đúng thứ tự." },
+      { topic: "Tuple nâng cao", type: "choice", code: "a = 1\nb = 2\na, b = b, a\nprint(a)", question: "Đoạn code trên in ra gì?", options: ["2", "1", "(2, 1)", "Lỗi"], answer: "2", explain: "Sau phép hoán đổi, a nhận giá trị cũ của b là 2." },
+      { topic: "Tuple nâng cao", type: "choice", question: "x, y = (1, 2, 3) sẽ ra sao?", options: ["Báo lỗi ValueError vì quá nhiều giá trị để tách", "x = 1, y = 2, phần còn lại bị bỏ qua", "x nhận cả tuple (1, 2, 3)", "x = 3, y = 2"], answer: "Báo lỗi ValueError vì quá nhiều giá trị để tách", explain: "Số biến phải khớp số phần tử — thừa hay thiếu đều lỗi ValueError." },
+      { topic: "Tuple nâng cao", type: "choice", question: "Tuple phù hợp nhất với loại dữ liệu nào?", options: ["Dữ liệu cố định như tọa độ, ngày sinh", "Dữ liệu cần thêm/xóa liên tục", "Danh sách điểm cần cập nhật mỗi kỳ", "Dữ liệu thay đổi mỗi lần chạy"], answer: "Dữ liệu cố định như tọa độ, ngày sinh", explain: "Dữ liệu cố định nên được \"niêm phong\" bằng tuple để không ai sửa nhầm." }
+    ];
+
+    EXERCISES["py-10-ex1"] = {
+      topic: "Tuple đầu tiên",
+      prompt: "Tạo một tuple tên toa_do gồm ĐÚNG 3 số, rồi in RA phần tử đầu tiên (index 0).",
+      checks: [
+        { regex: "\\btoa_do\\s*=\\s*\\(\\s*-?\\d+\\s*,\\s*-?\\d+\\s*,\\s*-?\\d+\\s*\\)", desc: "Tạo tuple toa_do với đúng 3 số trong ngoặc ( )", hint: "Ví dụ: toa_do = (10, 20, 30)" },
+        { regex: "print\\s*\\(\\s*toa_do\\s*\\[\\s*0\\s*\\]\\s*\\)", desc: "In phần tử đầu tiên bằng toa_do[0]", hint: "print(toa_do[0]) — phần tử đầu tiên có index 0" }
+      ],
+      sample: "toa_do = (10, 20, 30)\nprint(toa_do[0])"
+    };
+
+    EXERCISES["py-10-ex2"] = {
+      topic: "Unpacking tuple",
+      prompt: "Tạo tuple diem = (8, 9), dùng unpacking gán hai phần tử vào biến toan và van, rồi in cả hai biến ra.",
+      checks: [
+        { regex: "\\bdiem\\s*=\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*\\)", desc: "Tạo tuple diem với 2 số", hint: "Ví dụ: diem = (8, 9)" },
+        { regex: "\\btoan\\s*,\\s*van\\s*=\\s*diem\\b", desc: "Unpacking: toan, van = diem", hint: "Một dòng duy nhất: toan, van = diem" },
+        { regex: "print\\s*\\([^)]*\\btoan\\b", desc: "In giá trị biến toan", hint: "print(\"Toán:\", toan)" },
+        { regex: "print\\s*\\([^)]*\\bvan\\b", desc: "In giá trị biến van", hint: "print(\"Văn:\", van)" }
+      ],
+      sample: "diem = (8, 9)\ntoan, van = diem\nprint(\"Toán:\", toan)\nprint(\"Văn:\", van)"
+    };
+
+    EXERCISES["py-10-ex3"] = {
+      topic: "Tuple thành list",
+      prompt: "Tạo tuple so = (1, 2, 3), dùng list(so) chuyển thành list gán vào biến ds, rồi in ds ra.",
+      checks: [
+        { regex: "\\bso\\s*=\\s*\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*\\)", desc: "Tạo tuple so với 3 số", hint: "Ví dụ: so = (1, 2, 3)" },
+        { regex: "\\bds\\s*=\\s*list\\s*\\(\\s*so\\s*\\)", desc: "Chuyển tuple thành list bằng ds = list(so)", hint: "ds = list(so) — hàm list() tạo list mới từ tuple" },
+        { regex: "print\\s*\\(\\s*ds\\s*\\)", desc: "In list ds ra màn hình", hint: "print(ds)" }
+      ],
+      sample: "so = (1, 2, 3)\nds = list(so)\nprint(ds)"
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
