@@ -2,6 +2,8 @@
 
 Web học **Python & C++** bằng tiếng Việt — giao diện cyberpunk neon, không cần cài đặt gì để dùng.
 
+🌐 **Bản online:** https://qacg-hub.github.io/hoc-lap-trinh/ — mở là học trên mọi thiết bị, kể cả điện thoại.
+
 ## 🌆 Tính năng
 
 - **2 lộ trình**: Python (22 bài / 5 chương) và C++ (20 bài / 6 chương) — đã phát hành đầy đủ **42/42 bài**.
